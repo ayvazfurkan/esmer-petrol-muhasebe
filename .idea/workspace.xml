@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a058d582-af00-4de5-b047-f4dee2d133c5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/public/src/js/components/Customer/CreateCustomer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/Customer/CreateCustomer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/src/js/components/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/Sidebar.vue" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution>
+      <executable />
+    </execution>
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="Findik" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1dMmVL1TaHT8Xf4meeFs2utcmtj" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="C:\Users\ASUS\Desktop\BLX.FINDIK\Findik\node_modules\prettier" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ASUS\Desktop\BLX.FINDIK\Findik\public\src\js\components\Customer" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.bundle">
+    <configuration name="bundle" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="bundle" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="transpile" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="transpile" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start" />
+        <item itemvalue="npm.bundle" />
+        <item itemvalue="npm.transpile" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a058d582-af00-4de5-b047-f4dee2d133c5" name="Default Changelist" comment="" />
+      <created>1592243359245</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1592243359245</updated>
+      <workItem from="1592243366532" duration="711000" />
+      <workItem from="1592405921608" duration="7753000" />
+      <workItem from="1592648985843" duration="1735000" />
+      <workItem from="1593123774258" duration="96000" />
+      <workItem from="1599073568965" duration="483000" />
+      <workItem from="1602404956163" duration="1051000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1323" height="164" key="GridCell.Tab.0.bottom" timestamp="1602406007753">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="164" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1602406007753" />
+    <state width="1877" height="262" key="GridCell.Tab.0.bottom/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1599074055429" />
+    <state width="1323" height="164" key="GridCell.Tab.0.center" timestamp="1602406007752">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="164" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1602406007752" />
+    <state width="1877" height="262" key="GridCell.Tab.0.center/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1599074055429" />
+    <state width="1323" height="164" key="GridCell.Tab.0.left" timestamp="1602406007752">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="164" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1602406007752" />
+    <state width="1877" height="262" key="GridCell.Tab.0.left/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1599074055429" />
+    <state width="1323" height="164" key="GridCell.Tab.0.right" timestamp="1602406007752">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="164" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1602406007752" />
+    <state width="1877" height="262" key="GridCell.Tab.0.right/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1599074055429" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/lib/src/model/Customer.js</url>
+          <line>29</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
