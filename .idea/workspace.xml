@@ -2,8 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a058d582-af00-4de5-b047-f4dee2d133c5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/dbcredentials.json" beforeDir="false" afterPath="$PROJECT_DIR$/lib/dbcredentials.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/src/js/components/Customer/CreateCustomer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/Customer/CreateCustomer.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/src/js/components/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/Sidebar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/src/js/components/Customer/CreateSegment.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/Customer/CreateSegment.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/src/js/components/FrameControls.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/FrameControls.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/src/js/components/Login/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/Login/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/src/js/components/Login/LoginForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/Login/LoginForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/template/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/static/template/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,6 +100,7 @@
       <workItem from="1593123774258" duration="96000" />
       <workItem from="1599073568965" duration="483000" />
       <workItem from="1602404956163" duration="1051000" />
+      <workItem from="1602438091616" duration="3288000" />
     </task>
     <servers />
   </component>
@@ -101,26 +108,34 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1323" height="164" key="GridCell.Tab.0.bottom" timestamp="1602406007753">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1877" height="167" key="GridCell.Tab.0.bottom" timestamp="1602442320171">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="164" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1602406007753" />
+    <state width="1877" height="167" key="GridCell.Tab.0.bottom/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602442320171" />
     <state width="1877" height="262" key="GridCell.Tab.0.bottom/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1599074055429" />
-    <state width="1323" height="164" key="GridCell.Tab.0.center" timestamp="1602406007752">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1877" height="167" key="GridCell.Tab.0.center" timestamp="1602442320171">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="164" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1602406007752" />
+    <state width="1877" height="167" key="GridCell.Tab.0.center/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602442320171" />
     <state width="1877" height="262" key="GridCell.Tab.0.center/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1599074055429" />
-    <state width="1323" height="164" key="GridCell.Tab.0.left" timestamp="1602406007752">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1877" height="167" key="GridCell.Tab.0.left" timestamp="1602442320171">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="164" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1602406007752" />
+    <state width="1877" height="167" key="GridCell.Tab.0.left/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602442320171" />
     <state width="1877" height="262" key="GridCell.Tab.0.left/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1599074055429" />
-    <state width="1323" height="164" key="GridCell.Tab.0.right" timestamp="1602406007752">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1877" height="167" key="GridCell.Tab.0.right" timestamp="1602442320171">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="164" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1602406007752" />
+    <state width="1877" height="167" key="GridCell.Tab.0.right/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602442320171" />
     <state width="1877" height="262" key="GridCell.Tab.0.right/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1599074055429" />
+    <state x="616" y="240" key="run.anything.popup" timestamp="1602440360642">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602440360642" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

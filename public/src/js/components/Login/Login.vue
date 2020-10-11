@@ -7,7 +7,7 @@
             <div class="offset-md-2 col-md-8 offset-lg-4 col-lg-4 mt-2" hidden>
                 <div class="row">
                     <div class="col">
-                        <small class="text-transparent font-weight-bold">BLX.FINDIK 2020</small>
+                        <small class="text-transparent font-weight-bold">BLX.PETROL 2020</small>
                     </div>
                     <div class="col text-right">
                         <small class="text-transparent font-weight-bold">Her Hakkı Saklıdır.</small>

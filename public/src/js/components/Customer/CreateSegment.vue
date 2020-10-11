@@ -25,26 +25,6 @@
                         </div>
                         <span class="text-danger" v-if="exception.name">{{exception.name}}</span>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label>Türü</label>
-                        <div class="input-group" :class="invalidField(exception.type)">
-                            <multiselect
-                                    v-model="segmentInformation.type"
-                                    placeholder=""
-                                    :options="typeList"
-                                    selectLabel="Seçmek için Enter"
-                                    deselectLabel="İptal için Enter"
-                                    noResult="Sonuç bulunamadı."
-                                    selectedLabel="Seçildi"
-                                    track-by="id"
-                                    label="name"
-                                    :custom-label="multiselectSearcher">
-                                <span slot="noOptions">Yazmaya devam edin.</span>
-                                <span slot="noResult">Sonuç bulunamadı.</span>
-                            </multiselect>
-                        </div>
-                        <span class="text-danger" v-if="exception.type">{{exception.type}}</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -67,7 +47,6 @@
 </template>
 <script>
     import genericMethods from "../../mixins/genericMethods";
-    import Multiselect from "vue-multiselect"
     import {ipcRenderer} from "electron"
     import {mapGetters} from "vuex";
 
@@ -76,16 +55,9 @@
             return {
                 exception: {},
                 segmentInformation: {},
-                typeList: [
-                    {id: 1, name: "Kabuklu Fındık Müşterisi"},
-                    {id: 2, name: "İç Fındık Müşterisi"},
-                ],
                 waitingResponse: false,
                 success: false
             }
-        },
-        components: {
-            Multiselect
         },
         mixins: [genericMethods],
         mounted() {

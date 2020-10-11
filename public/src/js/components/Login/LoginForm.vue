@@ -8,7 +8,7 @@
             <div class="col-8 bg-white py-5">
                 <div class="row pl-5">
                     <div class="col-12 mb-2">
-                        <h2 class="text-transparent">BLX.FINDIK</h2>
+                        <h2 class="text-transparent">BLX.PETROL</h2>
                     </div>
                     <div class="col-12 mb-3">
                         <label>Kullanıcı Adı</label>

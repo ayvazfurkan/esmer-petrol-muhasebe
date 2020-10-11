@@ -3,7 +3,7 @@
         <div class="row mx-0">
             <div class="col-xl-2 col-md-2 align-self-center bg-primary text-white py-4">
                 <i class="ri-menu-2-fill"></i>
-                <span class="app-name">BLX.FINDIK</span>
+                <span class="app-name">BLX.PETROL</span>
             </div>
             <div class="col-xl-4 col-md-5 align-self-center bg-white py-2">
                 <div class="input-group no-drag">

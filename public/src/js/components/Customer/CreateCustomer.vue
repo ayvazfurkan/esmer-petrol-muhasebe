@@ -24,19 +24,33 @@
                         </div>
                         <span class="text-danger" v-if="exception.name">{{exception.name}}</span>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-3 mb-3">
                         <label>Yetkili Adı</label>
-                        <div class="input-group" :class="invalidField(exception.authorizedPerson)">
+                        <div class="input-group" :class="invalidField(exception.authorizedPersonName)">
                             <input type="text"
                                    class="form-control"
-                                   v-model="userInformation.authorizedPerson">
+                                   v-model="userInformation.authorizedPersonName">
                             <div class="input-group-append">
                                 <span class="input-group-text">
                                     <i class="ri-user-2-line"></i>
                                 </span>
                             </div>
                         </div>
-                        <span class="text-danger" v-if="exception.authorizedPerson">{{exception.authorizedPerson}}</span>
+                        <span class="text-danger" v-if="exception.authorizedPersonName">{{exception.authorizedPersonName}}</span>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label>Cep Telefonu <span class="text-danger">*</span></label>
+                        <div class="input-group" :class="invalidField(exception.gsm)">
+                            <input type="text"
+                                   class="form-control" maxlength="12"
+                                   v-model="userInformation.gsm">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="ri-smartphone-line"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <span class="text-danger" v-if="exception.gsm">{{exception.gsm}}</span>
                     </div>
                     <div class="col-md-3 mb-3">
                         <label>TC Kimlik Numarası</label>
@@ -91,6 +105,47 @@
                         </div>
                         <span class="text-danger" v-if="exception.taxOffice">{{exception.taxOffice}}</span>
                     </div>
+                    <div class="col-md-3 mb-3">
+                        <label>Vadeli Satış İndirim Oranı (Yüzde%)</label>
+                        <div class="input-group" :class="invalidField(exception.forwardSalesDiscountRate)">
+                            <input type="text"
+                                   class="form-control"
+                                   v-model="userInformation.forwardSalesDiscountRate">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="ri-building-4-line"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <span class="text-danger" v-if="exception.forwardSalesDiscountRate">{{exception.forwardSalesDiscountRate}}</span>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label>Max. Vadeli Satış Günü</label>
+                        <div class="input-group" :class="invalidField(exception.maxSalesTerm)">
+                            <input type="number"
+                                   min="1"
+                                   max="1095"
+                                   class="form-control"
+                                   v-model="userInformation.maxSalesTerm">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="ri-building-4-line"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <span class="text-danger" v-if="exception.maxSalesTerm">{{exception.maxSalesTerm}}</span>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label>Segment</label>
+                        <multiselect v-model="userInformation.segment" tag-placeholder=""
+                                     placeholder="" label="name" track-by="id" :options="segmentList"
+                                     selectLabel="Seç"
+                                     deselectLabel="İptal Et"
+                                     noResult="Sonuç bulunamadı."
+                                     selectedLabel="Seçildi"
+                                     :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+                    </div>
+
                     <div class="col-12">
                         <hr/>
                     </div>
@@ -152,20 +207,6 @@
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label>Cep Telefonu <span class="text-danger">*</span></label>
-                        <div class="input-group" :class="invalidField(exception.gsm)">
-                            <input type="text"
-                                   class="form-control" maxlength="12"
-                                   v-model="userInformation.gsm">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="ri-smartphone-line"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <span class="text-danger" v-if="exception.gsm">{{exception.gsm}}</span>
-                    </div>
-                    <div class="col-md-6 mb-3">
                         <label>E-Mail Adresi</label>
                         <div class="input-group" :class="invalidField(exception.email)">
                             <input type="email"
@@ -179,7 +220,7 @@
                         </div>
                         <span class="text-danger" v-if="exception.email">{{exception.email}}</span>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-3 mb-3">
                         <label>İş Telefonu</label>
                         <div class="input-group" :class="invalidField(exception.phone)">
                             <input type="text"
@@ -193,7 +234,7 @@
                         </div>
                         <span class="text-danger" v-if="exception.phone">{{exception.phone}}</span>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-3 mb-3">
                         <label>Fax Numarası</label>
                         <div class="input-group" :class="invalidField(exception.fax)">
                             <input type="text"
@@ -232,16 +273,6 @@
                         </div>
                         <span class="text-danger" v-if="exception.expenseClient">{{exception.expenseClient}}</span>
                     </div>
-                    <div class="col-6 mb-3">
-                        <label>Segment</label>
-                        <multiselect v-model="userInformation.segment" tag-placeholder=""
-                                     placeholder="" label="name" track-by="id" :options="segmentList"
-                                     selectLabel="Seç"
-                                     deselectLabel="İptal Et"
-                                     noResult="Sonuç bulunamadı."
-                                     selectedLabel="Seçildi"
-                                     :multiple="true" :taggable="true" @tag="addTag"></multiselect>
-                    </div>
                 </div>
             </div>
         </div>
@@ -275,10 +306,6 @@
             return {
                 exception: {},
                 userInformation: {},
-                invoiceType: [
-                    {id: 1, name: "Basılı Fatura"},
-                    {id: 2, name: "E-Fatura"},
-                ],
                 yesNo: [
                     {id: 1, name: "Evet"},
                     {id: 0, name: "Hayır"},
@@ -287,7 +314,7 @@
                 provinces: [],
                 districts: [],
                 waitingResponse: false,
-                success: false
+                success: false,
             }
         },
         components: {
