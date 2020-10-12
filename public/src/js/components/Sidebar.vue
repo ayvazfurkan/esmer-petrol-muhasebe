@@ -168,23 +168,6 @@
                     },
                     {
                         href: "",
-                        title: "Fındık İşlemleri",
-                        icon: "ri-leaf-line",
-                        child: [
-                            {
-                                href: {path: "/NewAcceptance"},
-                                title: "Kabuklu Fındık Alımı",
-                                icon: "ri-luggage-cart-line"
-                            },
-                            {
-                                href: {path: "/Region/List"},
-                                title: "Ürün Bölgeleri",
-                                icon: "ri-map-2-line"
-                            }
-                        ]
-                    },
-                    {
-                        href: "",
                         title: "Kasa İşlemleri",
                         icon: "ri-safe-line",
                         child: [
@@ -198,12 +181,6 @@
                                 title: "Tediye İşlemi",
                                 icon: "ri-coupon-3-line"
                             },
-                            // {
-                            //     href: {path: "/Cashseni
-                            //     /OutFlow"},
-                            //     title: "Döviz Alış/Satış",
-                            //     icon: "ri-exchange-dollar-line"
-                            // }
                         ]
                     },
                     {

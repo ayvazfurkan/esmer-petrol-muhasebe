@@ -23,38 +23,6 @@
                         </div>
                         <div class="col-md-3">
                             <span class="dropdown form-dropdown">
-                                <button class="btn btn-sm btn-light" data-toggle="dropdown">
-                                    <i class="ri-calendar-2-line"></i> Tarih Aralığı <i
-                                        class="ri-arrow-down-s-line"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">
-                                        <div class="row">
-                                            <div class="col-5 pr-0">
-                                                <div class="input-group">
-                                                     <input type="text"
-                                                            class="form-control form-control-sm"
-                                                            v-model="quickSearch"
-                                                            placeholder="Başlangıç">
-                                                </div>
-                                            </div>
-                                            <div class="col-2 px-0 align-self-center text-center">
-                                                -
-                                            </div>
-                                            <div class="col-5 pl-0">
-                                                 <div class="input-group">
-                                                <input type="text"
-                                                       class="form-control form-control-sm"
-                                                       v-model="quickSearch"
-                                                       placeholder="Bitiş">
-                                                 </div>
-                                            </div>
-                                        </div>
-
-                                    </a>
-                                </div>
-                            </span>
-                            <span class="dropdown form-dropdown">
                             <button class="btn btn-sm btn-light" data-toggle="dropdown">
                                 <i class="ri-user-star-line"></i> Segment <i class="ri-arrow-down-s-line"></i>
                             </button>
@@ -94,58 +62,18 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>İsim / Ünvan</th>
-                                <th>Alınan KG</th>
-                                <th>Rand +-</th>
-                                <th>Nem +-</th>
-                                <th>Randımanlı Bakiye</th>
-                                <th>Satışı Yapılan KG</th>
-                                <th>~TL Birim Fiyat</th>
-                                <th>TL Satış Tutarı</th>
-                                <th>Diğer KG</th>
-                                <th>Eski Fındık</th>
-                                <th>Emanet Fındık</th>
-                                <th>TRY</th>
-                                <th>USD</th>
-                                <th>EUR</th>
-                                <th>Altın</th>
+                                <th>İsim / Unvan</th>
+                                <th>Yetkili</th>
+                                <th>TRY Bakiyesi</th>
+                                <th>İşlem</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="(customer,i) in customerList" @click="detail(customer.id)">
                                 <th>{{i + 1}}</th>
-                                <td>{{customer.name && customer.surname && customer.name.concat(" ", customer.surname)
-                                    || customer.name}}
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th colspan="2" class="text-center">Genel Toplam</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{customer.name}}</td>
+                                <td>{{customer.authorizedPersonName}}</td>
+                                <td>0,00</td>
                                 <td></td>
                             </tr>
                             </tbody>
