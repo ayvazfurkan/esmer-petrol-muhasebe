@@ -3,13 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="a058d582-af00-4de5-b047-f4dee2d133c5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/dbcredentials.json" beforeDir="false" afterPath="$PROJECT_DIR$/lib/dbcredentials.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/model/Customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/Customer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/src/js/components/Customer/CreateCustomer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/Customer/CreateCustomer.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/src/js/components/Customer/CreateSegment.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/Customer/CreateSegment.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/src/js/components/FrameControls.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/FrameControls.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/src/js/components/Login/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/Login/Login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/src/js/components/Login/LoginForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/Login/LoginForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/template/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/static/template/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/src/js/components/Customer/ListCustomer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/Customer/ListCustomer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/src/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,16 +21,12 @@
       <executable />
     </execution>
   </component>
-  <component name="FavoritesManager">
-    <favorites_list name="Findik" />
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1dMmVL1TaHT8Xf4meeFs2utcmtj" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -39,6 +35,8 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="C:\Users\ASUS\Desktop\BLX.FINDIK\Findik\node_modules\prettier" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -84,6 +82,7 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -101,51 +100,58 @@
       <workItem from="1599073568965" duration="483000" />
       <workItem from="1602404956163" duration="1051000" />
       <workItem from="1602438091616" duration="3288000" />
+      <workItem from="1602613456405" duration="30000" />
+      <workItem from="1602613540433" duration="105000" />
+      <workItem from="1602616244266" duration="110000" />
+      <workItem from="1602616379384" duration="3187000" />
+      <workItem from="1603221135110" duration="1254000" />
+      <workItem from="1603224214601" duration="3227000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1877" height="167" key="GridCell.Tab.0.bottom" timestamp="1602442320171">
+    <state x="537" y="1" key="CommitChangelistDialog2" timestamp="1603226056725">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="537" y="1" key="CommitChangelistDialog2/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1603226056724" />
+    <state width="1877" height="146" key="GridCell.Tab.0.bottom" timestamp="1603227444646">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="164" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1602406007753" />
-    <state width="1877" height="167" key="GridCell.Tab.0.bottom/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602442320171" />
-    <state width="1877" height="262" key="GridCell.Tab.0.bottom/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1599074055429" />
-    <state width="1877" height="167" key="GridCell.Tab.0.center" timestamp="1602442320171">
+    <state width="1877" height="84" key="GridCell.Tab.0.bottom/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602619575537" />
+    <state width="1877" height="146" key="GridCell.Tab.0.bottom/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1603227444646" />
+    <state width="1877" height="146" key="GridCell.Tab.0.center" timestamp="1603227444645">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="164" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1602406007752" />
-    <state width="1877" height="167" key="GridCell.Tab.0.center/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602442320171" />
-    <state width="1877" height="262" key="GridCell.Tab.0.center/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1599074055429" />
-    <state width="1877" height="167" key="GridCell.Tab.0.left" timestamp="1602442320171">
+    <state width="1877" height="84" key="GridCell.Tab.0.center/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602619575536" />
+    <state width="1877" height="146" key="GridCell.Tab.0.center/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1603227444645" />
+    <state width="1877" height="146" key="GridCell.Tab.0.left" timestamp="1603227444645">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="164" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1602406007752" />
-    <state width="1877" height="167" key="GridCell.Tab.0.left/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602442320171" />
-    <state width="1877" height="262" key="GridCell.Tab.0.left/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1599074055429" />
-    <state width="1877" height="167" key="GridCell.Tab.0.right" timestamp="1602442320171">
+    <state width="1877" height="84" key="GridCell.Tab.0.left/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602619575536" />
+    <state width="1877" height="146" key="GridCell.Tab.0.left/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1603227444645" />
+    <state width="1877" height="146" key="GridCell.Tab.0.right" timestamp="1603227444646">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="164" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1602406007752" />
-    <state width="1877" height="167" key="GridCell.Tab.0.right/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602442320171" />
-    <state width="1877" height="262" key="GridCell.Tab.0.right/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1599074055429" />
+    <state width="1877" height="84" key="GridCell.Tab.0.right/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602619575536" />
+    <state width="1877" height="146" key="GridCell.Tab.0.right/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1603227444646" />
+    <state x="461" y="165" key="SettingsEditor" timestamp="1602616498541">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602616498541" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1602440360642">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602440360642" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/lib/src/model/Customer.js</url>
-          <line>29</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1603221681745">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1603221681745" />
   </component>
 </project>

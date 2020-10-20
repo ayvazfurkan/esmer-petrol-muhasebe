@@ -1,141 +1,112 @@
 <template>
-    <div class="row py-5">
-        <div class="col-12 mt-3"></div>
-        <div class="col-12 mb-3">
-            <div class="row pb-3 pt-2">
-                <div class="col align-self-center">
+    <b-row class="py-5">
+        <b-col cols="12" class="mt-3"></b-col>
+        <b-col cols="12" class="mb-3">
+            <b-row pb="3" pt="2">
+                <b-col class="align-self-center">
                     <h6 class="text-transparent mb-0">Müşteriler \ Yeni Müşteri Ekle</h6>
-                </div>
-            </div>
-            <div class="card p-4">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
+                </b-col>
+            </b-row>
+            <b-card class="p-4">
+                <b-row>
+                    <b-col cols="md-6" mb="3">
                         <label>Müşteri Adı/Unvanı <span class="text-danger">*</span></label>
-                        <div class="input-group" :class="invalidField(exception.name)">
-                            <input type="text"
-                                   class="form-control"
-                                   maxlength="50"
-                                   v-model="userInformation.name">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="ri-user-line"></i>
-                                </span>
-                            </div>
-                        </div>
+                        <b-input-group>
+                          <b-input v-model="userInformation.name"></b-input>
+                          <b-input-group-text>
+                            <i class="ri-user-2-line"></i>
+                          </b-input-group-text>
+                        </b-input-group>
                         <span class="text-danger" v-if="exception.name">{{exception.name}}</span>
-                    </div>
-                    <div class="col-md-3 mb-3">
+                    </b-col>
+                    <b-col cols="md-3" mb="3">
                         <label>Yetkili Adı</label>
-                        <div class="input-group" :class="invalidField(exception.authorizedPersonName)">
-                            <input type="text"
-                                   class="form-control"
-                                   v-model="userInformation.authorizedPersonName">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="ri-user-2-line"></i>
-                                </span>
-                            </div>
-                        </div>
+                        <b-input-group :class="invalidField(exception.authorizedPersonName)">
+                          <b-input v-model="userInformation.authorizedPersonName"></b-input>
+                          <b-input-group-text>
+                            <i class="ri-user-2-line"></i>
+                          </b-input-group-text>
+                        </b-input-group>
                         <span class="text-danger" v-if="exception.authorizedPersonName">{{exception.authorizedPersonName}}</span>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label>Cep Telefonu <span class="text-danger">*</span></label>
-                        <div class="input-group" :class="invalidField(exception.gsm)">
-                            <input type="text"
-                                   class="form-control" maxlength="12"
-                                   v-model="userInformation.gsm">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="ri-smartphone-line"></i>
-                                </span>
-                            </div>
-                        </div>
+                    </b-col>
+                    <b-col cols="md-3" mb="3">
+                      <label>Cep Telefonu <span class="text-danger">*</span></label>
+                        <b-input-group :class="invalidField(exception.gsm)">
+                          <b-input v-model="userInformation.gsm"></b-input>
+                          <b-input-group-text>
+                            <i class="ri-smartphone-line"></i>
+                          </b-input-group-text>
+                        </b-input-group>
                         <span class="text-danger" v-if="exception.gsm">{{exception.gsm}}</span>
-                    </div>
-                    <div class="col-md-3 mb-3">
+                    </b-col>
+                    <b-col cols="md-3" mb="3">
                         <label>TC Kimlik Numarası</label>
-                        <div class="input-group" :class="invalidField(exception.citizenIdentification)">
-                            <input maxlength="11" minlength="11"
-                                   class="form-control"
-                                   v-model="userInformation.citizenIdentification">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="ri-bank-card-2-line"></i>
-                                </span>
-                            </div>
-                        </div>
+                        <b-input-group :class="invalidField(exception.citizenIdentification)">
+                            <b-input maxlength="11" minlength="11"
+                                v-model="userInformation.citizenIdentification"
+                            ></b-input>
+                          <b-input-group-text>
+                            <i class="ri-bank-card-2-line"></i>
+                          </b-input-group-text>
+                        </b-input-group>
                         <span class="text-danger" v-if="exception.citizenIdentification">{{exception.citizenIdentification}}</span>
-                    </div>
-                    <div class="col-md-3 mb-3">
+                    </b-col>
+                    <b-col cols="md-3" mb="3">
                         <label>Doğum Tarihi</label>
-                        <div class="input-group" :class="invalidField(exception.birthDate)">
-                            <date-picker v-model="userInformation.birthDate" format="DD.MM.YYYY"
-                                         input-class="form-control">
-                                <i class="input-group-text ri-calendar-event-line ri-fw ml-1" slot="icon-calendar"></i>
-                            </date-picker>
-                        </div>
+                        <b-input-group :class="invalidField(exception.birthDate)">
+                          <date-picker v-model="userInformation.birthDate" format="DD.MM.YYYY"
+                                       input-class="form-control">
+                            <i class="input-group-text ri-calendar-event-line ri-fw ml-1" slot="icon-calendar"></i>
+                          </date-picker>
+                        </b-input-group>
                         <span class="text-danger" v-if="exception.birthDate">{{exception.birthDate}}</span>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label>Vergi Kimlik Numarası</label>
-                        <div class="input-group" :class="invalidField(exception.taxNumber)">
-                            <input type="text"
-                                   class="form-control"
-                                   v-model="userInformation.taxNumber">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="ri-hand-coin-line"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <span class="text-danger" v-if="exception.taxNumber">{{exception.taxNumber}}</span>
-                    </div>
+                    </b-col>
+                    <b-col cols="md-3" mb="3">
+                      <label>Vergi Kimlik Numarası</label>
+                      <b-input-group :class="invalidField(exception.taxNumber)">
+                        <b-input v-model="userInformation.taxNumber"></b-input>
+                        <b-input-group-text>
+                          <i class="ri-hand-coin-line"></i>
+                        </b-input-group-text>
+                      </b-input-group>
+                      <span class="text-danger" v-if="exception.taxNumber">{{exception.taxNumber}}</span>
+                    </b-col>
 
-                    <div class="col-md-3 mb-3">
-                        <label>Vergi Dairesi</label>
-                        <div class="input-group" :class="invalidField(exception.taxOffice)">
-                            <input type="text"
-                                   class="form-control"
-                                   v-model="userInformation.taxOffice">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="ri-building-4-line"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <span class="text-danger" v-if="exception.taxOffice">{{exception.taxOffice}}</span>
-                    </div>
-                    <div class="col-md-3 mb-3">
+                    <b-col cols="md-3" mb="3">
+                      <label>Vergi Dairesi</label>
+                      <b-input-group :class="invalidField(exception.taxOffice)">
+                        <b-input v-model="userInformation.taxOffice"></b-input>
+                        <b-input-group-text>
+                          <i class="ri-building-4-line"></i>
+                        </b-input-group-text>
+                      </b-input-group>
+                      <span class="text-danger" v-if="exception.taxOffice">{{exception.taxOffice}}</span>
+                    </b-col>
+                    <b-col cols="md-3" mb="3">
                         <label>Vadeli Satış İndirim Oranı (Yüzde%)</label>
-                        <div class="input-group" :class="invalidField(exception.forwardSalesDiscountRate)">
-                            <input type="text"
-                                   class="form-control"
-                                   v-model="userInformation.forwardSalesDiscountRate">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="ri-building-4-line"></i>
-                                </span>
-                            </div>
-                        </div>
+                        <b-input-group :class="invalidField(exception.forwardSalesDiscountRate)">
+                          <b-input v-model="userInformation.forwardSalesDiscountRate"></b-input>
+                          <b-input-group-text>
+                            <i class="ri-building-4-line"></i>
+                          </b-input-group-text>
+                        </b-input-group>
                         <span class="text-danger" v-if="exception.forwardSalesDiscountRate">{{exception.forwardSalesDiscountRate}}</span>
-                    </div>
-                    <div class="col-md-3 mb-3">
+                    </b-col>
+                    <b-col cols="md-3" mb="3">
                         <label>Max. Vadeli Satış Günü</label>
-                        <div class="input-group" :class="invalidField(exception.maxSalesTerm)">
-                            <input type="number"
-                                   min="1"
-                                   max="1095"
-                                   class="form-control"
-                                   v-model="userInformation.maxSalesTerm">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="ri-building-4-line"></i>
-                                </span>
-                            </div>
-                        </div>
+                        <b-input-group :class="invalidField(exception.maxSalesTerm)">
+                          <b-input  min="1"
+                                    max="1095"
+                                    type="number"
+                                    v-model="userInformation.maxSalesTerm">
+                          </b-input>
+                          <b-input-group-text>
+                            <i class="ri-building-4-line"></i>
+                          </b-input-group-text>
+                        </b-input-group>
                         <span class="text-danger" v-if="exception.maxSalesTerm">{{exception.maxSalesTerm}}</span>
-                    </div>
-                    <div class="col-6 mb-3">
+                    </b-col>
+                    <b-col cols="6" mb="3">
                         <label>Segment</label>
                         <multiselect v-model="userInformation.segment" tag-placeholder=""
                                      placeholder="" label="name" track-by="id" :options="segmentList"
@@ -144,16 +115,16 @@
                                      noResult="Sonuç bulunamadı."
                                      selectedLabel="Seçildi"
                                      :multiple="true" :taggable="true" @tag="addTag"></multiselect>
-                    </div>
+                    </b-col>
 
-                    <div class="col-12">
+                    <b-col cols="12">
                         <hr/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 mb-3">
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col cols="md-3" mb="3">
                         <label>İl</label>
-                        <div class="input-group" :class="invalidField(exception.provinceId)">
+                        <b-input-group :class="invalidField(exception.provinceId)">
                             <multiselect
                                     v-model="userInformation.provinceId"
                                     placeholder=""
@@ -169,12 +140,12 @@
                                 <span slot="noOptions">Yazmaya devam edin.</span>
                                 <span slot="noResult">Sonuç bulunamadı.</span>
                             </multiselect>
-                        </div>
+                        </b-input-group>
                         <span class="text-danger" v-if="exception.provinceId">{{exception.provinceId}}</span>
-                    </div>
-                    <div class="col-md-3 mb-3">
+                    </b-col>
+                    <b-col cols="md-3" mb="3">
                         <label>İlçe</label>
-                        <div class="input-group" :class="invalidField(exception.districtId)">
+                        <b-input-group :class="invalidField(exception.districtId)">
                             <multiselect
                                     v-model="userInformation.districtId"
                                     placeholder=""
@@ -189,73 +160,69 @@
                                 <span slot="noOptions">Yazmaya devam edin.</span>
                                 <span slot="noResult">Sonuç bulunamadı.</span>
                             </multiselect>
-                        </div>
+                        </b-input-group>
                         <span class="text-danger" v-if="exception.districtId">{{exception.districtId}}</span>
-                    </div>
-                    <div class="col-6 mb-3">
+                    </b-col>
+                    <b-col cols="6" mb="3">
                         <label>Adres</label>
-                        <div class="input-group" :class="invalidField(exception.address)">
-                            <textarea class="form-control"
-                                      v-model="userInformation.address"></textarea>
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="ri-map-pin-2-line"></i>
-                                </span>
-                            </div>
-                        </div>
+                        <b-input-group :class="invalidField(exception.address)">
+                            <b-textarea class="form-control"
+                                      v-model="userInformation.address">
+                            </b-textarea>
+                          <b-input-group-text>
+                            <i class="ri-map-pin-2-line"></i>
+                          </b-input-group-text>
+                        </b-input-group>
                         <span class="text-danger" v-if="exception.address">{{exception.address}}</span>
-                    </div>
+                    </b-col>
 
-                    <div class="col-md-6 mb-3">
+                    <b-col cols="md-6" mb="3">
                         <label>E-Mail Adresi</label>
-                        <div class="input-group" :class="invalidField(exception.email)">
-                            <input type="email"
+                        <b-input-group :class="invalidField(exception.email)">
+                            <b-input type="email"
                                    class="form-control"
-                                   v-model="userInformation.email">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="ri-mail-line"></i>
-                                </span>
-                            </div>
-                        </div>
+                                     v-model="userInformation.email">
+                            </b-input>
+                            <b-input-group-text>
+                              <i class="ri-mail-line"></i>
+                            </b-input-group-text>
+                        </b-input-group>
                         <span class="text-danger" v-if="exception.email">{{exception.email}}</span>
-                    </div>
-                    <div class="col-md-3 mb-3">
+                    </b-col>
+                    <b-col cols="md-3" mb="3">
                         <label>İş Telefonu</label>
-                        <div class="input-group" :class="invalidField(exception.phone)">
-                            <input type="text"
-                                   class="form-control" maxlength="12"
-                                   v-model="userInformation.phone">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="ri-phone-line"></i>
-                                </span>
-                            </div>
-                        </div>
+                        <b-input-group :class="invalidField(exception.phone)">
+                            <b-input class="form-control"
+                                     maxlength="12"
+                                     v-model="userInformation.phone">
+                            </b-input>
+                          <b-input-group-text>
+                            <i class="ri-phone-line"></i>
+                          </b-input-group-text>
+                        </b-input-group>
                         <span class="text-danger" v-if="exception.phone">{{exception.phone}}</span>
-                    </div>
-                    <div class="col-md-3 mb-3">
+                    </b-col>
+                    <b-col cols="md-3" mb="3">
                         <label>Fax Numarası</label>
-                        <div class="input-group" :class="invalidField(exception.fax)">
-                            <input type="text"
+                        <b-input-group :class="invalidField(exception.fax)">
+                            <b-input type="text"
                                    class="form-control" maxlength="12"
-                                   v-model="userInformation.fax">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="ri-printer-line"></i>
-                                </span>
-                            </div>
-                        </div>
+                                     v-model="userInformation.fax">
+                            </b-input>
+                          <b-input-group-text>
+                            <i class="ri-printer-line"></i>
+                          </b-input-group-text>
+                        </b-input-group>
                         <span class="text-danger" v-if="exception.fax">{{exception.fax}}</span>
-                    </div>
-                    <div class="col-12">
+                    </b-col>
+                    <b-col cols="12">
                         <hr>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col cols="md-6" mb="3">
                         <label>Gider Müşterisi mi?</label>
-                        <div class="input-group" :class="invalidField(exception.expenseClient)">
+                        <b-input-group :class="invalidField(exception.expenseClient)">
                             <multiselect
                                     v-model="userInformation.expenseClient"
                                     placeholder=""
@@ -270,27 +237,27 @@
                                 <span slot="noOptions">Yazmaya devam edin.</span>
                                 <span slot="noResult">Sonuç bulunamadı.</span>
                             </multiselect>
-                        </div>
+                        </b-input-group>
                         <span class="text-danger" v-if="exception.expenseClient">{{exception.expenseClient}}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 text-right">
-            <button class="btn btn-sm btn-light" @click="reset">Sıfırla</button>
-            <button class="btn btn-sm btn-primary" @click="save"
+                    </b-col>
+                </b-row>
+            </b-card>
+        </b-col>
+        <b-col cols="12" class="text-right">
+            <b-button variant="light" @click="reset">Sıfırla</b-button>
+            <b-button variant="primary" @click="save"
                     :class="{'disabled': !userInformation.name || waitingResponse || success}"
                     :disabled="!userInformation.name || waitingResponse || success">
                 <span v-if="!waitingResponse && !Object.keys(exception).length && !success">Kaydet</span>
                 <span v-if="!waitingResponse && Object.keys(exception).length">Yeniden Dene</span>
-                <div v-if="waitingResponse">
-                    <div class="spinner-border"></div>
+                <b-col v-if="waitingResponse">
+                    <b-spinner></b-spinner>
                     Kaydediliyor
-                </div>
+                </b-col>
                 <span v-if="success">Başarılı</span>
-            </button>
-        </div>
-    </div>
+            </b-button>
+        </b-col>
+    </b-row>
 </template>
 <script>
     import genericMethods from "../../mixins/genericMethods";
@@ -305,7 +272,9 @@
         data() {
             return {
                 exception: {},
-                userInformation: {},
+                userInformation: {
+                    expenseClient: {id: 0, name: "Hayır"},
+                },
                 yesNo: [
                     {id: 1, name: "Evet"},
                     {id: 0, name: "Hayır"},

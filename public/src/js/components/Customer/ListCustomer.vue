@@ -30,7 +30,7 @@
                                     <a class="dropdown-item" href="#">
                                         <ul class="list-group list-group-flush">
                                           <li class="list-group-item d-flex justify-content-between align-items-center"
-                                              v-for="(segment, i) of segmentList">
+                                              v-for="(segment, i) of segmentList" :key="i">
                                               <span @click="selectSegment(i)">{{segment.name}}</span>
                                             <span class="badge" v-if="segment.status"><i
                                                     class="ri-check-line text-success"></i></span>
@@ -69,7 +69,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(customer,i) in customerList" @click="detail(customer.id)">
+                            <tr v-for="(customer,i) in customerList" @click="detail(customer.id)" :key="i">
                                 <th>{{i + 1}}</th>
                                 <td>{{customer.name}}</td>
                                 <td>{{customer.authorizedPersonName}}</td>
@@ -115,8 +115,8 @@
         },
         methods: {
             getCustomers() {
+                ipcRenderer.send("/customerList")
                 new Promise(function (resolve) {
-                    ipcRenderer.send("/customerList")
                     ipcRenderer.on('customerList', (e, result) => {
                         resolve(result);
                     })

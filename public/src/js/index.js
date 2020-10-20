@@ -6,6 +6,8 @@ import router from "./router/mainRouter"
 import Session from "./stores/Session";
 import "bootstrap"
 import "bootstrap/scss/bootstrap.scss"
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 import "remixicon/fonts/remixicon.css"
 import '../scss/checboxRadio.scss'
 import 'vue-multiselect/dist/vue-multiselect.min.css'
@@ -24,6 +26,8 @@ Vue.use(VueRouter)
 Vue.use(Vuex)
 Vue.use(VueCurrencyInput, currencyOptions)
 Vue.use(VueSidebarMenu)
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 Vue.use(VModal, { dialog: true })
 Vue.prototype.moment = moment;
 moment.locale('tr')
