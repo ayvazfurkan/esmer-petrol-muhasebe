@@ -1,11 +1,11 @@
 {
-  "name": "findik-programi",
+  "name": "esmerpet-muhasebe",
   "version": "1.0.0",
-  "description": "findik muhasabesi yapilan program",
+  "description": "esmer petrol için yönetim paneli uygulaması",
   "main": "main.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
-    "transpile": "babel --watch --presets env --require babel-polyfill ./lib/src --out-dir ./lib/dist",
+    "transpile": "babel --presets env --require babel-polyfill ./lib/src --out-dir ./lib/dist",
     "bundle": "webpack --entry ./public/src/js/index.js --output-filename ./bundle.js",
     "start": "electron ."
   },
