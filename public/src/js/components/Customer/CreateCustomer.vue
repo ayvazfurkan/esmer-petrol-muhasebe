@@ -4,15 +4,15 @@
         <b-col cols="12" class="mb-3">
             <b-row pb="3" pt="2">
                 <b-col class="align-self-center">
-                    <h6 class="text-transparent mb-0">Müşteriler \ Yeni Müşteri Ekle</h6>
+                    <h6 class="text-transparent mb-0">Müşteriler \ <span v-if="!userInformation.id">Yeni Müşteri Ekle</span><span v-if="userInformation.id">Müşteri Düzenle</span><span class="text-capitalize" v-if="userInformation.name"> \ {{userInformation.name}}</span></h6>
                 </b-col>
             </b-row>
-            <b-card class="p-4">
+            <b-card class="p-4" mt="5">
                 <b-row>
                     <b-col cols="md-6" mb="3">
                         <label>Müşteri Adı/Unvanı <span class="text-danger">*</span></label>
                         <b-input-group>
-                          <b-input v-model="userInformation.name"></b-input>
+                          <b-input class="text-capitalize" v-model="userInformation.name"></b-input>
                           <b-input-group-text>
                             <i class="ri-user-2-line"></i>
                           </b-input-group-text>
@@ -22,7 +22,7 @@
                     <b-col cols="md-3" mb="3">
                         <label>Yetkili Adı</label>
                         <b-input-group :class="invalidField(exception.authorizedPersonName)">
-                          <b-input v-model="userInformation.authorizedPersonName"></b-input>
+                          <b-input class="text-capitalize" v-model="userInformation.authorizedPersonName"></b-input>
                           <b-input-group-text>
                             <i class="ri-user-2-line"></i>
                           </b-input-group-text>
@@ -75,7 +75,7 @@
                     <b-col cols="md-3" mb="3">
                       <label>Vergi Dairesi</label>
                       <b-input-group :class="invalidField(exception.taxOffice)">
-                        <b-input v-model="userInformation.taxOffice"></b-input>
+                        <b-input class="text-capitalize" v-model="userInformation.taxOffice"></b-input>
                         <b-input-group-text>
                           <i class="ri-building-4-line"></i>
                         </b-input-group-text>
@@ -166,9 +166,7 @@
                     <b-col cols="6" mb="3">
                         <label>Adres</label>
                         <b-input-group :class="invalidField(exception.address)">
-                            <b-textarea class="form-control"
-                                      v-model="userInformation.address">
-                            </b-textarea>
+                            <b-textarea v-model="userInformation.address"></b-textarea>
                           <b-input-group-text>
                             <i class="ri-map-pin-2-line"></i>
                           </b-input-group-text>
@@ -180,7 +178,7 @@
                         <label>E-Mail Adresi</label>
                         <b-input-group :class="invalidField(exception.email)">
                             <b-input type="email"
-                                   class="form-control"
+                                     class="text-lowercase"
                                      v-model="userInformation.email">
                             </b-input>
                             <b-input-group-text>
@@ -192,8 +190,7 @@
                     <b-col cols="md-3" mb="3">
                         <label>İş Telefonu</label>
                         <b-input-group :class="invalidField(exception.phone)">
-                            <b-input class="form-control"
-                                     maxlength="12"
+                            <b-input maxlength="12"
                                      v-model="userInformation.phone">
                             </b-input>
                           <b-input-group-text>
@@ -206,7 +203,7 @@
                         <label>Fax Numarası</label>
                         <b-input-group :class="invalidField(exception.fax)">
                             <b-input type="text"
-                                   class="form-control" maxlength="12"
+                                     maxlength="12"
                                      v-model="userInformation.fax">
                             </b-input>
                           <b-input-group-text>
@@ -260,26 +257,29 @@
     </b-row>
 </template>
 <script>
-    import genericMethods from "../../mixins/genericMethods";
-    import DatePicker from 'vue2-datepicker';
+    import genericMethods from "../../mixins/genericMethods"
+    import DatePicker from 'vue2-datepicker'
     import Multiselect from "vue-multiselect"
-    import 'vue2-datepicker/index.css';
-    import 'vue2-datepicker/locale/tr';
+    import 'vue2-datepicker/index.css'
+    import 'vue2-datepicker/locale/tr'
     import {ipcRenderer} from "electron"
-    import {mapGetters} from "vuex";
+    import {mapGetters} from "vuex"
+    import _ from 'lodash'
 
     export default {
-        data() {
+        data () {
             return {
+                detail: {},
                 exception: {},
                 userInformation: {
-                    expenseClient: {id: 0, name: "Hayır"},
+                    expenseClient: { id: 0, name: "Hayır" }
                 },
                 yesNo: [
                     {id: 1, name: "Evet"},
                     {id: 0, name: "Hayır"},
                 ],
                 segmentList: [],
+                segmentNames: [],
                 provinces: [],
                 districts: [],
                 waitingResponse: false,
@@ -295,6 +295,7 @@
             this.userInformation.branchId = this.getSession.userDetails.branchId
             this.setSegment()
             this.getProvinces()
+            this.getCustomer()
         },
         computed: {
             ...mapGetters(["getSession"])
@@ -342,6 +343,40 @@
                 this.userInformation = {}
                 this.userInformation.creatorId = this.getSession.userDetails.id
                 this.userInformation.branchId = this.getSession.userDetails.branchId
+            },
+            getCustomer() {
+              if (this.$route.params.id>0){
+                let result = ipcRenderer.sendSync("/getCustomerDetail", {id: this.$route.params.id})
+                this.userInformation = result.result
+                if(this.userInformation.expenseClient === '1'){
+                  this.userInformation.expenseClient= {id: 1, name: "Evet"}
+                }else{
+                  this.userInformation.expenseClient= {id: 0, name: "Hayır"}
+                }
+                this.getCustomerSegment()
+              }else{
+                return false
+              }
+            },
+            getCustomerSegment() {
+              if (this.$route.params.id>0){
+                let result = ipcRenderer.sendSync("/getCustomerSegment", {customerId: this.$route.params.id})
+                if (!this.userInformation.segment) {
+                  this.userInformation.segment = []
+                }
+                for (const segment of result.result) {
+                  this.userInformation.segment.push({
+                    id: segment.id,
+                    name: this.getSegmentName(segment.id)
+                  })
+                }
+              }else{
+                return false
+              }
+            },
+            getSegmentName(segmentId){
+              let result = ipcRenderer.sendSync('/getSegmentName', {id: segmentId})
+              console.log(result.result)
             }
         }
     }

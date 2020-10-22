@@ -24,6 +24,7 @@ const router = new VueRouter({
         {path: "/Login", component: Login},
         {path: "/NewAcceptance", component: NewAcceptance},
         {path: "/NewCustomer", component: NewCustomer},
+        {path: "/EditCustomer/:id", component: NewCustomer},
         {path: "/ListCustomer", component: ListCustomer},
         {path: "/DetailCustomer/:id", component: DetailCustomer},
         {path: "/ListSegment", component: ListSegment},
