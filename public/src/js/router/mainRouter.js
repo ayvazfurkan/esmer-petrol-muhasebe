@@ -1,8 +1,6 @@
 import VueRouter from "vue-router"
 import Login from "../components/Login/Login.vue"
 import DatabaseConnector from "../components/Database/Connector.vue"
-import NewAcceptance from "../components/HazelnutIncome/NewAcceptance.vue";
-import RegionList from "../components/HazelnutIncome/RegionList.vue";
 import NewCustomer from "../components/Customer/CreateCustomer.vue"
 import ListCustomer from "../components/Customer/ListCustomer.vue"
 import ListSegment from "../components/Customer/ListSegment.vue"
@@ -22,7 +20,6 @@ const router = new VueRouter({
         {path: "", component: Login},
         {path: "/DatabaseConnector", component: DatabaseConnector},
         {path: "/Login", component: Login},
-        {path: "/NewAcceptance", component: NewAcceptance},
         {path: "/NewCustomer", component: NewCustomer},
         {path: "/EditCustomer/:id", component: NewCustomer},
         {path: "/ListCustomer", component: ListCustomer},
@@ -35,7 +32,6 @@ const router = new VueRouter({
         {path: "/Warehouse/List", component: WarehouseList},
         {path: "/Warehouse/ProductList", component: ProductList},
         {path: "/NewProduct", component: NewProduct},
-        {path: "/Region/List", component: RegionList}
     ]
 })
 
