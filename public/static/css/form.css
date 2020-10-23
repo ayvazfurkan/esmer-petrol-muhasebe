@@ -50,7 +50,7 @@
 
 .input-group-text {
     border: none;
-    font-size: 24px;
+    font-size: 16px;
     padding: 0 .5rem;
 }
 
@@ -150,4 +150,8 @@ span.text-danger, span.text-muted {
 .list-group-item {
     padding: .75rem .25rem;
     white-space: normal;
+}
+
+.s32 {
+    font-size: 32px
 }
