@@ -4,9 +4,12 @@
     <list default="true" id="a058d582-af00-4de5-b047-f4dee2d133c5" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/lib/src/controller/Customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/controller/Customer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/model/Customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/model/Customer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/src/js/components/Customer/CreateCustomer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/public/src/js/components/Customer/CreateCustomer.vue" afterDir="false" />
+=======
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,11 +108,15 @@
       <workItem from="1602616379384" duration="3187000" />
       <workItem from="1603221135110" duration="1254000" />
       <workItem from="1603224214601" duration="3227000" />
+<<<<<<< Updated upstream
       <workItem from="1603310420583" duration="1612000" />
       <workItem from="1603315847788" duration="232000" />
       <workItem from="1603316163075" duration="939000" />
       <workItem from="1603392134935" duration="12251000" />
       <workItem from="1603483518467" duration="5521000" />
+=======
+      <workItem from="1603310890514" duration="3229000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
@@ -121,6 +128,7 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="537" y="1" key="CommitChangelistDialog2/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1603226056724" />
+<<<<<<< Updated upstream
     <state width="1877" height="163" key="GridCell.Tab.0.bottom" timestamp="1603489059608">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -144,6 +152,35 @@
     </state>
     <state width="1323" height="164" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1602406007752" />
     <state width="1877" height="163" key="GridCell.Tab.0.right/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1603489059608" />
+=======
+    <state width="1879" height="280" key="GridCell.Tab.0.bottom" timestamp="1603316571770">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1323" height="164" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1602406007753" />
+    <state width="1877" height="84" key="GridCell.Tab.0.bottom/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602619575537" />
+    <state width="1879" height="280" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1603316571770" />
+    <state width="1877" height="146" key="GridCell.Tab.0.bottom/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1603227444646" />
+    <state width="1879" height="280" key="GridCell.Tab.0.center" timestamp="1603316571770">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1323" height="164" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1602406007752" />
+    <state width="1877" height="84" key="GridCell.Tab.0.center/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602619575536" />
+    <state width="1879" height="280" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1603316571770" />
+    <state width="1877" height="146" key="GridCell.Tab.0.center/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1603227444645" />
+    <state width="1879" height="280" key="GridCell.Tab.0.left" timestamp="1603316571770">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1323" height="164" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1602406007752" />
+    <state width="1877" height="84" key="GridCell.Tab.0.left/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602619575536" />
+    <state width="1879" height="280" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1603316571770" />
+    <state width="1877" height="146" key="GridCell.Tab.0.left/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1603227444645" />
+    <state width="1879" height="280" key="GridCell.Tab.0.right" timestamp="1603316571770">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1323" height="164" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1602406007752" />
+    <state width="1877" height="84" key="GridCell.Tab.0.right/0.0.1920.1040/224.1080.1366.728@0.0.1920.1040" timestamp="1602619575536" />
+    <state width="1879" height="280" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1603316571770" />
+>>>>>>> Stashed changes
     <state width="1877" height="146" key="GridCell.Tab.0.right/283.1080.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1603227444646" />
     <state x="461" y="165" key="SettingsEditor" timestamp="1602616498541">
       <screen x="0" y="0" width="1920" height="1040" />
