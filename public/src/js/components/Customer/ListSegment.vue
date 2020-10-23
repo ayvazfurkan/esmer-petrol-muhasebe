@@ -1,9 +1,9 @@
 <template>
-    <div class="row py-5">
-        <div class="col-12 mt-3"></div>
-        <div class="col-12 pb-3 pt-2">
+    <b-row class="py-5" mt="5" mb="5">
+        <b-col cols="12" mt="3"></b-col>
+        <b-col cols="12" pb="3" pt="2">
             <h6 class="text-transparent mb-0">Segmentler</h6>
-        </div>
+        </b-col>
         <div class="col-12 mb-3">
             <div class="card">
                 <div class="card-body">
@@ -71,7 +71,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </b-row>
 </template>
 <style>
     tr {
