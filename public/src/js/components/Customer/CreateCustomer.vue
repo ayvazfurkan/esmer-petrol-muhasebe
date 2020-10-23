@@ -264,7 +264,6 @@
     import 'vue2-datepicker/locale/tr'
     import {ipcRenderer} from "electron"
     import {mapGetters} from "vuex"
-    import _ from 'lodash'
 
     export default {
         data () {
@@ -344,15 +343,18 @@
                 this.userInformation.creatorId = this.getSession.userDetails.id
                 this.userInformation.branchId = this.getSession.userDetails.branchId
             },
+            // we coded the functions (which names are getCustomer, getCustomerSegment and getSegmentName) below for the customer edit part
             getCustomer() {
               if (this.$route.params.id>0){
                 let result = ipcRenderer.sendSync("/getCustomerDetail", {id: this.$route.params.id})
                 this.userInformation = result.result
-                if(this.userInformation.expenseClient === '1'){
+                if(this.userInformation.expenseClient === 1){
                   this.userInformation.expenseClient= {id: 1, name: "Evet"}
                 }else{
                   this.userInformation.expenseClient= {id: 0, name: "Hayır"}
                 }
+                this.userInformation.forwardSalesDiscountRate = this.userInformation.forwardSalesDiscountRate || ''
+                this.userInformation.maxSalesTerm = this.userInformation.maxSalesTerm || ''
                 this.getCustomerSegment()
               }else{
                 return false
@@ -375,8 +377,8 @@
               }
             },
             getSegmentName(segmentId){
-              let result = ipcRenderer.sendSync('/getSegmentName', {id: segmentId})
-              console.log(result.result)
+              let result = ipcRenderer.sendSync('/getSegmentName', {id: segmentId, branchId: this.getSession.userDetails.branchId})
+              return result.result.name
             }
         }
     }
