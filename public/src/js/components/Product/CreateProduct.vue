@@ -15,17 +15,18 @@
         <b-form-row>
           <b-col md="6">
             <label>Ürün Adı<span class="text-danger">*</span></label>
-            <b-input-group class="mb-3">
+            <b-input-group class="mb-3" v-if="dataFetched">
               <b-input class="text-capitalize" v-model="productInformation.name"></b-input>
               <b-input-group-text>
                 <b-icon-person></b-icon-person>
               </b-input-group-text>
             </b-input-group>
+            <b-skeleton type="input" animation="fade" v-if="!dataFetched"></b-skeleton>
             <span class="text-danger" v-if="exception.name">{{ exception.name }}</span>
           </b-col>
           <b-col md="3">
             <label>Satış Fiyatı</label>
-            <b-input-group class="mb-3">
+            <b-input-group class="mb-3" v-if="dataFetched">
               <b-input min="1"
                        max="5000"
                        type="number"
@@ -35,12 +36,13 @@
                 <b-icon-credit-card></b-icon-credit-card>
               </b-input-group-text>
             </b-input-group>
+            <b-skeleton type="input" animation="fade" v-if="!dataFetched"></b-skeleton>
             <span class="text-danger"
                   v-if="exception.salePrice">{{ exception.salePrice }}</span>
           </b-col>
           <b-col md="3">
             <label>Vadeli Satış Fiyatı</label>
-            <b-input-group class="mb-3">
+            <b-input-group class="mb-3" v-if="dataFetched">
               <b-input min="1"
                        max="5000"
                        type="number"
@@ -50,16 +52,17 @@
                 <b-icon-credit-card></b-icon-credit-card>
               </b-input-group-text>
             </b-input-group>
+            <b-skeleton type="input" animation="fade" v-if="!dataFetched"></b-skeleton>
             <span class="text-danger" v-if="exception.forwardSalePrice">{{ exception.forwardSalePrice }}</span>
           </b-col>
-          <b-col md="3">
-            <b-form-checkbox class="pl-2" v-model="productInformation.onCredit" :checked="productInformation.onCredit" switch>Pompa Satış Ekranında Gösterilsin</b-form-checkbox>
+          <b-col md="3" v-if="dataFetched">
+            <b-form-checkbox class="pl-2" v-model="productInformation.onCredit" switch>Pompa Satış Ekranında Gösterilsin</b-form-checkbox>
           </b-col>
         </b-form-row>
       </b-card>
     </b-col>
     <b-col cols="12" class="text-right">
-      <b-button variant="light" @click="reset">Sıfırla</b-button>
+      <b-button variant="light" @click="reset" v-if="!this.$route.params.id">Sıfırla</b-button>
       <b-button variant="primary" @click="save"
                 :class="{'disabled': !productInformation.name || waitingResponse || success}"
                 :disabled="!productInformation.name || waitingResponse || success">
@@ -89,6 +92,7 @@ export default {
       exception: {},
       productInformation: {},
       waitingResponse: false,
+      dataFetched: false,
       success: false
     }
   },
@@ -113,7 +117,9 @@ export default {
         this.exception = {}
         this.success = true
         this.waitingResponse = false
-        this.$router.push('/ListProduct')
+        if (!this.$route.params.id) { // if its a new product, redirecting router to product list page
+          this.$router.push('/ListProduct')
+        }
       }
     },
     reset () {
@@ -133,11 +139,14 @@ export default {
             resolve(response)
           })
         }).then(response => {
+          this.dataFetched = true
           this.productInformation = response.result
           this.productInformation.salePrice = this.productInformation.salePrice || ''
           this.productInformation.forwardSalePrice = this.productInformation.forwardSalePrice || ''
+          this.productInformation.onCredit = this.productInformation.onCredit ? true : false
         })
       } else {
+        this.dataFetched = true
         return false
       }
     }
