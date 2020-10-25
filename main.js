@@ -1,6 +1,6 @@
-const { app, BrowserWindow } = require("electron")
-const path = require("path")
-const url = require("url")
+const { app, BrowserWindow } = require('electron')
+const path = require('path')
+const url = require('url')
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -10,12 +10,13 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: true
     },
-    icon: path.join(__dirname, "./public/static/img/logo.png")
+    icon: path.join(__dirname, './public/static/img/logo.png')
   })
-  win.loadFile("./public/static/template/index.html")
+  win.loadFile('./public/static/template/index.html')
   // win.webContents.openDevTools()
 }
-app.allowRendererProcessReuse = true;
+
+app.allowRendererProcessReuse = true
 app.whenReady().then(createWindow)
 
 app.on('ready', () => {
@@ -24,23 +25,22 @@ app.on('ready', () => {
   }
 })
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
-app.on("activate", () => {
+app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
   }
 })
 
 // ipcRenderer - ipcMain Process
-require("./lib/dist/controller/Database")
-require("./lib/dist/controller/Helper")
-require("./lib/dist/controller/Authentication")
-require("./lib/dist/controller/HazelnutIncome")
-require("./lib/dist/controller/Customer")
-require("./lib/dist/controller/Cash")
-require("./lib/dist/controller/Stock")
+require('./lib/dist/controller/Database')
+require('./lib/dist/controller/Helper')
+require('./lib/dist/controller/Authentication')
+require('./lib/dist/controller/Customer')
+require('./lib/dist/controller/Cash')
+require('./lib/dist/controller/Product')

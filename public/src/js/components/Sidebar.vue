@@ -163,7 +163,24 @@ export default {
               href: { path: '/ListSegment' },
               title: 'Müşteri Segmentleri',
               icon: 'ri-group-2-line'
+            }
+          ]
+        },
+        {
+          href: '',
+          title: 'Pompa Ürünleri',
+          icon: 'ri-stack-line',
+          child: [
+            {
+              href: { path: '/NewProduct' },
+              title: 'Yeni Ürün Oluştur',
+              icon: 'ri-user-add-line'
             },
+            {
+              href: { path: '/ListProduct' },
+              title: 'Ürün Listesi',
+              icon: 'ri-group-line'
+            }
           ]
         },
         {
@@ -180,26 +197,9 @@ export default {
               href: { path: '/Cash/OutFlow' },
               title: 'Tediye İşlemi',
               icon: 'ri-coupon-3-line'
-            },
-          ]
-        },
-        {
-          href: '',
-          title: 'Stok',
-          icon: 'ri-stack-line',
-          child: [
-            {
-              href: { path: '/Warehouse/List' },
-              title: 'Depolar',
-              icon: 'ri-home-6-line'
-            },
-            {
-              href: { path: '/Warehouse/ProductList' },
-              title: 'Ürünler',
-              icon: 'ri-home-6-line'
             }
           ]
-        },
+        }
       ]
     }
   },

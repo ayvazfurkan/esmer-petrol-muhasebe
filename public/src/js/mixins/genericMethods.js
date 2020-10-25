@@ -38,7 +38,7 @@ const genericMethods = {
           resolve(result)
         })
       }).then(result => {
-        for (let province of result) {
+        for (const province of result) {
           this.provinces.push({
             id: province.id,
             name: province.name
@@ -54,7 +54,7 @@ const genericMethods = {
         })
       }).then(result => {
         this.districts = []
-        for (let district of result) {
+        for (const district of result) {
           this.districts.push({
             id: district.id,
             name: district.name
@@ -74,7 +74,7 @@ const genericMethods = {
         })
       }).then(result => {
         this.regionList = []
-        for (let region of result) {
+        for (const region of result) {
           this.regionList.push({
             id: region.id,
             name: region.name
@@ -82,46 +82,30 @@ const genericMethods = {
         }
       })
     },
-    getWarehouses (name) {
-      this.customerList = []
-      if (name.length < 2) {
+    getProducts (name) {
+      this.productList = []
+      if (name.length < 3) {
         return false
       }
-      ipcRenderer.send('/warehouseList', { name })
+      ipcRenderer.send('/getProduct', { name })
       new Promise(function (resolve) {
-        ipcRenderer.on('warehouseList', (e, result) => {
+        ipcRenderer.on('productList', (event, result) => {
           resolve(result)
         })
       }).then(result => {
-        this.warehouseList = []
-        for (let warehouse of result) {
-          this.warehouseList.push({
-            id: warehouse.id,
-            name: warehouse.name
-          })
-        }
-      })
-    },
-    getCurrencies () {
-      ipcRenderer.send('/currencyList')
-      new Promise(function (resolve) {
-        ipcRenderer.on('currencyList', (e, result) => {
-          resolve(result)
-        })
-      }).then(result => {
-        this.currencies = []
-        for (let currency of result) {
-          this.currencies.push({
-            id: currency.id,
-            name: currency.name
+        this.productList = []
+        for (const product of result.result) {
+          this.productList.push({
+            id: product.id,
+            name: product.name
           })
         }
       })
     },
     makeTitle (text) {
-      let wordsArray = text.toLowerCase().split(' ')
-      let capsArray = wordsArray.map(word => {
-        return word.length > 0 && word.replace(word[0], word[0].toUpperCase()) || ''
+      const wordsArray = text.toLowerCase().split(' ')
+      const capsArray = wordsArray.map(word => {
+        return (word.length > 0 && word.replace(word[0], word[0].toUpperCase())) || ''
       })
       return capsArray.join(' ')
     }
