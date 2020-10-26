@@ -57,7 +57,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     border-bottom: none;
 }
 
-.accordion > .card:not(:last-of-type) {
+    .accordion > .card:not(:last-of-type) {
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
 }
@@ -70,4 +70,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .vm--modal {
     border-radius: .5rem !important;
     box-shadow: 0 20px 60px -2px rgba(27, 33, 58, 0.3) !important;
+}
+
+.frame-menu{
+
 }
