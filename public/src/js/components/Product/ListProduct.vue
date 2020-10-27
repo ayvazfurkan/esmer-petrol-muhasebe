@@ -24,11 +24,9 @@
             </b-input-group>
           </b-col>
           <b-col md="9">
-            <b-button class="float-right m-1" variant="outline-primary">
-              <b-icon-printer></b-icon-printer> İcmal Yazdır
-            </b-button>
             <b-button class="float-right m-1" variant="outline-success" @click="newProduct">
-              <b-icon-cart-plus></b-icon-cart-plus> Yeni Ürün Oluştur
+              <b-icon-cart-plus></b-icon-cart-plus>
+              Yeni Ürün Oluştur
             </b-button>
           </b-col>
         </b-row>
@@ -52,20 +50,31 @@
               <tbody>
               <tr v-for="(product,i) in productList" :key="i">
                 <th>{{ i + 1 }}</th>
-                <td style="text-transform: capitalize"><span v-if="product.salePrice <=0 || product.salePrice>product.forwardSalePrice"><b-icon-exclamation-circle-fill class="text-danger"></b-icon-exclamation-circle-fill></span> {{ product.name }}</td>
-                <td><span v-if="product.salePrice <=0 "><b-icon-exclamation-circle-fill class="text-danger"></b-icon-exclamation-circle-fill></span> {{ product.salePrice }}</td>
-                <td><span v-if="product.forwardSalePrice <=0 || product.salePrice>product.forwardSalePrice"><b-icon-exclamation-circle-fill class="text-danger"></b-icon-exclamation-circle-fill></span> {{ product.forwardSalePrice }}</td>
-                <td>{{ (product.salePrice>0 && product.forwardSalePrice>0) ? (100-(product.salePrice*100/product.forwardSalePrice)).toFixed(2) : 0 }}%</td>
+                <td style="text-transform: capitalize"><span
+                    v-if="product.salePrice <=0 || product.salePrice>product.forwardSalePrice"><b-icon-exclamation-circle-fill
+                    class="text-danger"></b-icon-exclamation-circle-fill></span> {{ product.name }}
+                </td>
+                <td><span v-if="product.salePrice <=0 "><b-icon-exclamation-circle-fill
+                    class="text-danger"></b-icon-exclamation-circle-fill></span> {{ product.salePrice }}
+                </td>
+                <td><span v-if="product.forwardSalePrice <=0 || product.salePrice>product.forwardSalePrice"><b-icon-exclamation-circle-fill
+                    class="text-danger"></b-icon-exclamation-circle-fill></span> {{ product.forwardSalePrice }}
+                </td>
+                <td>{{
+                    (product.salePrice > 0 && product.forwardSalePrice > 0) ? (100 - (product.salePrice * 100 / product.forwardSalePrice)).toFixed(2) : 0
+                  }}%
+                </td>
                 <td>
                   <b-button-group>
                     <b-dropdown variant="outline-secondary" size="sm" right text="İşlemler">
-                      <b-dropdown-item variant="warning" @click="getProduct(product.id)"><i class="ri-edit-2-fill"></i>
+                      <b-dropdown-item variant="warning" @click="getProduct(i)"><i class="ri-edit-2-fill"></i>
                         Düzenle
                       </b-dropdown-item>
                       <b-dropdown-divider></b-dropdown-divider>
                       <b-dropdown-item variant="danger"><i class="ri-delete-bin-2-fill"></i> Sil</b-dropdown-item>
                     </b-dropdown>
                   </b-button-group>
+
                 </td>
               </tr>
               </tbody>
@@ -89,15 +98,16 @@
       <template #modal-header="{ close }">
         <h5 v-if="!fetchingProduct">{{ productInformation.id ? 'Ürün Düzenle' : 'Yeni Ürün Oluştur' }}</h5>
         <b-skeleton width="40%" v-else></b-skeleton>
-        <b-button type="button" class="close"  @click="close()">×</b-button>
+        <b-button type="button" class="close" @click="close()">×</b-button>
       </template>
       <template>
-        <form ref="form">
+        <div>
           <b-col class="mt-3">
             <label v-if="!fetchingProduct">Ürün Adı<span class="text-danger">*</span></label>
             <b-skeleton width="20%" v-else></b-skeleton>
             <b-input-group v-if="!fetchingProduct">
-              <b-input class="text-capitalize" v-model="productInformation.name" ref="name" v-if="!fetchingProduct"></b-input>
+              <b-input class="text-capitalize" v-model="productInformation.name" ref="name"
+                       v-if="!fetchingProduct"></b-input>
               <b-input-group-text>
                 <b-icon-type></b-icon-type>
               </b-input-group-text>
@@ -113,7 +123,7 @@
                        max="5000"
                        type="number"
                        v-model="productInformation.salePrice"
-                       >
+              >
               </b-input>
               <b-input-group-text>
                 <b-icon-credit-card></b-icon-credit-card>
@@ -142,10 +152,12 @@
                   v-if="exception.forwardSalePrice">{{ exception.forwardSalePrice }}</span>
           </b-col>
           <b-col class="mt-3">
-            <b-form-checkbox class="pl-2" v-model="productInformation.onCredit" switch v-if="!fetchingProduct">Pompa Satış Ekranında Gösterilsin</b-form-checkbox>
+            <b-form-checkbox v-model="productInformation.onCredit" switch v-if="!fetchingProduct">Pompa
+              Satış Ekranında Gösterilsin
+            </b-form-checkbox>
             <b-skeleton width="60%" v-else></b-skeleton>
           </b-col>
-        </form>
+        </div>
       </template>
       <template #modal-footer="{ cancel }">
         <b-button variant="danger" @click="cancel()" v-if="!fetchingProduct">
@@ -213,10 +225,11 @@ export default {
       this.productInformation = {}
       this.$bvModal.show('product-add-or-edit')
     },
-    getProduct (productId) {
+    getProduct (index) {
       this.fetchingProduct = true
       this.productInformation = {}
       this.$bvModal.show('product-add-or-edit')
+      const productId = this.productList[index].id
       if (productId > 0) {
         ipcRenderer.send('/getProductDetail', { id: productId })
         new Promise(function (resolve) {
@@ -224,18 +237,25 @@ export default {
             resolve(response)
           })
         }).then(response => {
-          this.fetchingProduct = false
+          setTimeout(() => {
+            this.fetchingProduct = false
+          }, 100)
           this.productInformation = response.result
+          this.productInformation.index = index
           this.productInformation.salePrice = this.productInformation.salePrice || ''
           this.productInformation.forwardSalePrice = this.productInformation.forwardSalePrice || ''
           this.productInformation.onCredit = this.productInformation.onCredit ? true : false
+          this.success = false
         })
       } else {
-        this.fetchingProduct = false
+        setTimeout(() => {
+          this.fetchingProduct = false
+        }, 100)
         return false
       }
     },
     save () {
+      const index = this.productInformation.index
       this.waitingResponse = true
       this.productInformation.creatorId = this.getSession.userDetails.id
       this.productInformation.branchId = this.getSession.userDetails.branchId
@@ -245,8 +265,20 @@ export default {
         this.success = false
         this.waitingResponse = false
       } else {
-        if (!this.productInformation) {
-          this.productList.push({ id: result.id, name: this.productInformation.name, salePrice: this.productInformation.salePrice, forwardSalePrice: this.productInformation.forwardSalePrice})
+        if (!this.productInformation.id) {
+          this.productList.push({
+            id: result.id,
+            name: this.productInformation.name,
+            salePrice: this.productInformation.salePrice,
+            forwardSalePrice: this.productInformation.forwardSalePrice
+          })
+        } else {
+          this.productList[index] = {
+            id: this.productInformation.id,
+            name: this.productInformation.name,
+            salePrice: this.productInformation.salePrice,
+            forwardSalePrice: this.productInformation.forwardSalePrice
+          }
         }
         this.exception = {}
         this.success = true

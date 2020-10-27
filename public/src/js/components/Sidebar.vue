@@ -197,13 +197,6 @@ export default {
           },
           child: [
             {
-              href: { path: '/NewProduct' },
-              title: 'Yeni Ürün Oluştur',
-              icon: {
-                element: 'b-icon-droplet-fill'
-              }
-            },
-            {
               href: { path: '/ListProduct' },
               title: 'Ürün Listesi',
               icon: {
