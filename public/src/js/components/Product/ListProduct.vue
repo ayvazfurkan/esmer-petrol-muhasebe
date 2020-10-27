@@ -35,55 +35,52 @@
     <b-col cols="12">
       <b-card>
         <b-card-body>
-          <div class="table-responsive" v-if="productList.length > 0">
-            <table class="table table-hover table-bordered table-striped">
-              <thead>
-              <tr>
-                <th>#</th>
-                <th>Ürün Adı</th>
-                <th>Satış Fiyatı</th>
-                <th>Vadeli Satış Fiyatı</th>
-                <th>Vade Yüzdesi</th>
-                <th>İşlem</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr v-for="(product,i) in productList" :key="i">
-                <th>{{ i + 1 }}</th>
-                <td style="text-transform: capitalize"><span
-                    v-if="product.salePrice <=0 || product.salePrice>product.forwardSalePrice"><b-icon-exclamation-circle-fill
-                    class="text-danger"></b-icon-exclamation-circle-fill></span> {{ product.name }}
-                </td>
-                <td><span v-if="product.salePrice <=0 "><b-icon-exclamation-circle-fill
-                    class="text-danger"></b-icon-exclamation-circle-fill></span> {{ product.salePrice }}
-                </td>
-                <td><span v-if="product.forwardSalePrice <=0 || product.salePrice>product.forwardSalePrice"><b-icon-exclamation-circle-fill
-                    class="text-danger"></b-icon-exclamation-circle-fill></span> {{ product.forwardSalePrice }}
-                </td>
-                <td>{{
-                    (product.salePrice > 0 && product.forwardSalePrice > 0) ? (100 - (product.salePrice * 100 / product.forwardSalePrice)).toFixed(2) : 0
-                  }}%
-                </td>
-                <td>
-                  <b-button-group>
-                    <b-dropdown variant="outline-secondary" size="sm" right text="İşlemler">
-                      <b-dropdown-item variant="warning" @click="getProduct(i)">
-                        <b-icon-pencil></b-icon-pencil>
-                        Düzenle
-                      </b-dropdown-item>
-                      <b-dropdown-divider></b-dropdown-divider>
-                      <b-dropdown-item variant="danger">
-                        <b-icon-x></b-icon-x>
-                        Sil
-                      </b-dropdown-item>
-                    </b-dropdown>
-                  </b-button-group>
-
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
+          <b-table-simple hover bordered striped responsive="true" size="sm" v-if="productList.length > 0">
+            <b-thead>
+            <b-tr>
+              <b-th>#</b-th>
+              <b-th>Ürün Adı</b-th>
+              <b-th>Satış Fiyatı</b-th>
+              <b-th>Vadeli Satış Fiyatı</b-th>
+              <b-th>Vade Yüzdesi</b-th>
+              <b-th>İşlem</b-th>
+            </b-tr>
+            </b-thead>
+            <b-tbody>
+            <b-tr v-for="(product,i) in productList" :key="i">
+              <b-th>{{ i + 1 }}</b-th>
+              <b-td style="text-transform: capitalize"><span
+                  v-if="product.salePrice <=0 || product.salePrice>product.forwardSalePrice"><b-icon-exclamation-circle-fill
+                  class="text-danger"></b-icon-exclamation-circle-fill></span> {{ product.name }}
+              </b-td>
+              <b-td><span v-if="product.salePrice <=0 "><b-icon-exclamation-circle-fill
+                  class="text-danger"></b-icon-exclamation-circle-fill></span> {{ product.salePrice }}
+              </b-td>
+              <b-td><span v-if="product.forwardSalePrice <=0 || product.salePrice>product.forwardSalePrice"><b-icon-exclamation-circle-fill
+                  class="text-danger"></b-icon-exclamation-circle-fill></span> {{ product.forwardSalePrice }}
+              </b-td>
+              <b-td>{{
+                  (product.salePrice > 0 && product.forwardSalePrice > 0) ? (100 - (product.salePrice * 100 / product.forwardSalePrice)).toFixed(2) : 0
+                }}%
+              </b-td>
+              <b-td>
+                <b-button-group>
+                  <b-dropdown variant="outline-secondary" size="sm" right text="İşlemler">
+                    <b-dropdown-item variant="warning" @click="getProduct(i)">
+                      <b-icon-pencil></b-icon-pencil>
+                      Düzenle
+                    </b-dropdown-item>
+                    <b-dropdown-divider></b-dropdown-divider>
+                    <b-dropdown-item variant="danger">
+                      <b-icon-x></b-icon-x>
+                      Sil
+                    </b-dropdown-item>
+                  </b-dropdown>
+                </b-button-group>
+              </b-td>
+            </b-tr>
+            </b-tbody>
+          </b-table-simple>
           <div v-else>
             <div class="text-primary"></div>
             <b-skeleton-table
@@ -160,7 +157,7 @@
           <b-icon-x></b-icon-x>
           Kapat
         </b-button>
-        <b-button variant="primary" @click="save"
+        <b-button variant="primary" @click="save()"
                   :class="{'disabled': !productInformation.name || waitingResponse || success}"
                   :disabled="!productInformation.name || waitingResponse || success">
           <span v-if="!waitingResponse && !Object.keys(exception).length && !success"><b-icon-check2></b-icon-check2> Kaydet</span>
@@ -219,18 +216,16 @@ export default {
       this.$bvModal.show('product-add-or-edit')
     },
     getProduct (index) {
-      this.productInformation = this.productList[index]
+      this.productInformation = {
+        index: index,
+        id: this.productList[index].id,
+        name: this.productList[index].name,
+        salePrice: this.productList[index].salePrice,
+        forwardSalePrice: this.productList[index].forwardSalePrice,
+        onCredit: !!this.productList[index].onCredit
+      }
       this.$bvModal.show('product-add-or-edit')
       this.success = false
-      const productId = this.productInformation.id
-      if (productId > 0) {
-        this.productInformation.index = index
-        this.productInformation.salePrice = this.productInformation.salePrice || ''
-        this.productInformation.forwardSalePrice = this.productInformation.forwardSalePrice || ''
-        this.productInformation.onCredit = this.productInformation.onCredit ? true : false
-      } else {
-        return false
-      }
     },
     save () {
       const index = this.productInformation.index
