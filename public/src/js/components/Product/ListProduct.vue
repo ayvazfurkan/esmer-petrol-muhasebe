@@ -66,7 +66,6 @@
                       <b-dropdown-item variant="danger"><i class="ri-delete-bin-2-fill"></i> Sil</b-dropdown-item>
                     </b-dropdown>
                   </b-button-group>
-
                 </td>
               </tr>
               </tbody>

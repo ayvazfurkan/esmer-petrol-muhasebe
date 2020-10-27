@@ -1,6 +1,5 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
-const url = require('url')
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -12,8 +11,7 @@ function createWindow () {
     },
     icon: path.join(__dirname, './public/static/img/logo.png')
   })
-  win.loadFile('./public/static/template/index.html')
-  // win.webContents.openDevTools()
+  win.loadFile('./public/static/template/index.html').then()
 }
 
 app.allowRendererProcessReuse = true
@@ -44,3 +42,4 @@ require('./lib/dist/controller/Authentication')
 require('./lib/dist/controller/Customer')
 require('./lib/dist/controller/Cash')
 require('./lib/dist/controller/Product')
+require('./lib/dist/controller/Salesofficer')

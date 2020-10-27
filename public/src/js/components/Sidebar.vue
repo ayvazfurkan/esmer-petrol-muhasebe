@@ -125,7 +125,6 @@
   color: #007bff !important;
 }
 
-
 .v-sidebar-menu .slide-animation-enter-active {
   -webkit-animation: slide-animation 0.1s;
   animation: slide-animation 0s
@@ -147,56 +146,92 @@ export default {
         {
           href: '',
           title: 'Müşteriler',
-          icon: 'ri-user-3-line',
+          icon: {
+            element: 'b-icon-people'
+          },
           child: [
             {
               href: { path: '/NewCustomer' },
               title: 'Yeni Müşteri Ekle',
-              icon: 'ri-user-add-line'
+              icon: {
+                element: 'b-icon-person-plus'
+              }
             },
             {
               href: { path: '/ListCustomer' },
               title: 'Müşteri Listesi',
-              icon: 'ri-group-line'
+              icon: {
+                element: 'b-icon-person'
+              }
             },
             {
               href: { path: '/ListSegment' },
               title: 'Müşteri Segmentleri',
-              icon: 'ri-group-2-line'
+              icon: {
+                element: 'b-icon-person-badge'
+              }
+            }
+          ]
+        },
+        {
+          href: '',
+          title: 'Personeller',
+          icon: {
+            element: 'b-icon-diagram3'
+          },
+          child: [
+            {
+              href: { path: '/Salesofficer' },
+              title: 'Akaryakıt Satış Görevlileri',
+              icon: {
+                element: 'b-icon-person'
+              }
             }
           ]
         },
         {
           href: '',
           title: 'Pompa Ürünleri',
-          icon: 'ri-stack-line',
+          icon: {
+            element: 'b-icon-droplet'
+          },
           child: [
             {
               href: { path: '/NewProduct' },
               title: 'Yeni Ürün Oluştur',
-              icon: 'ri-user-add-line'
+              icon: {
+                element: 'b-icon-droplet-fill'
+              }
             },
             {
               href: { path: '/ListProduct' },
               title: 'Ürün Listesi',
-              icon: 'ri-group-line'
+              icon: {
+                element: 'b-icon-droplet-half'
+              }
             }
           ]
         },
         {
           href: '',
           title: 'Kasa İşlemleri',
-          icon: 'ri-safe-line',
+          icon: {
+            element: 'b-icon-phone-landscape'
+          },
           child: [
             {
               href: { path: '/Cash/InFlow' },
               title: 'Tahsilat İşlemi',
-              icon: 'ri-refund-line'
+              icon: {
+                element: 'b-icon-wallet'
+              }
             },
             {
               href: { path: '/Cash/OutFlow' },
               title: 'Tediye İşlemi',
-              icon: 'ri-coupon-3-line'
+              icon: {
+                element: 'b-icon-receipt'
+              }
             }
           ]
         }
