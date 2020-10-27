@@ -67,11 +67,15 @@
                 <td>
                   <b-button-group>
                     <b-dropdown variant="outline-secondary" size="sm" right text="İşlemler">
-                      <b-dropdown-item variant="warning" @click="getProduct(i)"><i class="ri-edit-2-fill"></i>
+                      <b-dropdown-item variant="warning" @click="getProduct(i)">
+                        <b-icon-pencil></b-icon-pencil>
                         Düzenle
                       </b-dropdown-item>
                       <b-dropdown-divider></b-dropdown-divider>
-                      <b-dropdown-item variant="danger"><i class="ri-delete-bin-2-fill"></i> Sil</b-dropdown-item>
+                      <b-dropdown-item variant="danger">
+                        <b-icon-x></b-icon-x>
+                        Sil
+                      </b-dropdown-item>
                     </b-dropdown>
                   </b-button-group>
 
@@ -96,29 +100,25 @@
         centered
     >
       <template #modal-header="{ close }">
-        <h5 v-if="!fetchingProduct">{{ productInformation.id ? 'Ürün Düzenle' : 'Yeni Ürün Oluştur' }}</h5>
-        <b-skeleton width="40%" v-else></b-skeleton>
+        <h5>{{ productInformation.id ? 'Ürün Düzenle' : 'Yeni Ürün Oluştur' }}</h5>
         <b-button type="button" class="close" @click="close()">×</b-button>
       </template>
       <template>
         <div>
           <b-col class="mt-3">
-            <label v-if="!fetchingProduct">Ürün Adı<span class="text-danger">*</span></label>
-            <b-skeleton width="20%" v-else></b-skeleton>
-            <b-input-group v-if="!fetchingProduct">
+            <label>Ürün Adı<span class="text-danger">*</span></label>
+            <b-input-group>
               <b-input class="text-capitalize" v-model="productInformation.name" ref="name"
-                       v-if="!fetchingProduct"></b-input>
+              ></b-input>
               <b-input-group-text>
                 <b-icon-type></b-icon-type>
               </b-input-group-text>
             </b-input-group>
-            <b-skeleton type="input" v-else></b-skeleton>
             <span class="text-danger" v-if="exception.name">{{ exception.name }}</span>
           </b-col>
           <b-col class="mt-3">
-            <label v-if="!fetchingProduct">Satış Fiyatı</label>
-            <b-skeleton width="25%" v-else></b-skeleton>
-            <b-input-group v-if="!fetchingProduct">
+            <label>Satış Fiyatı</label>
+            <b-input-group>
               <b-input min="1"
                        max="5000"
                        type="number"
@@ -129,14 +129,12 @@
                 <b-icon-credit-card></b-icon-credit-card>
               </b-input-group-text>
             </b-input-group>
-            <b-skeleton type="input" v-else></b-skeleton>
             <span class="text-danger"
                   v-if="exception.salePrice">{{ exception.salePrice }}</span>
           </b-col>
           <b-col class="mt-3">
-            <label v-if="!fetchingProduct">Vadeli Satış Fiyatı</label>
-            <b-skeleton width="30%" v-else></b-skeleton>
-            <b-input-group v-if="!fetchingProduct">
+            <label>Vadeli Satış Fiyatı</label>
+            <b-input-group>
               <b-input min="1"
                        max="5000"
                        type="number"
@@ -147,25 +145,22 @@
                 <b-icon-credit-card></b-icon-credit-card>
               </b-input-group-text>
             </b-input-group>
-            <b-skeleton type="input" v-else></b-skeleton>
             <span class="text-danger"
                   v-if="exception.forwardSalePrice">{{ exception.forwardSalePrice }}</span>
           </b-col>
           <b-col class="mt-3">
-            <b-form-checkbox v-model="productInformation.onCredit" switch v-if="!fetchingProduct">Pompa
+            <b-form-checkbox v-model="productInformation.onCredit" switch>Pompa
               Satış Ekranında Gösterilsin
             </b-form-checkbox>
-            <b-skeleton width="60%" v-else></b-skeleton>
           </b-col>
         </div>
       </template>
       <template #modal-footer="{ cancel }">
-        <b-button variant="danger" @click="cancel()" v-if="!fetchingProduct">
+        <b-button variant="danger" @click="cancel()">
           <b-icon-x></b-icon-x>
           Kapat
         </b-button>
-        <b-skeleton type="button" width="20%" v-else></b-skeleton>
-        <b-button variant="primary" @click="save" v-if="!fetchingProduct"
+        <b-button variant="primary" @click="save"
                   :class="{'disabled': !productInformation.name || waitingResponse || success}"
                   :disabled="!productInformation.name || waitingResponse || success">
           <span v-if="!waitingResponse && !Object.keys(exception).length && !success"><b-icon-check2></b-icon-check2> Kaydet</span>
@@ -176,7 +171,6 @@
           </b-col>
           <span v-if="success">Başarılı</span>
         </b-button>
-        <b-skeleton type="button" width="20%" v-else></b-skeleton>
       </template>
     </b-modal>
   </b-row>
@@ -221,36 +215,20 @@ export default {
       })
     },
     newProduct () {
-      this.fetchingProduct = false
       this.productInformation = {}
       this.$bvModal.show('product-add-or-edit')
     },
     getProduct (index) {
-      this.fetchingProduct = true
-      this.productInformation = {}
+      this.productInformation = this.productList[index]
       this.$bvModal.show('product-add-or-edit')
-      const productId = this.productList[index].id
+      this.success = false
+      const productId = this.productInformation.id
       if (productId > 0) {
-        ipcRenderer.send('/getProductDetail', { id: productId })
-        new Promise(function (resolve) {
-          ipcRenderer.on('getProductDetail', (event, response) => {
-            resolve(response)
-          })
-        }).then(response => {
-          setTimeout(() => {
-            this.fetchingProduct = false
-          }, 100)
-          this.productInformation = response.result
-          this.productInformation.index = index
-          this.productInformation.salePrice = this.productInformation.salePrice || ''
-          this.productInformation.forwardSalePrice = this.productInformation.forwardSalePrice || ''
-          this.productInformation.onCredit = this.productInformation.onCredit ? true : false
-          this.success = false
-        })
+        this.productInformation.index = index
+        this.productInformation.salePrice = this.productInformation.salePrice || ''
+        this.productInformation.forwardSalePrice = this.productInformation.forwardSalePrice || ''
+        this.productInformation.onCredit = this.productInformation.onCredit ? true : false
       } else {
-        setTimeout(() => {
-          this.fetchingProduct = false
-        }, 100)
         return false
       }
     },
@@ -273,12 +251,7 @@ export default {
             forwardSalePrice: this.productInformation.forwardSalePrice
           })
         } else {
-          this.productList[index] = {
-            id: this.productInformation.id,
-            name: this.productInformation.name,
-            salePrice: this.productInformation.salePrice,
-            forwardSalePrice: this.productInformation.forwardSalePrice
-          }
+          this.productList[index] = this.productInformation
         }
         this.exception = {}
         this.success = true
