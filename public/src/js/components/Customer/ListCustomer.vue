@@ -9,6 +9,29 @@
       </b-row>
       <h6 class="text-transparent mb-0"></h6>
     </b-col>
+    <b-col cols="12" class="mb-3">
+      <b-card>
+        <b-row>
+          <b-col md="3">
+            <b-input-group>
+              <b-input
+                  v-model="quickSearch"
+                  v-on:keyup="getCustomers()"
+                  placeholder="Hızlı Arama"></b-input>
+              <b-input-group-text>
+                <b-icon-search></b-icon-search>
+              </b-input-group-text>
+            </b-input-group>
+          </b-col>
+          <b-col md="9">
+            <b-button class="float-right m-1" variant="outline-success" @click="newCustomer">
+              <b-icon-person-plus></b-icon-person-plus>
+              Yeni Müşteri Oluştur
+            </b-button>
+          </b-col>
+        </b-row>
+      </b-card>
+    </b-col>
     <b-col cols="12">
       <b-card>
         <b-card-body>
@@ -20,7 +43,6 @@
                 <th>İsim / Unvan</th>
                 <th>Yetkili</th>
                 <th>TRY Bakiyesi</th>
-                <th>İşlem</th>
               </tr>
               </thead>
               <tbody>
@@ -29,18 +51,6 @@
                 <td style="text-transform: capitalize">{{ customer.name }}</td>
                 <td>{{ customer.authorizedPersonName }}</td>
                 <td>0,00</td>
-                <td>
-                  <b-button-group size="sm">
-                    <b-dropdown variant="outline-secondary" right text="İşlemler">
-                      <b-dropdown-item variant="warning" @click="editCustomer(customer.id)"><i
-                          class="ri-edit-2-fill"></i> Düzenle
-                      </b-dropdown-item>
-                      <b-dropdown-divider></b-dropdown-divider>
-                      <b-dropdown-item variant="danger"><i class="ri-delete-bin-2-fill"></i> Sil</b-dropdown-item>
-                    </b-dropdown>
-                  </b-button-group>
-
-                </td>
               </tr>
               </tbody>
             </table>
