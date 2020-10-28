@@ -34,8 +34,7 @@
     </b-col>
     <b-col cols="12">
       <b-card>
-        <b-card-body>
-          <b-table-simple hover bordered striped responsive="true" size="sm" v-if="productList.length > 0">
+          <b-table-simple hover bordered striped small responsive="true" v-if="productList.length > 0">
             <b-thead>
             <b-tr>
               <b-th>#</b-th>
@@ -64,18 +63,9 @@
                 }}%
               </b-td>
               <b-td>
-                <b-button-group>
-                  <b-dropdown variant="outline-secondary" size="sm" right text="İşlemler">
-                    <b-dropdown-item variant="warning" @click="getProduct(i)">
-                      <b-icon-pencil></b-icon-pencil>
-                      Düzenle
-                    </b-dropdown-item>
-                    <b-dropdown-divider></b-dropdown-divider>
-                    <b-dropdown-item variant="danger">
-                      <b-icon-x></b-icon-x>
-                      Sil
-                    </b-dropdown-item>
-                  </b-dropdown>
+                <b-button-group size="sm">
+                  <b-button variant="outline-warning" @click="getProduct(i)">Dzn</b-button>
+                  <b-button variant="outline-danger" @click="deleteProduct(i)">Sil</b-button>
                 </b-button-group>
               </b-td>
             </b-tr>
@@ -89,7 +79,6 @@
                 :table-props="{ bordered: true, striped: true }"
             ></b-skeleton-table>
           </div>
-        </b-card-body>
       </b-card>
     </b-col>
     <b-modal
@@ -170,6 +159,46 @@
         </b-button>
       </template>
     </b-modal>
+    <b-modal
+        id="product-delete"
+        centered
+    >
+      <template #modal-header="{ close }">
+        <h5>{{ productInformation.id ? 'Silme Onayı' : 'Ürün Bilgisi Alınamadı! Tekrar Deneyiniz' }}</h5>
+        <b-button type="button" class="close" @click="close()">×</b-button>
+      </template>
+      <template>
+        <div>
+          <b-col class="mt-3 text-center">
+            <b-icon-trash-fill style="width: 120px; height: 120px; color:red"></b-icon-trash-fill>
+            <h4><b class="text-capitalize">'{{ this.productInformation.name }}'</b> ürününü silmek istediğinizden emin misiniz?</h4>
+          </b-col>
+          <b-col class="mt-3">
+            <b-form-checkbox v-model="productInformation.deleteValidate" switch size="lg">Silmek istediğimden eminim.
+            </b-form-checkbox>
+            <span class="text-danger"
+                  v-if="exception.deleteValidate">{{ exception.deleteValidate }}</span>
+          </b-col>
+        </div>
+      </template>
+      <template #modal-footer="{ cancel }">
+        <b-button variant="danger" @click="cancel()">
+          <b-icon-x></b-icon-x>
+          Vazgeç
+        </b-button>
+        <b-button variant="primary" @click="deleteSave()"
+                  :class="{'disabled': !productInformation.deleteValidate || waitingResponse || success}"
+                  :disabled="!productInformation.deleteValidate || waitingResponse || success">
+          <span v-if="!waitingResponse && !Object.keys(exception).length && !success"><b-icon-check2></b-icon-check2> Ürünü Sil</span>
+          <span v-if="!waitingResponse && Object.keys(exception).length"><b-icon-arrow-repeat></b-icon-arrow-repeat> Yeniden Dene</span>
+          <b-col v-if="waitingResponse">
+            <b-spinner></b-spinner>
+            Siliniyor
+          </b-col>
+          <span v-if="success">Silindi</span>
+        </b-button>
+      </template>
+    </b-modal>
   </b-row>
 </template>
 <style>
@@ -227,6 +256,16 @@ export default {
       this.$bvModal.show('product-add-or-edit')
       this.success = false
     },
+    deleteProduct (index) {
+      this.productInformation = {
+        index: index,
+        id: this.productList[index].id,
+        name: this.productList[index].name,
+        deleteValidate: !!this.productList[index].deleteValidate
+      }
+      this.$bvModal.show('product-delete')
+      this.success = false
+    },
     save () {
       const index = this.productInformation.index
       this.waitingResponse = true
@@ -252,6 +291,25 @@ export default {
         this.success = true
         this.waitingResponse = false
         this.$bvModal.hide('product-add-or-edit')
+        this.productInformation = {}
+      }
+    },
+    deleteSave () {
+      const index = this.productInformation.index
+      this.waitingResponse = true
+      this.productInformation.updaterId = this.getSession.userDetails.id
+      this.productInformation.branchId = this.getSession.userDetails.branchId
+      const result = ipcRenderer.sendSync('/deleteProduct', this.productInformation)
+      if (!result.status) {
+        this.exception = result.exception
+        this.success = false
+        this.waitingResponse = false
+      } else {
+        this.productList.splice(index, 1)
+        this.exception = {}
+        this.success = true
+        this.waitingResponse = false
+        this.$bvModal.hide('product-delete')
         this.productInformation = {}
       }
     }

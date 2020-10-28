@@ -166,7 +166,7 @@ export default {
             },
             {
               href: { path: '/ListSegment' },
-              title: 'Müşteri Segmentleri',
+              title: 'Segment Listesi',
               icon: {
                 element: 'b-icon-person-badge'
               }
