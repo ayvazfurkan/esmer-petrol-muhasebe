@@ -1,7 +1,7 @@
 <template>
   <sidebar-menu :menu="menu" :collapsed="true" theme="white-theme" class="no-drag">
-    <span slot="toggle-icon"><i class="ri-apps-line"></i></span>
-    <span slot="dropdown-icon"><i class="ri-arrow-right-s-line"></i></span>
+    <span slot="toggle-icon"><b-icon-app></b-icon-app></span>
+    <span slot="dropdown-icon"><b-icon-arrow-right-short></b-icon-arrow-right-short></span>
   </sidebar-menu>
 </template>
 <style>
@@ -11,7 +11,8 @@
 
 .v-sidebar-menu .vsm--link_level-1 .vsm--icon {
   background: none !important;
-  font-size: 1.6rem;
+  font-size: 22px;
+  height: 22px;
 }
 
 .v-sidebar-menu .vsm--link_level-1 .vsm--icon:hover {

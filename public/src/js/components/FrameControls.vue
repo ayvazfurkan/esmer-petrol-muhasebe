@@ -16,7 +16,9 @@
           <template v-slot:button-content>
             <b-icon-person class="text-primary"></b-icon-person>
           </template>
-          <b-dropdown-item href="#"></b-dropdown-item>
+          <b-dropdown-item href="#">
+            <b-icon-person></b-icon-person> {{ getSession.userDetails.name }}
+          </b-dropdown-item>
           <b-dropdown-item href="#" @click="logout">
             <b-icon-box-arrow-left></b-icon-box-arrow-left>
             Güvenli Çıkış

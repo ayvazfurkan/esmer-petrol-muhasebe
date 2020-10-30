@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
+const os = require('os')
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -19,7 +20,9 @@ app.whenReady().then(createWindow)
 
 app.on('ready', () => {
   if (process.env.NODE_ENV !== 'production') {
-    require('vue-devtools').install()
+    BrowserWindow.addDevToolsExtension(
+      path.join(os.homedir(), '/AppData/Local/Google/Chrome/User Data/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/5.3.3_0')
+    )
   }
 })
 

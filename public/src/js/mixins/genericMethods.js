@@ -1,6 +1,13 @@
 import { ipcRenderer } from 'electron'
 
 const genericMethods = {
+  data () {
+    return {
+      loading: false,
+      errors: {},
+      success: false
+    }
+  },
   methods: {
     invalidIcon (property, defaultIcon) {
       return !property ? defaultIcon : 'ri-error-warning-line text-danger'
@@ -23,7 +30,7 @@ const genericMethods = {
         })
       }).then(result => {
         this.customerList = []
-        for (let customer of result.result) {
+        for (const customer of result.result) {
           this.customerList.push({
             id: customer.id,
             name: customer.name.concat(' ', customer.surname)
