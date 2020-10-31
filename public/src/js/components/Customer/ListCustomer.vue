@@ -34,36 +34,32 @@
     </b-col>
     <b-col cols="12">
       <b-card>
-        <b-card-body>
-          <div class="table-responsive" v-if="customerList.length > 0">
-            <table class="table table-hover table-bordered table-striped">
-              <thead>
-              <tr>
-                <th>#</th>
-                <th>İsim / Unvan</th>
-                <th>Yetkili</th>
-                <th>TRY Bakiyesi</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr v-for="(customer,i) in customerList" :key="i">
-                <th>{{ i + 1 }}</th>
-                <td style="text-transform: capitalize">{{ customer.name }}</td>
-                <td>{{ customer.authorizedPersonName }}</td>
-                <td>0,00</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
+        <b-table-simple hover bordered striped small responsive="true" v-if="customerList.length > 0">
+          <b-thead>
+            <b-tr>
+              <b-th>#</b-th>
+              <b-th>İsim / Unvan</b-th>
+              <b-th>Yetkili</b-th>
+              <b-th>TL Bakiyesi</b-th>
+            </b-tr>
+          </b-thead>
+          <b-tbody>
+            <b-tr v-for="(customer,i) in customerList" :key="i" @click="detail (customer.id)">
+              <b-th>{{ i + 1 }}</b-th>
+              <b-td style="text-transform: capitalize">{{ customer.name }}</b-td>
+              <b-td>{{ customer.authorizedPersonName }}</b-td>
+              <b-td>0,00</b-td>
+            </b-tr>
+          </b-tbody>
+        </b-table-simple>
           <div v-else>
             <div class="text-primary"></div>
             <b-skeleton-table
                 :rows="10"
-                :columns="5"
+                :columns="4"
                 :table-props="{ bordered: true, striped: true }"
             ></b-skeleton-table>
           </div>
-        </b-card-body>
       </b-card>
     </b-col>
   </b-row>
@@ -124,7 +120,7 @@ export default {
       this.segmentList[i].status = !this.segmentList[i].status
     },
     detail (customerId) {
-      this.$router.push('/DetailCustomer/' + customerId)
+      this.$router.push('/SummaryCustomer/' + customerId)
     },
     newCustomer () {
       this.$router.push('/NewCustomer')

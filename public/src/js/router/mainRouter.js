@@ -5,7 +5,7 @@ import NewCustomer from '../components/Customer/CreateCustomer.vue'
 import ListCustomer from '../components/Customer/ListCustomer.vue'
 import ListSegment from '../components/Customer/ListSegment.vue'
 import NewSegment from '../components/Customer/CreateSegment.vue'
-import DetailCustomer from '../components/Customer/DetailCustomer.vue'
+import SummaryCustomer from '../components/Customer/SummaryCustomer.vue'
 import DetailSegment from '../components/Customer/DetailSegment.vue'
 import CashInFlow from '../components/Cash/InFlow.vue'
 import CashOutFlow from '../components/Cash/OutFlow.vue'
@@ -43,8 +43,8 @@ const router = new VueRouter({
       component: ListCustomer
     },
     {
-      path: '/DetailCustomer/:id',
-      component: DetailCustomer
+      path: '/SummaryCustomer/:id',
+      component: SummaryCustomer
     },
     {
       path: '/ListSegment',

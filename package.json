@@ -58,6 +58,7 @@
     "sass-loader": "^8.0.2",
     "sqlite3": "^4.1.1",
     "typeface-inter": "^3.12.0",
+    "update": "^0.7.4",
     "url-loader": "^4.1.0",
     "vue": "^2.6.11",
     "vue-currency-input": "^1.18.3",
