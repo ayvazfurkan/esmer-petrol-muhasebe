@@ -1,9 +1,129 @@
 <template>
   <sidebar-menu :menu="menu" :collapsed="true" theme="white-theme" class="no-drag">
-    <span slot="toggle-icon"><i class="ri-apps-line"></i></span>
-    <span slot="dropdown-icon"><i class="ri-arrow-right-s-line"></i></span>
+    <span slot="toggle-icon"><b-icon-command></b-icon-command></span>
+    <span slot="dropdown-icon"><b-icon-arrow-right-short></b-icon-arrow-right-short></span>
   </sidebar-menu>
 </template>
+<script>
+import { mapGetters } from 'vuex'
+import { SidebarMenu } from 'vue-sidebar-menu'
+
+export default {
+  data () {
+    return {
+      menu: [
+        {
+          title: '',
+          hiddenOnCollapse: true
+        },
+        {
+          href: { path: '/Dashboard' },
+          title: 'Gösterge Paneli',
+          icon: {
+            element: 'b-icon-house'
+          }
+        },
+        {
+          href: '',
+          title: 'Müşteriler',
+          icon: {
+            element: 'b-icon-people'
+          },
+          child: [
+            {
+              href: { path: '/NewCustomer' },
+              title: 'Yeni Müşteri Ekle',
+              icon: {
+                element: 'b-icon-person-plus'
+              }
+            },
+            {
+              href: { path: '/ListCustomer' },
+              title: 'Müşteri Listesi',
+              icon: {
+                element: 'b-icon-person'
+              }
+            },
+            {
+              href: { path: '/ListSegment' },
+              title: 'Segment Listesi',
+              icon: {
+                element: 'b-icon-person-badge'
+              }
+            }
+          ]
+        },
+        {
+          href: '',
+          title: 'Personeller',
+          icon: {
+            element: 'b-icon-diagram3'
+          },
+          child: [
+            {
+              href: { path: '/Salesofficer' },
+              title: 'Akaryakıt Satış Görevlileri',
+              icon: {
+                element: 'b-icon-person'
+              }
+            }
+          ]
+        },
+        {
+          href: '',
+          title: 'Pompa Ürünleri',
+          icon: {
+            element: 'b-icon-droplet'
+          },
+          child: [
+            {
+              href: { path: '/ListProduct' },
+              title: 'Ürün Listesi',
+              icon: {
+                element: 'b-icon-droplet-half'
+              }
+            }
+          ]
+        },
+        {
+          href: '',
+          title: 'Kasa İşlemleri',
+          icon: {
+            element: 'b-icon-phone-landscape'
+          },
+          child: [
+            {
+              href: { path: '/Cash/InFlow' },
+              title: 'Tahsilat İşlemi',
+              icon: {
+                element: 'b-icon-wallet'
+              }
+            },
+            {
+              href: { path: '/Cash/OutFlow' },
+              title: 'Tediye İşlemi',
+              icon: {
+                element: 'b-icon-receipt'
+              }
+            }
+          ]
+        },
+        {
+          href: { path: '/' },
+          title: 'Ayarlar',
+          icon: {
+            element: 'b-icon-gear'
+          }
+        }
+      ]
+    }
+  },
+  components: { SidebarMenu },
+  computed: {
+    ...mapGetters(['getSession'])
+  }
+}
+</script>
 <style>
 .v-sidebar-menu * {
   outline: none;
@@ -132,80 +252,3 @@
 }
 
 </style>
-<script>
-import { mapGetters } from 'vuex'
-import { SidebarMenu } from 'vue-sidebar-menu'
-
-export default {
-  data () {
-    return {
-      menu: [
-        {
-          title: '',
-          hiddenOnCollapse: true
-        },
-        {
-          href: '',
-          title: 'Müşteriler',
-          icon: 'ri-user-3-line',
-          child: [
-            {
-              href: { path: '/NewCustomer' },
-              title: 'Yeni Müşteri Ekle',
-              icon: 'ri-user-add-line'
-            },
-            {
-              href: { path: '/ListCustomer' },
-              title: 'Müşteri Listesi',
-              icon: 'ri-group-line'
-            },
-            {
-              href: { path: '/ListSegment' },
-              title: 'Müşteri Segmentleri',
-              icon: 'ri-group-2-line'
-            },
-          ]
-        },
-        {
-          href: '',
-          title: 'Kasa İşlemleri',
-          icon: 'ri-safe-line',
-          child: [
-            {
-              href: { path: '/Cash/InFlow' },
-              title: 'Tahsilat İşlemi',
-              icon: 'ri-refund-line'
-            },
-            {
-              href: { path: '/Cash/OutFlow' },
-              title: 'Tediye İşlemi',
-              icon: 'ri-coupon-3-line'
-            },
-          ]
-        },
-        {
-          href: '',
-          title: 'Stok',
-          icon: 'ri-stack-line',
-          child: [
-            {
-              href: { path: '/Warehouse/List' },
-              title: 'Depolar',
-              icon: 'ri-home-6-line'
-            },
-            {
-              href: { path: '/Warehouse/ProductList' },
-              title: 'Ürünler',
-              icon: 'ri-home-6-line'
-            }
-          ]
-        },
-      ]
-    }
-  },
-  components: { SidebarMenu },
-  computed: {
-    ...mapGetters(['getSession'])
-  }
-}
-</script>

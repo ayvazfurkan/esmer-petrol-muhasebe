@@ -10,28 +10,28 @@
     </div>
 </template>
 <script>
-    import {ipcRenderer} from "electron";
-    import {mapGetters} from "vuex";
-    import genericMethods from "../../mixins/genericMethods";
+import { ipcRenderer } from 'electron'
+import { mapGetters } from 'vuex'
+import genericMethods from '../../mixins/genericMethods'
 
-    export default {
-        data() {
-            return {
-                detail: {}
-            }
-        },
-        computed: {
-            ...mapGetters(["getSession"])
-        },
-        mounted() {
-            this.getCustomer()
-        },
-        methods: {
-            getCustomer() {
-                let result = ipcRenderer.sendSync("/getCustomerDetail", {id: this.$route.params.id})
-                this.detail = result.result
-            }
-        },
-        mixins: [genericMethods],
+export default {
+  data () {
+    return {
+      detail: {}
     }
+  },
+  computed: {
+    ...mapGetters(['getSession'])
+  },
+  mounted () {
+    this.getCustomer()
+  },
+  methods: {
+    getCustomer () {
+      const result = ipcRenderer.sendSync('/getCustomerDetail', { id: this.$route.params.id })
+      this.detail = result.result
+    }
+  },
+  mixins: [genericMethods]
+}
 </script>

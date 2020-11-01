@@ -10,10 +10,13 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: true
     },
-    icon: path.join(__dirname, "./public/static/img/logo.png")
+    icon: path.join(__dirname, './public/static/img/logo.png'),
+    show: false
   })
-  win.loadFile("./public/static/template/index.html")
-  // win.webContents.openDevTools()
+  win.loadFile('./public/static/template/index.html').then()
+  win.once('ready-to-show', () => {
+    win.show()
+  })
 }
 app.allowRendererProcessReuse = true;
 app.whenReady().then(createWindow)
@@ -37,10 +40,12 @@ app.on("activate", () => {
 })
 
 // ipcRenderer - ipcMain Process
-require("./lib/dist/controller/Database")
-require("./lib/dist/controller/Helper")
-require("./lib/dist/controller/Authentication")
-require("./lib/dist/controller/HazelnutIncome")
-require("./lib/dist/controller/Customer")
-require("./lib/dist/controller/Cash")
-require("./lib/dist/controller/Stock")
+require('./lib/dist/controller/Database')
+require('./lib/dist/controller/Helper')
+require('./lib/dist/controller/Authentication')
+require('./lib/dist/controller/Customer')
+require('./lib/dist/controller/Cash')
+require('./lib/dist/controller/Product')
+require('./lib/dist/controller/Salesofficer')
+require('./lib/dist/controller/OnCredit')
+require('./lib/dist/controller/Chart')
