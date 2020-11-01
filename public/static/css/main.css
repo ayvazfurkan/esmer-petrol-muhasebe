@@ -57,7 +57,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     border-bottom: none;
 }
 
-.accordion > .card:not(:last-of-type) {
+    .accordion > .card:not(:last-of-type) {
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
 }
@@ -80,8 +80,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-size: 12px
 }
 
-.s-12 {
-    font-size: 12px
+.cursor-pointer{
+    cursor: pointer
+}
+div.dropdown-items{
+    max-height: 300px;
+    overflow-x: scroll;
 }
 
 .pointer {

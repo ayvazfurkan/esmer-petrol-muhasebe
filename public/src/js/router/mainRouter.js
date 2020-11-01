@@ -1,3 +1,4 @@
+import SummaryCustomer from '../components/Customer/SummaryCustomer.vue'
 import VueRouter from 'vue-router'
 import Login from '../components/Login/Login.vue'
 import DatabaseConnector from '../components/Database/Connector.vue'
@@ -44,10 +45,6 @@ const router = new VueRouter({
       component: ListCustomer
     },
     {
-      path: '/DetailCustomer/:id',
-      component: DetailCustomer
-    },
-    {
       path: '/ListSegment',
       component: ListSegment
     },
@@ -78,8 +75,13 @@ const router = new VueRouter({
     {
       path: '/Dashboard',
       component: Dashboard
-    }
+    },
+    {
+      path: '/SummaryCustomer/:id',
+      component: SummaryCustomer
+    },
   ]
+
 })
 
 export default router

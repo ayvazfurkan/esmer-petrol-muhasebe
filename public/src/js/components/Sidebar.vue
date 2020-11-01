@@ -131,7 +131,8 @@ export default {
 
 .v-sidebar-menu .vsm--link_level-1 .vsm--icon {
   background: none !important;
-  font-size: 1.6rem;
+  font-size: 22px;
+  height: 22px;
 }
 
 .v-sidebar-menu .vsm--link_level-1 .vsm--icon:hover {
@@ -244,7 +245,6 @@ export default {
 .v-sidebar-menu.vsm_collapsed .vsm--link_level-1.vsm--link_hover .vsm--icon, .v-sidebar-menu.vsm_collapsed .vsm--link_level-1:hover .vsm--icon {
   color: #007bff !important;
 }
-
 
 .v-sidebar-menu .slide-animation-enter-active {
   -webkit-animation: slide-animation 0.1s;

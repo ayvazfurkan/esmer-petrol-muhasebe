@@ -4,9 +4,9 @@
     <b-col cols="12" class="mb-3">
       <b-row class="pt-3 pb-2">
         <b-col class="align-self-center">
-          <h6 class="text-transparent mb-0">Müşteriler \ <span v-if="!userInformation.id">Yeni Müşteri Ekle</span><span
-              v-if="userInformation.id">Müşteri Düzenle</span><span class="text-capitalize" v-if="userInformation.name"> \ {{
-              userInformation.name
+          <h6 class="text-transparent mb-0">Müşteriler \ <span v-if="!customerInformation.id">Yeni Müşteri Ekle</span><span
+              v-if="customerInformation.id">Müşteri Düzenle</span><span class="text-capitalize" v-if="customerInformation.name"> \ {{
+              customerInformation.name
             }}</span>
           </h6>
         </b-col>
@@ -16,7 +16,7 @@
           <b-col md="6">
             <label>Müşteri Adı/Unvanı <span class="text-danger">*</span></label>
             <b-input-group class="mb-3">
-              <b-input class="text-capitalize" v-model="userInformation.name"></b-input>
+              <b-input class="text-capitalize" v-model="customerInformation.name"></b-input>
               <b-input-group-text>
                 <b-icon-person></b-icon-person>
               </b-input-group-text>
@@ -26,7 +26,7 @@
           <b-col md="3">
             <label>Yetkili Adı</label>
             <b-input-group class="mb-3">
-              <b-input class="text-capitalize" v-model="userInformation.authorizedPersonName"></b-input>
+              <b-input class="text-capitalize" v-model="customerInformation.authorizedPersonName"></b-input>
               <b-input-group-text>
                 <b-icon-person-circle></b-icon-person-circle>
               </b-input-group-text>
@@ -36,7 +36,7 @@
           <b-col md="3">
             <label>Cep Telefonu <span class="text-danger">*</span></label>
             <b-input-group class="mb-3">
-              <b-input v-model="userInformation.gsm"></b-input>
+              <b-input v-model="customerInformation.gsm"></b-input>
               <b-input-group-text>
                 <b-icon-phone></b-icon-phone>
               </b-input-group-text>
@@ -47,7 +47,7 @@
             <label>TC Kimlik Numarası</label>
             <b-input-group class="mb-3">
               <b-input maxlength="11" minlength="11"
-                       v-model="userInformation.citizenIdentification"
+                       v-model="customerInformation.citizenIdentification"
               ></b-input>
               <b-input-group-text>
                 <b-icon-credit-card2-front></b-icon-credit-card2-front>
@@ -59,7 +59,7 @@
           <b-col md="3">
             <label>Doğum Tarihi</label>
             <b-input-group class="mb-3">
-              <date-picker v-model="userInformation.birthDate" format="DD.MM.YYYY"
+              <date-picker v-model="customerInformation.birthDate" format="DD.MM.YYYY"
                            input-class="form-control">
                 <b-icon-calendar class="input-group-text ml-1 mr-0 s32" slot="icon-calendar"></b-icon-calendar>
               </date-picker>
@@ -69,7 +69,7 @@
           <b-col md="3">
             <label>Vergi Kimlik Numarası</label>
             <b-input-group class="mb-3">
-              <b-input v-model="userInformation.taxNumber"></b-input>
+              <b-input v-model="customerInformation.taxNumber"></b-input>
               <b-input-group-text>
                 <b-icon-card-text></b-icon-card-text>
               </b-input-group-text>
@@ -79,7 +79,7 @@
           <b-col md="3">
             <label>Vergi Dairesi</label>
             <b-input-group class="mb-3">
-              <b-input class="text-capitalize" v-model="userInformation.taxOffice"></b-input>
+              <b-input class="text-capitalize" v-model="customerInformation.taxOffice"></b-input>
               <b-input-group-text>
                 <b-icon-building></b-icon-building>
               </b-input-group-text>
@@ -89,7 +89,7 @@
           <b-col md="3">
             <label>Vadeli Satış İndirim Oranı (Yüzde%)</label>
             <b-input-group class="mb-3">
-              <b-input v-model="userInformation.forwardSalesDiscountRate"></b-input>
+              <b-input v-model="customerInformation.forwardSalesDiscountRate"></b-input>
               <b-input-group-text>
                 <b-icon-percent></b-icon-percent>
               </b-input-group-text>
@@ -103,7 +103,7 @@
               <b-input min="1"
                        max="1095"
                        type="number"
-                       v-model="userInformation.maxSalesTerm">
+                       v-model="customerInformation.maxSalesTerm">
               </b-input>
               <b-input-group-text>
                 <b-icon-calendar2-plus></b-icon-calendar2-plus>
@@ -113,14 +113,14 @@
           </b-col>
           <b-col cols="6">
             <label>Segment</label>
-            <multiselect v-model="userInformation.segment" tag-placeholder=""
+            <multiselect v-model="customerInformation.segment" tag-placeholder=""
                          placeholder="" label="name" track-by="id" :options="segmentList"
                          selectLabel="Seç"
                          deselectLabel="İptal Et"
                          noResult="Sonuç bulunamadı."
                          selectedLabel="Seçildi"
                          :multiple="true" :taggable="true" @tag="addTag"></multiselect>
-            <pre>{{ userInformation.segment }}</pre>
+            <pre>{{ customerInformation.segment }}</pre>
           </b-col>
           <b-col cols="12">
             <hr/>
@@ -131,7 +131,7 @@
             <label>İl</label>
             <b-input-group class="mb-3">
               <multiselect
-                  v-model="userInformation.provinceId"
+                  v-model="customerInformation.provinceId"
                   placeholder=""
                   :options="provinces"
                   selectLabel="Seçmek için Enter"
@@ -141,7 +141,7 @@
                   track-by="id"
                   label="name"
                   :custom-label="multiselectSearcher"
-                  @input="getDistricts(userInformation.provinceId.id)">
+                  @input="getDistricts(customerInformation.provinceId.id)">
                 <span slot="noOptions">Yazmaya devam edin.</span>
                 <span slot="noResult">Sonuç bulunamadı.</span>
               </multiselect>
@@ -152,7 +152,7 @@
             <label>İlçe</label>
             <b-input-group class="mb-3">
               <multiselect
-                  v-model="userInformation.districtId"
+                  v-model="customerInformation.districtId"
                   placeholder=""
                   :options="districts"
                   selectLabel="Seçmek için Enter"
@@ -171,7 +171,7 @@
           <b-col cols="6">
             <label>Adres</label>
             <b-input-group class="mb-3">
-              <b-textarea v-model="userInformation.address"></b-textarea>
+              <b-textarea v-model="customerInformation.address"></b-textarea>
               <b-input-group-text>
                 <b-icon-geo-alt></b-icon-geo-alt>
               </b-input-group-text>
@@ -184,7 +184,7 @@
             <b-input-group class="mb-3">
               <b-input type="email"
                        class="text-lowercase"
-                       v-model="userInformation.email">
+                       v-model="customerInformation.email">
               </b-input>
               <b-input-group-text>
                 <b-icon-envelope></b-icon-envelope>
@@ -196,7 +196,7 @@
             <label>İş Telefonu</label>
             <b-input-group class="mb-3">
               <b-input maxlength="12"
-                       v-model="userInformation.phone">
+                       v-model="customerInformation.phone">
               </b-input>
               <b-input-group-text>
                 <b-icon-telephone></b-icon-telephone>
@@ -209,7 +209,7 @@
             <b-input-group class="mb-3">
               <b-input type="text"
                        maxlength="12"
-                       v-model="userInformation.fax">
+                       v-model="customerInformation.fax">
               </b-input>
               <b-input-group-text>
                 <b-icon-printer></b-icon-printer>
@@ -226,7 +226,7 @@
             <label>Gider Müşterisi mi?</label>
             <b-input-group class="mb-3">
               <multiselect
-                  v-model="userInformation.expenseClient"
+                  v-model="customerInformation.expenseClient"
                   placeholder=""
                   :options="yesNo"
                   selectLabel="Seç"
@@ -248,8 +248,8 @@
     <b-col cols="12" class="text-right">
       <b-button variant="light" @click="reset">Sıfırla</b-button>
       <b-button variant="primary" @click="save"
-                :class="{'disabled': !userInformation.name || waitingResponse || success}"
-                :disabled="!userInformation.name || waitingResponse || success">
+                :class="{'disabled': !customerInformation.name || waitingResponse || success}"
+                :disabled="!customerInformation.name || waitingResponse || success">
         <span v-if="!waitingResponse && !Object.keys(exception).length && !success">Kaydet</span>
         <span v-if="!waitingResponse && Object.keys(exception).length">Yeniden Dene</span>
         <b-col v-if="waitingResponse">
@@ -275,7 +275,7 @@ export default {
     return {
       detail: {},
       exception: {},
-      userInformation: {
+      customerInformation: {
         expenseClient: {
           id: 0,
           name: 'Hayır'
@@ -304,8 +304,8 @@ export default {
   },
   mixins: [genericMethods],
   mounted () {
-    this.userInformation.creatorId = this.getSession.userDetails.id
-    this.userInformation.branchId = this.getSession.userDetails.branchId
+    this.customerInformation.creatorId = this.getSession.userDetails.id
+    this.customerInformation.branchId = this.getSession.userDetails.branchId
     this.setSegment()
     this.getProvinces()
     this.getCustomer()
@@ -339,7 +339,7 @@ export default {
     },
     save () {
       this.waitingResponse = true
-      const result = ipcRenderer.sendSync('/newCustomer', this.userInformation)
+      const result = ipcRenderer.sendSync('/newCustomer', this.customerInformation)
 
       if (!result.status) {
         this.exception = result.exception
@@ -355,9 +355,9 @@ export default {
       this.success = false
       this.waitingResponse = false
       this.exception = {}
-      this.userInformation = {}
-      this.userInformation.creatorId = this.getSession.userDetails.id
-      this.userInformation.branchId = this.getSession.userDetails.branchId
+      this.customerInformation = {}
+      this.customerInformation.creatorId = this.getSession.userDetails.id
+      this.customerInformation.branchId = this.getSession.userDetails.branchId
     },
     // we coded the functions (which names are getCustomer, getCustomerSegment and getSegmentName) below for the customer edit part
     getCustomer () {
@@ -368,21 +368,21 @@ export default {
             resolve(response)
           })
         }).then(response => {
-          this.userInformation = response.result
-          this.userInformation.segment = []
-          if (this.userInformation.expenseClient === 1) {
-            this.userInformation.expenseClient = {
+          this.customerInformation = response.result
+          this.customerInformation.segment = []
+          if (this.customerInformation.expenseClient === 1) {
+            this.customerInformation.expenseClient = {
               id: 1,
               name: 'Evet'
             }
           } else {
-            this.userInformation.expenseClient = {
+            this.customerInformation.expenseClient = {
               id: 0,
               name: 'Hayır'
             }
           }
-          this.userInformation.forwardSalesDiscountRate = this.userInformation.forwardSalesDiscountRate || ''
-          this.userInformation.maxSalesTerm = this.userInformation.maxSalesTerm || ''
+          this.customerInformation.forwardSalesDiscountRate = this.customerInformation.forwardSalesDiscountRate || ''
+          this.customerInformation.maxSalesTerm = this.customerInformation.maxSalesTerm || ''
           this.getCustomerSegment()
         })
       } else {
@@ -397,12 +397,12 @@ export default {
         })
       }).then(response => {
         for (const segment of response.result) {
-          this.userInformation.segment.push({
+          this.customerInformation.segment.push({
             id: segment.id,
             name: segment.name
           })
         }
-        console.log(this.userInformation.segment)
+        console.log(this.customerInformation.segment)
       })
     }
   }
