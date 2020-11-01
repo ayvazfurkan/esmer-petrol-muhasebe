@@ -1,60 +1,46 @@
 <template>
-    <div class="container-fluid px-0 m-0 frame-menu pr-0 bg-white">
-        <div class="row mx-0">
-            <div class="col-xl-2 col-md-2 align-self-center bg-primary text-white py-4">
-                <i class="ri-menu-2-fill"></i>
-                <span class="app-name">BLX.PETROL</span>
-            </div>
-            <div class="col-xl-4 col-md-5 align-self-center bg-white py-2">
-                <div class="input-group no-drag">
-                    <multiselect
-                            v-model="quickSearch"
-                            placeholder="Hızlı Ara"
-                            :options="searchResults"
-                            selectLabel="Seçmek için Enter"
-                            deselectLabel="İptal için Enter"
-                            noResult="Sonuç bulunamadı."
-                            selectedLabel="Seçildi"
-                            track-by="id"
-                            label="name"
-                            :custom-label="multiselectSearcher"
-                            @search-change="search"
-                            @input="redirect">
-                        <span slot="noOptions">Yazmaya devam edin.</span>
-                        <span slot="noResult">Sonuç bulunamadı.</span>
-                    </multiselect>
-                </div>
-            </div>
-            <div class="col-xl-6 col-md-5 text-right px-0 pt-2 pb-1 bg-white text-primary align-self-center">
-                <span>
-                    <i class="frame-control ri-notification-3-line mr-5"></i>
-                    <i class="frame-control ri-mail-line mr-5"></i>
-                    <i class="frame-control ri-star-line mr-5"></i>
-                    <i class="frame-control ri-settings-5-line mr-5"></i>
-                    <i class="frame-control ri-lock-line mr-5"></i>
-                    <span class="dropdown">
-                        <i class="frame-control ri-user-3-line dropdown-toggle mr-5" data-toggle="dropdown"></i>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <span class="dropdown-item-text"> {{getSession.userDetails.username}}</span>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#" @click="logout">
-                                <i class="ri-logout-box-line"></i> Güvenli Çıkış
-                            </a>
-                        </div>
-                    </span>
-                </span>
-                <span class="frame-control mr-3 ml-5 text-dark" @click="minimize()">
-                    <i class="ri-subtract-line "></i>
-                </span>
-                <span class="frame-control mx-3  text-dark" @click="maximize()">
-                    <i :class="[fullScreen ? 'ri-fullscreen-exit-line' : 'ri-checkbox-blank-line']"></i>
-                </span>
-                <span class="frame-control exit mx-3 text-dark" @click="close()">
-                    <i class="ri-close-line"></i>
-                </span>
-            </div>
-        </div>
-    </div>
+  <b-container fluid="true" class="px-0 m-0 frame-menu pr-0 bg-white w-100">
+    <b-row class="mx-0">
+      <b-col md="2" class="align-self-center py-2">
+        <img src="../../img/logo-blx.png" alt="logo" height="50"/>
+      </b-col>
+      <b-col offset-md="5" md="5" class="text-right align-self-center">
+        <!--        <b-button size="lg" variant="light" class="rounded-circle text-primary">-->
+        <!--          <b-icon-bell class="text-primary"></b-icon-bell>-->
+        <!--        </b-button>-->
+        <!--        <b-button size="lg" variant="light" class="rounded-circle text-primary">-->
+        <!--          <b-icon-gear class="text-primary"></b-icon-gear>-->
+        <!--        </b-button>-->
+        <!--        <b-dropdown size="lg" variant="light" right toggle-class="text-decoration-none text-primary rounded-circle mr-5"-->
+        <!--                    no-caret>-->
+        <!--          <template v-slot:button-content>-->
+        <!--            <b-icon-person class="text-primary"></b-icon-person>-->
+        <!--          </template>-->
+        <!--          <b-dropdown-item href="#">-->
+        <!--            <b-icon-person></b-icon-person> {{ getSession.userDetails.name }}-->
+        <!--          </b-dropdown-item>-->
+        <!--          <b-dropdown-item href="#" @click="logout">-->
+        <!--            <b-icon-box-arrow-left></b-icon-box-arrow-left>-->
+        <!--            Güvenli Çıkış-->
+        <!--          </b-dropdown-item>-->
+        <!--        </b-dropdown>-->
+        <span class="mr-5 no-drag pointer" v-b-popover.hover.left="'Güvenli Çıkış'" @click="logout">
+          <b-icon-person-circle></b-icon-person-circle>
+          {{ getSession.userDetails.username }}
+        </span>
+        <b-button variant="light" class="rounded-circle no-drag" @click="minimize()">
+          <b-icon-dash></b-icon-dash>
+        </b-button>
+        <b-button variant="light" class="rounded-circle no-drag" @click="maximize()">
+          <b-icon-fullscreen v-if="!fullScreen"></b-icon-fullscreen>
+          <b-icon-files v-else></b-icon-files>
+        </b-button>
+        <b-button variant="light" class="rounded-circle no-drag" @click="close()">
+          <b-icon-x></b-icon-x>
+        </b-button>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 <style>
     .frame-menu {
