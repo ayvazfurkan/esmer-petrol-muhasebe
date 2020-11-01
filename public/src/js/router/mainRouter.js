@@ -6,11 +6,10 @@ import NewCustomer from '../components/Customer/CreateCustomer.vue'
 import ListCustomer from '../components/Customer/ListCustomer.vue'
 import ListSegment from '../components/Customer/ListSegment.vue'
 import NewSegment from '../components/Customer/CreateSegment.vue'
-import DetailCustomer from '../components/Customer/DetailCustomer.vue'
 import DetailSegment from '../components/Customer/DetailSegment.vue'
 import CashInFlow from '../components/Cash/InFlow.vue'
 import CashOutFlow from '../components/Cash/OutFlow.vue'
-import ProductList from '../components/Product/ProductList.vue'
+import ListProduct from '../components/Product/ListProduct.vue'
 import Salesofficer from '../components/Staff/Salesofficer.vue'
 import Dashboard from '../components/Dashboard/Dashboard.vue'
 
@@ -65,8 +64,8 @@ const router = new VueRouter({
       component: CashOutFlow
     },
     {
-      path: '/ProductList',
-      component: ProductList
+      path: '/ListProduct',
+      component: ListProduct
     },
     {
       path: '/Salesofficer',
