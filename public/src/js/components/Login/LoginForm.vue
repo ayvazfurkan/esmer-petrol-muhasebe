@@ -114,7 +114,7 @@ export default {
       this.exception = {}
       this.waitingResponse = false
       this.success = true
-      this.$router.push('/NewCustomer')
+      this.$router.push('/Dashboard')
       remote.getCurrentWindow().maximize()
       remote.getCurrentWindow().setMinimumSize(1200, 600)
     },

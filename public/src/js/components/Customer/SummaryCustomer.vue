@@ -4,20 +4,17 @@
     <b-col cols="12" class="mb-3">
       <b-col class="align-self-center">
         <h6 class="text-transparent mb-0 text-capitalize">
-          Müşteriler \ Müşteri Listesi \
-          {{ customer.name }}
+          Müşteriler \ Müşteri Listesi \ {{ customer.name }}
         </h6>
       </b-col>
     </b-col>
-    <b-col cols="12" class="ml-3">
+    <b-col cols="3">
       <b-card v-if="!loadingPage"
-          img-src="https://picsum.photos/600/300/?image=25"
-          :img-alt="customer.name"
-          img-top
-          style="max-width: 20rem;"
-          class="mb-2 float-left"
-      >
-        <h4 class="text-capitalize text-truncate" style="width: 100%" v-b-tooltip
+              img-src="https://picsum.photos/600/300/?image=25"
+              :img-alt="customer.name"
+              img-top
+              class="mb-2">
+        <h4 class="text-capitalize text-truncate" style="width: 100%" v-b-tooltip.leftbottom
             :title="customer.name">
           {{ customer.name }}
         </h4>
@@ -60,113 +57,126 @@
           <b-skeleton></b-skeleton>
         </b-card-body>
       </b-card>
-      <div class="float-left ml-3 col-9" v-if="!loadingPage">
-        <div class="card">
-          <div class="tabs customer_tabs">
-            <div class="card-header">
-              <ul class="nav nav-tabs card-header-tabs">
-                <li class="ml-1 mr-1" v-b-tooltip title="Müşteri hesabına giren çıkan her şey burada gösterilir">
-                  <span class="nav-link cursor-pointer" :class="activeTab === 'summary' ? 'active' : ''"
-                        @click="changeTab('summary')">
+    </b-col>
+    <b-col cols="9">
+      <b-card header-tag="header" v-if="!loadingPage" class="tabs customer_tabs">
+        <template #header>
+          <b-nav tabs class="card-header-tabs">
+            <b-nav-item v-b-tooltip title="Müşteri hesabına giren çıkan her şey burada gösterilir">
+                <span class="nav-link cursor-pointer" :class="activeTab === 'summary' ? 'active' : ''"
+                      @click="changeTab('summary')">
                     <b-icon-card-checklist></b-icon-card-checklist>
                      Hesap Hareketleri
                   </span>
-                </li>
-                <li class="ml-1 mr-1" v-if="plateList.length > 0" v-b-tooltip
-                    title="Hangi Plakalı Aracın ne zaman ne aldığını gösterir">
-                  <div class="btn-group">
-                    <span id="plateListGroupDrop" class="nav-link cursor-pointer dropdown-toggle"
-                          :class="activeTab === 'plateList' ? 'active' : ''" data-toggle="dropdown" aria-haspopup="true"
-                          aria-expanded="false">
+            </b-nav-item>
+            <b-nav-item v-if="plateList.length > 0" v-b-tooltip
+                        title="Hangi Plakalı Aracın ne zaman ne aldığını gösterir">
+              <b-dropdown variant="link" toggle-class="text-decoration-none">
+                <template #button-content>
+                 <span :class="activeTab === 'plateList' ? 'active' : ''">
                       <b-icon-truck></b-icon-truck>
                        Plakalar ({{ plateList.length }})
                     </span>
-                    <div class="dropdown-menu" aria-labelledby="plateListGroupDrop">
-                      <div>
-                        <label>
-                          <input type="text" class="form-control" v-model="plateSearchQuery"
-                                 placeholder="Plaka yazın"
-                          />
-                        </label>
-                      </div>
-                      <div class="dropdown-items">
-                        <a class="dropdown-item cursor-pointer" @click="changeTab('plateList', item.id)"
-                           v-for="item in searchPlate">
-                          <b-icon-truck-flatbed></b-icon-truck-flatbed>
-                          {{ item.plate }}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="ml-1 mr-1" v-if="driverList.length > 0" v-b-tooltip
-                    title="Hangi Şoförün ne zaman ne aldığını gösterir">
-                  <div class="btn-group" role="group">
-                    <span id="driverListGroupDrop" class="nav-link cursor-pointer dropdown-toggle"
-                          :class="activeTab === 'driverList' ? 'active' : ''" data-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false">
-                      <b-icon-people></b-icon-people>
+                </template>
+                <b-dropdown-form>
+                  <b-input v-model="plateSearchQuery" placeholder="Plaka yazın"></b-input>
+                </b-dropdown-form>
+                <b-dropdown-item @click="changeTab('plateList', item.id)"
+                                 v-for="item in searchPlate" :key="item.id">
+                  <b-icon-truck-flatbed></b-icon-truck-flatbed>
+                  {{ item.plate }}
+                </b-dropdown-item>
+              </b-dropdown>
+            </b-nav-item>
+            <b-nav-item v-if="driverList.length > 0" v-b-tooltip
+                        title="Hangi Şoförün ne zaman ne aldığını gösterir">
+              <b-dropdown variant="link" toggle-class="text-decoration-none">
+                <template #button-content>
+                 <span :class="activeTab === 'driverList' ? 'active' : ''">
+                       <b-icon-people></b-icon-people>
                        Şoförler ({{ driverList.length }})
                     </span>
-                    <div class="dropdown-menu" aria-labelledby="driverListGroupDrop">
-                      <div>
-                        <label>
-                          <input type="text" class="form-control" v-model="driverSearchQuery"
-                                 placeholder="Şoför adı yazın"
-                          />
-                        </label>
-                      </div>
-                      <div class="dropdown-items">
-                        <a class="dropdown-item cursor-pointer" @click="changeTab('driverList', item.id)"
-                           v-for="item in searchDriver">
-                          <b-icon-person></b-icon-person>
-                          {{ item.name }}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="tab-content p-3">
-              <template>
-                <div v-if="summaryList.length">
-                  <table class="table table-hover table-striped table-bordered table-sm">
-                    <thead>
-                      <tr>
-                        <th>Id</th>
-                        <th>İşlem Yapan</th>
-                        <th>Tutar</th>
-                        <th>Bakiye</th>
-                        <th>Açıklama</th>
-                        <th>İşlem Zamanı</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="row in summaryList">
-                        <td>{{ row.id }}</td>
-                        <td><b-icon-person></b-icon-person> {{ row.name }}</td>
-                        <td :class="row.amount < 0 ? 'text-danger' : 'text-success'">{{ row.amount > 0 ? '+' : '' }}{{ row.amount }}</td>
-                        <td><b>{{ totalAmount }}</b></td>
-                        <td>{{ row.description }}</td>
-                        <td>{{ moment(row.createDate).format('LL HH:mm') }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </template>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="float-left ml-3 col-9" v-if="loadingPage">
+                </template>
+                <b-dropdown-form>
+                  <b-input v-model="driverSearchQuery" placeholder="Şoför adı yazın"></b-input>
+                </b-dropdown-form>
+                <b-dropdown-item @click="changeTab('driverList', item.id)"
+                                 v-for="item in searchDriver" :key="item.id">
+                  <b-icon-person></b-icon-person>
+                  {{ item.name }}
+                </b-dropdown-item>
+              </b-dropdown>
+            </b-nav-item>
+          </b-nav>
+        </template>
+        <b-table-simple hover striped bordered small v-if="summaryList.length">
+          <b-thead>
+            <b-tr>
+              <b-th>Id</b-th>
+              <b-th>İşlem Yapan</b-th>
+              <b-th>Tutar</b-th>
+              <b-th>Bakiye</b-th>
+              <b-th>Açıklama</b-th>
+              <b-th>İşlem Zamanı</b-th>
+            </b-tr>
+          </b-thead>
+          <b-tbody>
+            <b-tr v-for="row in summaryList" :key="row.id">
+              <b-td>{{ row.id }}</b-td>
+              <b-td>
+                <b-icon-person></b-icon-person>
+                {{ row.name }}
+              </b-td>
+              <b-td :class="row.amount < 0 ? 'text-danger' : 'text-success'">{{
+                  row.amount > 0 ? '+' : ''
+                }}{{ row.amount }}
+              </b-td>
+              <b-td>{{ row.balance }}</b-td>
+              <b-td>{{ row.description }}</b-td>
+              <b-td>{{ moment(row.createDate).format('LL HH:mm') }}</b-td>
+            </b-tr>
+          </b-tbody>
+        </b-table-simple>
         <b-skeleton-table
+            v-if="loadingPage"
             :rows="7"
             :columns="6"
-            :table-props="{ bordered: true, striped: true }"
-        ></b-skeleton-table>
-      </div>
+            :table-props="{ bordered: true, striped: true }"></b-skeleton-table>
+        <b-button-toolbar class="float-right" :class="summaryInfo.loading ? 'disabled' : ''">
+          <b-button-group class="mx-1">
+            <b-button variant="secondary" :class="{'disabled': summaryInfo.pageNumber === 1}"
+                      @click="getCustomerSummary(1)">
+              <b-icon-chevron-double-left></b-icon-chevron-double-left>
+            </b-button>
+            <b-button variant="secondary" :class="{'disabled': summaryInfo.pageNumber === 1}"
+                      @click="getCustomerSummary(summaryInfo.pageNumber-1)">
+              <b-icon-chevron-left></b-icon-chevron-left>
+            </b-button>
+          </b-button-group>
+          <b-button-group class="mx-1">
+            <b-button variant="secondary" @click="getCustomerSummary(summaryInfo.pageNumber-1)"
+                      v-if="summaryInfo.pageNumber-1 !== 0">{{ summaryInfo.pageNumber - 1 }}
+            </b-button>
+            <b-button variant="secondary" @click="getCustomerSummary(summaryInfo.pageNumber)">
+              {{ summaryInfo.pageNumber }}
+            </b-button>
+            <b-button variant="secondary" @click="getCustomerSummary(summaryInfo.pageNumber+1)"
+                      v-if="summaryInfo.pageNumber+1 <= summaryInfo.pageCount">
+              {{ summaryInfo.pageNumber + 1 }}
+            </b-button>
+          </b-button-group>
+          <b-button-group class="mx-1">
+            <b-button variant="secondary" @click="getCustomerSummary(summaryInfo.pageNumber+1)">
+              <b-icon-chevron-right></b-icon-chevron-right>
+            </b-button>
+            <b-button variant="secondary"
+                      :class="{'disabled': (summaryInfo.pageNumber === summaryInfo.pageCount)}"
+                      @click="getCustomerSummary(summaryInfo.pageCount)">
+              <b-icon-chevron-double-right></b-icon-chevron-double-right>
+            </b-button>
+          </b-button-group>
+        </b-button-toolbar>
+      </b-card>
     </b-col>
   </b-row>
 </template>
@@ -180,8 +190,11 @@ export default {
   data () {
     return {
       summaryInfo: {
-        dataPerPage: 10,
-        pageNumber: 0
+        dataPerPage: 1,
+        pageNumber: 1,
+        queryTime: 0,
+        loading: false,
+        pageCount: 0
       },
       loadingPage: true,
       activeTab: 'summary',
@@ -198,7 +211,6 @@ export default {
     moment () {
       return moment
     },
-    totalAmount: 0,
     searchPlate () {
       if (this.plateSearchQuery) {
         return this.plateList.filter((item) => {
@@ -235,7 +247,10 @@ export default {
         return false
       })
     },
-    getCustomerSummary () {
+    getCustomerSummary: function (newPageNumber) {
+      this.summaryInfo.loading = true
+      newPageNumber = newPageNumber || 1
+      this.summaryInfo.pageNumber = newPageNumber
       ipcRenderer.send('/getCustomerSummary', {
         customerId: this.$route.params.id,
         dataPerPage: this.summaryInfo.dataPerPage,
@@ -247,6 +262,8 @@ export default {
         })
       }).then(result => {
         this.summaryList = result.result
+        this.summaryInfo.loading = false
+        this.summaryInfo.pageCount = result.pageCount
         return false
       })
     },
@@ -281,3 +298,17 @@ export default {
   mixins: [genericMethods]
 }
 </script>
+<style>
+.card-header {
+  padding-bottom: 4px !important;
+}
+
+.nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
+  border-color: rgba(0, 0, 0, 0) !important;
+}
+
+.btn-link {
+  font-weight: 400 !important;
+  color: #444 !important;
+}
+</style>
