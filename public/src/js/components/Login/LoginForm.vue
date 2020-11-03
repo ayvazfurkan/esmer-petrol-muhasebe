@@ -124,4 +124,47 @@
         },
         mixins: [genericMethods],
     }
+  },
+  computed: {
+    ...mapGetters(['getSession'])
+  },
+  mounted () {
+    this.$refs.usernameInput.focus()
+    if (this.getSession.userDetails) {
+      this.login()
+    }
+  },
+  methods: {
+    ...mapActions(['appendSession']),
+    authenticate () {
+      const result = ipcRenderer.sendSync('/auth', this.user)
+      this.waitingResponse = true
+      if (!result.status) {
+        setTimeout(() => {
+          this.exception = result.exception
+          this.waitingResponse = false
+        }, 1000)
+        return false
+      } else {
+        setTimeout(() => {
+          this.appendSession({ userDetails: result.userDetails[0] })
+          this.login()
+        }, 1000)
+        return false
+      }
+    },
+    login () {
+      this.exception = {}
+      this.waitingResponse = false
+      this.success = true
+      this.$router.push('/Dashboard')
+      remote.getCurrentWindow().maximize()
+      remote.getCurrentWindow().setMinimumSize(1200, 600)
+    },
+    closeApp () {
+      remote.getCurrentWindow().close()
+    }
+  },
+  mixins: [genericMethods]
+}
 </script>
