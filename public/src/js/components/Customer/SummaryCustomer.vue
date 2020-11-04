@@ -141,41 +141,26 @@
             v-if="loadingPage"
             :rows="7"
             :columns="6"
-            :table-props="{ bordered: true, striped: true }"></b-skeleton-table>
-        <b-button-toolbar class="float-right" :class="summaryInfo.loading ? 'disabled' : ''">
-          <b-button-group class="mx-1">
-            <b-button variant="secondary" :class="{'disabled': summaryInfo.pageNumber === 1}"
-                      @click="getCustomerSummary(1)">
-              <b-icon-chevron-double-left></b-icon-chevron-double-left>
-            </b-button>
-            <b-button variant="secondary" :class="{'disabled': summaryInfo.pageNumber === 1}"
-                      @click="getCustomerSummary(summaryInfo.pageNumber-1)">
-              <b-icon-chevron-left></b-icon-chevron-left>
-            </b-button>
-          </b-button-group>
-          <b-button-group class="mx-1">
-            <b-button variant="secondary" @click="getCustomerSummary(summaryInfo.pageNumber-1)"
-                      v-if="summaryInfo.pageNumber-1 !== 0">{{ summaryInfo.pageNumber - 1 }}
-            </b-button>
-            <b-button variant="secondary" @click="getCustomerSummary(summaryInfo.pageNumber)">
-              {{ summaryInfo.pageNumber }}
-            </b-button>
-            <b-button variant="secondary" @click="getCustomerSummary(summaryInfo.pageNumber+1)"
-                      v-if="summaryInfo.pageNumber+1 <= summaryInfo.pageCount">
-              {{ summaryInfo.pageNumber + 1 }}
-            </b-button>
-          </b-button-group>
-          <b-button-group class="mx-1">
-            <b-button variant="secondary" @click="getCustomerSummary(summaryInfo.pageNumber+1)">
-              <b-icon-chevron-right></b-icon-chevron-right>
-            </b-button>
-            <b-button variant="secondary"
-                      :class="{'disabled': (summaryInfo.pageNumber === summaryInfo.pageCount)}"
-                      @click="getCustomerSummary(summaryInfo.pageCount)">
-              <b-icon-chevron-double-right></b-icon-chevron-double-right>
-            </b-button>
-          </b-button-group>
-        </b-button-toolbar>
+            :table-props="{ bordered: true, striped: true }">
+        </b-skeleton-table>
+        <div class="float-left" v-if="summaryInfo.loading">
+          <b-spinner></b-spinner>
+          Yükleniyor..
+        </div>
+        <div class="float-left" v-else><small>Toplam {{ summaryInfo.rowCount }} kayıt {{ summaryInfo.queryTime }}
+          saniyede okundu.</small></div>
+        <b-pagination
+            v-model="summaryInfo.pageNumber"
+            :total-rows="summaryInfo.rowCount"
+            :per-page="summaryInfo.dataPerPage"
+            first-text="İlk"
+            prev-text="Geri"
+            next-text="İleri"
+            last-text="Son"
+            class="float-right"
+            :class="summaryInfo.loading === true ? 'disabled' : ''"
+            @input="getCustomerSummary(summaryInfo.pageNumber)"
+        ></b-pagination>
       </b-card>
     </b-col>
   </b-row>
@@ -190,11 +175,14 @@ export default {
   data () {
     return {
       summaryInfo: {
-        dataPerPage: 1,
-        pageNumber: 1,
+        plateId: 0,
+        driverId: 0,
+        dataPerPage: 2,
+        pageNumber: 0,
         queryTime: 0,
-        loading: false,
-        pageCount: 0
+        pageCount: 0,
+        rowCount: 0,
+        loading: false
       },
       loadingPage: true,
       activeTab: 'summary',
@@ -242,17 +230,18 @@ export default {
         })
       }).then(result => {
         this.customer = result.result
-        this.getCustomerSummary()
+        this.getCustomerSummary(this.summaryInfo.pageNumber)
         this.getCustomerPlates()
         return false
       })
     },
     getCustomerSummary: function (newPageNumber) {
       this.summaryInfo.loading = true
-      newPageNumber = newPageNumber || 1
       this.summaryInfo.pageNumber = newPageNumber
       ipcRenderer.send('/getCustomerSummary', {
         customerId: this.$route.params.id,
+        plateId: this.summaryInfo.plateId,
+        driverId: this.summaryInfo.driverId,
         dataPerPage: this.summaryInfo.dataPerPage,
         pageNumber: this.summaryInfo.pageNumber
       })
@@ -264,6 +253,9 @@ export default {
         this.summaryList = result.result
         this.summaryInfo.loading = false
         this.summaryInfo.pageCount = result.pageCount
+        this.summaryInfo.pageNumber = result.pageNumber
+        this.summaryInfo.rowCount = result.rowCount
+        this.summaryInfo.queryTime = result.queryTime
         return false
       })
     },
@@ -293,6 +285,21 @@ export default {
     },
     changeTab (tabName, id) {
       this.activeTab = tabName
+      if (tabName === 'summary') {
+        this.summaryInfo.plateId = this.summaryInfo.driverId = 0
+        this.getCustomerSummary(0)
+        return false
+      } else if (tabName === 'plateList') {
+        this.summaryInfo.driverId = 0
+        this.summaryInfo.plateId = id
+        this.getCustomerSummary(0)
+        return false
+      } else if (tabName === 'driverList') {
+        this.summaryInfo.plateId = 0
+        this.summaryInfo.driverId = id
+        this.getCustomerSummary(0)
+        return false
+      }
     }
   },
   mixins: [genericMethods]
