@@ -43,8 +43,8 @@
           Düzenle
         </b-button>
       </b-card>
-      <b-card no-body img-top class="mb-2 float-left" style="width:280px" v-if="loadingPage">
-        <b-skeleton-img card-img="top" aspect="3:2"></b-skeleton-img>
+      <b-card v-if="loadingPage">
+        <b-skeleton-img card-img="top" aspect="4:2"></b-skeleton-img>
         <b-card-body>
           <b-skeleton></b-skeleton>
           <b-skeleton></b-skeleton>
@@ -59,7 +59,7 @@
       </b-card>
     </b-col>
     <b-col cols="9">
-      <b-card header-tag="header" v-if="!loadingPage" class="tabs customer_tabs">
+      <b-card header-tag="header" class="tabs customer_tabs" v-if="!loadingPage">
         <template #header>
           <b-nav tabs class="card-header-tabs">
             <b-nav-item v-b-tooltip title="Müşteri hesabına giren çıkan her şey burada gösterilir">
@@ -73,7 +73,7 @@
                         title="Hangi Plakalı Aracın ne zaman ne aldığını gösterir">
               <b-dropdown variant="link" toggle-class="text-decoration-none">
                 <template #button-content>
-                 <span :class="activeTab === 'plateList' ? 'active' : ''">
+                 <span class="nav-link" :class="activeTab === 'plateList' ? 'active' : ''">
                       <b-icon-truck></b-icon-truck>
                        Plakalar ({{ plateList.length }})
                     </span>
@@ -92,7 +92,7 @@
                         title="Hangi Şoförün ne zaman ne aldığını gösterir">
               <b-dropdown variant="link" toggle-class="text-decoration-none">
                 <template #button-content>
-                 <span :class="activeTab === 'driverList' ? 'active' : ''">
+                 <span class="nav-link" :class="activeTab === 'driverList' ? 'active' : ''">
                        <b-icon-people></b-icon-people>
                        Şoförler ({{ driverList.length }})
                     </span>
@@ -109,40 +109,57 @@
             </b-nav-item>
           </b-nav>
         </template>
-        <b-table-simple hover striped bordered small v-if="summaryList.length">
+        <b-table-simple hover striped bordered small>
           <b-thead>
             <b-tr>
               <b-th>Id</b-th>
               <b-th>İşlem Yapan</b-th>
-              <b-th>Tutar</b-th>
-              <b-th>Bakiye</b-th>
+              <b-th>₺ Tutar</b-th>
+              <b-th>₺ Bakiye</b-th>
               <b-th>Açıklama</b-th>
               <b-th>İşlem Zamanı</b-th>
+              <b-th>İşlemler</b-th>
             </b-tr>
           </b-thead>
           <b-tbody>
-            <b-tr v-for="row in summaryList" :key="row.id">
+            <b-tr v-if="summaryList.length" v-for="row in summaryList" :key="row.id">
               <b-td>{{ row.id }}</b-td>
               <b-td>
-                <b-icon-person></b-icon-person>
-                {{ row.name }}
+                <span v-if="row.oncreditId" v-b-tooltip.lefttop title="Akaryakıt Satış Görevlisi">
+                  <b-icon-file-earmark-person :variant="row.amount < 0 ? 'danger' : 'success'"
+                  ></b-icon-file-earmark-person>
+                  Pompacının Adı
+                </span>
+                <span v-if="!row.oncreditId && row.creatorId" v-b-tooltip.lefttop title="Kullanıcı">
+                  <b-icon-person variant="success"></b-icon-person>
+                  {{ row.name }}
+                </span>
               </b-td>
               <b-td :class="row.amount < 0 ? 'text-danger' : 'text-success'">{{
                   row.amount > 0 ? '+' : ''
                 }}{{ row.amount }}
               </b-td>
-              <b-td>{{ row.balance }}</b-td>
+              <b-td><b>{{ row.balance }}</b></b-td>
               <b-td>{{ row.description }}</b-td>
               <b-td>{{ moment(row.createDate).format('LL HH:mm') }}</b-td>
+              <b-td>
+                <span v-b-tooltip.leftbottom title="Fiş Yazdır">
+                  <b-icon-printer variant="success"></b-icon-printer>
+                </span>
+                <span v-b-tooltip.leftbottom title="Düzenle">
+                  <b-icon-pencil-square variant="primary"
+                                        :disabled="row.oncreditId"></b-icon-pencil-square>
+                </span>
+                <span v-b-tooltip.topright title="Sil">
+                  <b-icon-x-circle variant="danger"></b-icon-x-circle>
+                </span>
+              </b-td>
+            </b-tr>
+            <b-tr v-if="!summaryList.length">
+              <b-td colspan="7" class="text-center">Kayıt bulunamadı</b-td>
             </b-tr>
           </b-tbody>
         </b-table-simple>
-        <b-skeleton-table
-            v-if="loadingPage"
-            :rows="7"
-            :columns="6"
-            :table-props="{ bordered: true, striped: true }">
-        </b-skeleton-table>
         <div class="float-left" v-if="summaryInfo.loading">
           <b-spinner></b-spinner>
           Yükleniyor..
@@ -162,6 +179,12 @@
             @input="getCustomerSummary(summaryInfo.pageNumber)"
         ></b-pagination>
       </b-card>
+      <b-skeleton-table
+          v-if="loadingPage"
+          :rows="7"
+          :columns="6"
+          :table-props="{ bordered: true, striped: true }">
+      </b-skeleton-table>
     </b-col>
   </b-row>
 </template>
@@ -177,7 +200,7 @@ export default {
       summaryInfo: {
         plateId: 0,
         driverId: 0,
-        dataPerPage: 2,
+        dataPerPage: 10,
         pageNumber: 0,
         queryTime: 0,
         pageCount: 0,
