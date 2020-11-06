@@ -1,49 +1,59 @@
 <template>
   <b-row class="py-5">
     <b-col cols="12" class="mt-3"></b-col>
-    <b-col cols="12" class="mb-3">
-      <b-col class="align-self-center">
-        <h6 class="text-transparent mb-0 text-capitalize">
-          Müşteriler \ Müşteri Listesi \ {{ customer.name }}
-        </h6>
-      </b-col>
+    <b-col cols="12" class=" mt-2 mb-3">
+      <h6 class="text-transparent mb-0 text-capitalize">
+        Müşteriler \ Müşteri Listesi \ {{ customer.name }}
+      </h6>
     </b-col>
     <b-col cols="3">
-      <b-card v-if="!loadingPage"
-              img-src="https://picsum.photos/600/300/?image=25"
-              :img-alt="customer.name"
-              img-top
-              class="mb-2">
-        <h4 class="text-capitalize text-truncate" style="width: 100%" v-b-tooltip.leftbottom
-            :title="customer.name">
-          {{ customer.name }}
-        </h4>
-        <h5 class="text-capitalize" v-if="customer.authorizedPersonName">
-          <b-icon-person-badge></b-icon-person-badge>
-          {{ customer.authorizedPersonName }}
-        </h5>
-        <div>
-          <span v-if="customer.gsm"><b-icon-phone></b-icon-phone> {{ customer.gsm }}</span>
-          <span v-if="customer.phone"><b-icon-telephone></b-icon-telephone> {{ customer.phone }}</span>
-        </div>
-        <a v-if="customer.email" v-b-tooltip title="Eposta göndermek için tıklayınız"
-           :href="['mailto:' + customer.email]">
-          <b-icon-envelope></b-icon-envelope>
-          {{ customer.email }}
-        </a>
-        <span v-if="customer.citizenIdentification" v-b-tooltip
-              :title="['Kimlik Numarası: ' + customer.citizenIdentification]">
-          {{ customer.citizenIdentification.substr(0, 5) }}******
-        </span>
-        <b-card-text>
-          {{ customer.address }}
-        </b-card-text>
-        <b-button href="#" size="sm" variant="primary">
-          <b-icon-pencil></b-icon-pencil>
-          Düzenle
-        </b-button>
+      <b-card v-if="!loadingPage" class="mb-2">
+        <b-form-row>
+          <b-col cols="12" class="text-center mb-4">
+            <b-iconstack font-scale="5" class="my-4">
+              <b-icon-square stacked></b-icon-square>
+              <b-icon-person stacked></b-icon-person>
+            </b-iconstack>
+            <h5 class="text-capitalize text-truncate text-center" v-b-tooltip.leftbottom :title="customer.name">
+              {{ customer.name }}
+            </h5>
+          </b-col>
+          <b-col cols="12" v-if="customer.authorizedPersonName">
+            <h6 class="text-transparent">Yetkili Kişi</h6>
+            <p class="text-capitalize mb-0">{{ customer.authorizedPersonName }}</p>
+            <p v-if="customer.citizenIdentification" v-b-tooltip
+               :title="['Kimlik Numarası: ' + customer.citizenIdentification]">
+              {{ customer.citizenIdentification.substr(0, 5) }}******
+            </p>
+          </b-col>
+          <b-col cols="6" v-if="customer.gsm">
+            <h6 class="text-transparent">Mobil</h6>
+            <p>{{ customer.gsm }}</p>
+          </b-col>
+          <b-col cols="6" v-if="customer.gsm">
+            <h6 class="text-transparent">İkincil</h6>
+            <p>{{ customer.phone }}</p>
+          </b-col>
+          <b-col cols="12" class="mb-3">
+            <h6 class="text-transparent">E-Posta</h6>
+            <a v-if="customer.email" v-b-tooltip title="Eposta gönder."
+               :href="['mailto:' + customer.email]">
+              {{ customer.email }}
+            </a>
+          </b-col>
+          <b-col cols="12">
+            <h6 class="text-transparent">Adres</h6>
+            <p>{{ customer.address }}</p>
+          </b-col>
+          <b-col cols="12" class="text-right">
+            <b-button size="sm" variant="outline-primary">
+              <b-icon-pencil-square></b-icon-pencil-square>
+              Düzenle
+            </b-button>
+          </b-col>
+        </b-form-row>
       </b-card>
-      <b-card no-body img-top class="mb-2 float-left" style="width:280px" v-if="loadingPage">
+      <b-card no-body img-top class="mb-2" v-if="loadingPage">
         <b-skeleton-img card-img="top" aspect="3:2"></b-skeleton-img>
         <b-card-body>
           <b-skeleton></b-skeleton>
@@ -59,9 +69,9 @@
       </b-card>
     </b-col>
     <b-col cols="9">
-      <b-card header-tag="header" v-if="!loadingPage" class="tabs customer_tabs">
+      <b-card header-tag="header" class="tabs customer_tabs">
         <template #header>
-          <b-nav tabs class="card-header-tabs">
+          <b-nav tabs class="card-header-tabs" v-if="!loadingPage">
             <b-nav-item v-b-tooltip title="Müşteri hesabına giren çıkan her şey burada gösterilir">
                 <span class="nav-link cursor-pointer" :class="activeTab === 'summary' ? 'active' : ''"
                       @click="changeTab('summary')">
@@ -81,7 +91,7 @@
                 <b-dropdown-form>
                   <b-input v-model="plateSearchQuery" placeholder="Plaka yazın"></b-input>
                 </b-dropdown-form>
-                <b-dropdown-item @click="changeTab('plateList', item.id)"
+                <b-dropdown-item @click="changeTab('plateList', { id: item.id, name: item.plate })"
                                  v-for="item in searchPlate" :key="item.id">
                   <b-icon-truck-flatbed></b-icon-truck-flatbed>
                   {{ item.plate }}
@@ -100,7 +110,7 @@
                 <b-dropdown-form>
                   <b-input v-model="driverSearchQuery" placeholder="Şoför adı yazın"></b-input>
                 </b-dropdown-form>
-                <b-dropdown-item @click="changeTab('driverList', item.id)"
+                <b-dropdown-item @click="changeTab('driverList', { id: item.id, name: item.name })"
                                  v-for="item in searchDriver" :key="item.id">
                   <b-icon-person></b-icon-person>
                   {{ item.name }}
@@ -109,13 +119,17 @@
             </b-nav-item>
           </b-nav>
         </template>
+        <p v-if="summaryInfo.plate && activeTab === 'plateList' && !loadingPage">{{ summaryInfo.plate }} plakalı araç
+          için sonuçlar gösteriliyor.</p>
+        <p v-if="summaryInfo.driverName && activeTab === 'driverList' && !loadingPage">{{ summaryInfo.driverName }}
+          isimli şoför için sonuçlar gösteriliyor.</p>
         <b-table-simple hover striped bordered small v-if="summaryList.length">
           <b-thead>
             <b-tr>
               <b-th>Id</b-th>
               <b-th>İşlem Yapan</b-th>
-              <b-th>Tutar</b-th>
-              <b-th>Bakiye</b-th>
+              <b-th>₺ Tutar</b-th>
+              <b-th>₺ Bakiye</b-th>
               <b-th>Açıklama</b-th>
               <b-th>İşlem Zamanı</b-th>
             </b-tr>
@@ -124,19 +138,42 @@
             <b-tr v-for="row in summaryList" :key="row.id">
               <b-td>{{ row.id }}</b-td>
               <b-td>
-                <b-icon-person></b-icon-person>
-                {{ row.name }}
+                <span v-if="row.oncreditId" v-b-tooltip.lefttop title="Akaryakıt Satış Görevlisi">
+                  <b-icon-file-earmark-person
+                      :variant="row.amount < 0 ? 'danger' : 'success'"></b-icon-file-earmark-person>
+                  Pompacının Adı
+                </span>
+                <span v-if="!row.oncreditId && row.creatorId" v-b-tooltip.lefttop title="Kullanıcı">
+                  <b-icon-person variant="success"></b-icon-person>
+                  {{ row.name }}
+                </span>
               </b-td>
               <b-td :class="row.amount < 0 ? 'text-danger' : 'text-success'">{{
                   row.amount > 0 ? '+' : ''
                 }}{{ row.amount }}
               </b-td>
-              <b-td>{{ row.balance }}</b-td>
+              <b-td><b>{{ row.balance }}</b></b-td>
               <b-td>{{ row.description }}</b-td>
               <b-td>{{ moment(row.createDate).format('LL HH:mm') }}</b-td>
+              <b-td>
+                <span v-b-tooltip.leftbottom title="Fiş Yazdır">
+                  <b-icon-printer variant="success"></b-icon-printer>
+                </span>
+                <span v-b-tooltip.leftbottom title="Düzenle">
+                  <b-icon-pencil-square variant="primary"
+                                        :disabled="row.oncreditId"></b-icon-pencil-square>
+                </span>
+                <span v-b-tooltip.topright title="Sil">
+                  <b-icon-x-circle variant="danger"></b-icon-x-circle>
+                </span>
+              </b-td>
             </b-tr>
           </b-tbody>
         </b-table-simple>
+        <b-alert variant="danger" :show="!summaryList.length && !loadingPage">
+          <b-icon-exclamation-circle></b-icon-exclamation-circle>
+          Sonuç bulunamadı.
+        </b-alert>
         <b-skeleton-table
             v-if="loadingPage"
             :rows="7"
@@ -147,9 +184,10 @@
           <b-spinner></b-spinner>
           Yükleniyor..
         </div>
-        <div class="float-left" v-else><small>Toplam {{ summaryInfo.rowCount }} kayıt {{ summaryInfo.queryTime }}
-          saniyede okundu.</small></div>
+        <div class="float-left" v-else>
+          <small>Toplam {{ summaryInfo.rowCount }} kayıt {{ summaryInfo.queryTime }} saniyede okundu.</small></div>
         <b-pagination
+            v-if="!loadingPage && (summaryInfo.rowCount > summaryInfo.dataPerPage)"
             v-model="summaryInfo.pageNumber"
             :total-rows="summaryInfo.rowCount"
             :per-page="summaryInfo.dataPerPage"
@@ -177,14 +215,14 @@ export default {
       summaryInfo: {
         plateId: 0,
         driverId: 0,
-        dataPerPage: 2,
+        dataPerPage: 10,
         pageNumber: 0,
         queryTime: 0,
         pageCount: 0,
         rowCount: 0,
         loading: false
       },
-      loadingPage: true,
+      loadingPage: false,
       activeTab: 'summary',
       customer: {},
       plateSearchQuery: null,
@@ -223,6 +261,7 @@ export default {
   },
   methods: {
     getCustomer () {
+      this.loadingPage = true
       ipcRenderer.send('/getCustomerDetail', { id: this.$route.params.id })
       new Promise(function (resolve) {
         ipcRenderer.on('getCustomerDetail', (e, result) => {
@@ -232,12 +271,15 @@ export default {
         this.customer = result.result
         this.getCustomerSummary(this.summaryInfo.pageNumber)
         this.getCustomerPlates()
+        this.loadingPage = false
         return false
       })
     },
     getCustomerSummary: function (newPageNumber) {
+      this.loadingPage = true
       this.summaryInfo.loading = true
       this.summaryInfo.pageNumber = newPageNumber
+      this.summaryList = []
       ipcRenderer.send('/getCustomerSummary', {
         customerId: this.$route.params.id,
         plateId: this.summaryInfo.plateId,
@@ -250,6 +292,7 @@ export default {
           resolve(result)
         })
       }).then(result => {
+        this.loadingPage = false
         this.summaryList = result.result
         this.summaryInfo.loading = false
         this.summaryInfo.pageCount = result.pageCount
@@ -283,20 +326,23 @@ export default {
         return false
       })
     },
-    changeTab (tabName, id) {
+    changeTab (tabName, data) {
       this.activeTab = tabName
       if (tabName === 'summary') {
         this.summaryInfo.plateId = this.summaryInfo.driverId = 0
+        this.summaryInfo.plate = this.summaryInfo.driverName = false
         this.getCustomerSummary(0)
         return false
       } else if (tabName === 'plateList') {
         this.summaryInfo.driverId = 0
-        this.summaryInfo.plateId = id
+        this.summaryInfo.plateId = data.id
+        this.summaryInfo.plate = data.name
         this.getCustomerSummary(0)
         return false
       } else if (tabName === 'driverList') {
         this.summaryInfo.plateId = 0
-        this.summaryInfo.driverId = id
+        this.summaryInfo.driverId = data.id
+        this.summaryInfo.driverName = data.name
         this.getCustomerSummary(0)
         return false
       }
