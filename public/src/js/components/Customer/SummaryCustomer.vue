@@ -73,15 +73,15 @@
         <template #header>
           <b-nav tabs class="card-header-tabs" v-if="!loadingPage">
             <b-nav-item v-b-tooltip title="Müşteri hesabına giren çıkan her şey burada gösterilir">
-                <span class="nav-link cursor-pointer" :class="activeTab === 'summary' ? 'active' : ''"
-                      @click="changeTab('summary')">
-                    <b-icon-card-checklist></b-icon-card-checklist>
-                     Hesap Hareketleri
-                  </span>
+              <b-button variant="link" class="nav-link" :class="activeTab === 'summary' ? 'active' : ''"
+                        @click="changeTab('summary')">
+                <b-icon-card-checklist></b-icon-card-checklist>
+                Hesap Hareketleri
+              </b-button>
             </b-nav-item>
             <b-nav-item v-if="plateList.length > 0" v-b-tooltip
                         title="Hangi Plakalı Aracın ne zaman ne aldığını gösterir">
-              <b-dropdown variant="link" toggle-class="text-decoration-none">
+              <b-dropdown variant="link">
                 <template #button-content>
                  <span :class="activeTab === 'plateList' ? 'active' : ''">
                       <b-icon-truck></b-icon-truck>
@@ -132,6 +132,7 @@
               <b-th>₺ Bakiye</b-th>
               <b-th>Açıklama</b-th>
               <b-th>İşlem Zamanı</b-th>
+              <b-th></b-th>
             </b-tr>
           </b-thead>
           <b-tbody>
@@ -155,17 +156,10 @@
               <b-td><b>{{ row.balance }}</b></b-td>
               <b-td>{{ row.description }}</b-td>
               <b-td>{{ moment(row.createDate).format('LL HH:mm') }}</b-td>
-              <b-td>
-                <span v-b-tooltip.leftbottom title="Fiş Yazdır">
-                  <b-icon-printer variant="success"></b-icon-printer>
-                </span>
-                <span v-b-tooltip.leftbottom title="Düzenle">
-                  <b-icon-pencil-square variant="primary"
-                                        :disabled="row.oncreditId"></b-icon-pencil-square>
-                </span>
-                <span v-b-tooltip.topright title="Sil">
-                  <b-icon-x-circle variant="danger"></b-icon-x-circle>
-                </span>
+              <b-td class="text-center">
+                <span v-b-tooltip.leftbottom title="Fiş Yazdır"><b-icon-printer class="mx-1" variant="success"></b-icon-printer></span>
+                <span v-b-tooltip.leftbottom title="Düzenle"><b-icon-pencil-square class="mx-1" variant="primary" :disabled="row.oncreditId"></b-icon-pencil-square></span>
+                <span v-b-tooltip.topright title="Sil"><b-icon-x-circle class="mx-1" variant="danger"></b-icon-x-circle></span>
               </b-td>
             </b-tr>
           </b-tbody>
