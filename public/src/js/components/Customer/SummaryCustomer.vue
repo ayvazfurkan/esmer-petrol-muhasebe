@@ -347,7 +347,7 @@ export default {
 </script>
 <style>
 .card-header {
-  padding-bottom: 4px !important;
+  padding-bottom: 2px !important;
 }
 
 .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
@@ -357,5 +357,10 @@ export default {
 .btn-link {
   font-weight: 400 !important;
   color: #444 !important;
+}
+
+.btn-link.active, .btn-link span.active {
+  font-weight: 600 !important;
+  color: #007bff !important;
 }
 </style>
