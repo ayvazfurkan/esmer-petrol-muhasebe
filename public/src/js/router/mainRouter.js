@@ -12,6 +12,7 @@ import CashOutFlow from '../components/Cash/OutFlow.vue'
 import ListProduct from '../components/Product/ListProduct.vue'
 import Salesofficer from '../components/Staff/Salesofficer.vue'
 import Dashboard from '../components/Dashboard/Dashboard.vue'
+import UserPassword from '../components/Settings/UserPassword.vue'
 
 const router = new VueRouter({
   routes: [
@@ -79,6 +80,10 @@ const router = new VueRouter({
       path: '/SummaryCustomer/:id',
       component: SummaryCustomer
     },
+    {
+      path: '/Settings/UserPassword',
+      component: UserPassword
+    }
   ]
 
 })

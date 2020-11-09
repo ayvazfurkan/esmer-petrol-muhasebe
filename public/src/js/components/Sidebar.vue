@@ -109,11 +109,20 @@ export default {
           ]
         },
         {
-          href: { path: '/' },
+          href: '',
           title: 'Ayarlar',
           icon: {
             element: 'b-icon-gear'
-          }
+          },
+          child: [
+            {
+              href: { path: '/Settings/UserPassword' },
+              title: 'Şifre Değiştir',
+              icon: {
+                element: 'b-icon-lock'
+              }
+            }
+          ]
         }
       ]
     }

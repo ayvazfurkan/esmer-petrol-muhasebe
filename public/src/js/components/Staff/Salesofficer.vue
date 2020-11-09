@@ -32,7 +32,7 @@
     </b-col>
     <b-col cols="12" class="mb-3">
       <b-card>
-        <b-table-simple bordered v-if="!loading">
+        <b-table-simple bordered striped v-if="!loading">
           <b-thead>
             <b-tr>
               <b-th>#</b-th>
@@ -41,28 +41,26 @@
               <b-th>Kullanıcı Adı</b-th>
               <b-th>Telefon</b-th>
               <b-th>Oluşturulma Tarihi</b-th>
-              <b-th>Aksiyon</b-th>
+              <b-th></b-th>
             </b-tr>
           </b-thead>
           <b-tbody>
             <b-tr v-for="(salesofficer, i) of salesofficers" :key="salesofficer.id">
-              <b-td>{{ i }}</b-td>
+              <b-td>{{ i + 1 }}</b-td>
               <b-td class="text-center">
-                <b-img :src="salesofficer.img" rounded height="64"></b-img>
+                <b-avatar :src="salesofficer.img" height="32"></b-avatar>
               </b-td>
               <b-td>{{ salesofficer.name }}</b-td>
               <b-td>{{ salesofficer.username }}</b-td>
               <b-td>{{ salesofficer.phone }}</b-td>
               <b-td>{{ moment(salesofficer.insertDate).format('LL') }}</b-td>
-              <b-td>
-                <b-button variant="outline-danger" @click="removeModal(i)">
-                  <b-icon-x></b-icon-x>
-                  Sil
-                </b-button>
-                <b-button variant="outline-primary" @click="detail(i)">
-                  <b-icon-arrow-right-short></b-icon-arrow-right-short>
-                  Düzenle
-                </b-button>
+              <b-td class="text-center">
+                <span class="text-danger mx-1" @click="removeModal(i)" v-b-tooltip title="Sil">
+                  <b-icon-x-circle></b-icon-x-circle>
+                </span>
+                <span class="text-primary mx-1" @click="detail(i)" v-b-tooltip title="Düzenle">
+                  <b-icon-pencil-square></b-icon-pencil-square>
+                </span>
               </b-td>
             </b-tr>
           </b-tbody>

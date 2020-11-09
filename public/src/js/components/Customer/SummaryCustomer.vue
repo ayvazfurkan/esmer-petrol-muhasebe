@@ -256,6 +256,7 @@ export default {
   methods: {
     getCustomer () {
       this.loadingPage = true
+      ipcRenderer.removeAllListeners('getCustomerDetail')
       ipcRenderer.send('/getCustomerDetail', { id: this.$route.params.id })
       new Promise(function (resolve) {
         ipcRenderer.on('getCustomerDetail', (e, result) => {
@@ -297,6 +298,7 @@ export default {
       })
     },
     getCustomerPlates () {
+      ipcRenderer.removeAllListeners('getCustomerPlates')
       ipcRenderer.send('/getCustomerPlates', { customerId: this.$route.params.id })
       new Promise(function (resolve) {
         ipcRenderer.on('getCustomerPlates', (e, result) => {
@@ -309,6 +311,7 @@ export default {
       })
     },
     getCustomerDrivers () {
+      ipcRenderer.removeAllListeners('getCustomerDrivers')
       ipcRenderer.send('/getCustomerDrivers', { customerId: this.$route.params.id })
       new Promise(function (resolve) {
         ipcRenderer.on('getCustomerDrivers', (e, result) => {

@@ -231,6 +231,7 @@ export default {
   },
   methods: {
     getProducts () {
+      ipcRenderer.removeAllListeners('productList')
       ipcRenderer.send('/productList', { name: this.quickSearch })
       new Promise(function (resolve) {
         ipcRenderer.on('productList', (e, result) => {

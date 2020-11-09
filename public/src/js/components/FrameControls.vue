@@ -5,28 +5,9 @@
         <img src="../../img/logo-blx.png" alt="logo" height="50"/>
       </b-col>
       <b-col offset-md="5" md="5" class="text-right align-self-center">
-        <!--        <b-button size="lg" variant="light" class="rounded-circle text-primary">-->
-        <!--          <b-icon-bell class="text-primary"></b-icon-bell>-->
-        <!--        </b-button>-->
-        <!--        <b-button size="lg" variant="light" class="rounded-circle text-primary">-->
-        <!--          <b-icon-gear class="text-primary"></b-icon-gear>-->
-        <!--        </b-button>-->
-        <!--        <b-dropdown size="lg" variant="light" right toggle-class="text-decoration-none text-primary rounded-circle mr-5"-->
-        <!--                    no-caret>-->
-        <!--          <template v-slot:button-content>-->
-        <!--            <b-icon-person class="text-primary"></b-icon-person>-->
-        <!--          </template>-->
-        <!--          <b-dropdown-item href="#">-->
-        <!--            <b-icon-person></b-icon-person> {{ getSession.userDetails.name }}-->
-        <!--          </b-dropdown-item>-->
-        <!--          <b-dropdown-item href="#" @click="logout">-->
-        <!--            <b-icon-box-arrow-left></b-icon-box-arrow-left>-->
-        <!--            Güvenli Çıkış-->
-        <!--          </b-dropdown-item>-->
-        <!--        </b-dropdown>-->
-        <span class="mr-5 no-drag pointer" v-b-popover.hover.left="'Güvenli Çıkış'" @click="logout">
-          <b-icon-person-circle></b-icon-person-circle>
-          {{ getSession.userDetails.username }}
+        <span class="mr-5 no-drag pointer" @click="logout">
+          <b-icon-box-arrow-left></b-icon-box-arrow-left>
+          Güvenli Çıkış
         </span>
         <b-button variant="light" class="rounded-circle no-drag" @click="minimize()">
           <b-icon-dash></b-icon-dash>
