@@ -17,6 +17,8 @@
             <h5 class="text-capitalize text-truncate text-center" v-b-tooltip.leftbottom :title="customer.name">
               {{ customer.name }}
             </h5>
+            <b-button :variant="customerBalance >= 0 ? 'success' : 'danger'" v-if="!customerBalanceLoading">₺ {{ customerBalance }}</b-button>
+            <b-skeleton type="button" v-if="customerBalanceLoading"></b-skeleton>
           </b-col>
           <b-col cols="12" v-if="customer.authorizedPersonName">
             <h6 class="text-transparent">Yetkili Kişi</h6>
@@ -164,7 +166,7 @@
             </b-tr>
           </b-tbody>
         </b-table-simple>
-        <b-alert variant="danger" :show="!summaryList.length && !loadingPage">
+        <b-alert variant="danger" :show="!summaryList.length && !summaryInfo.loading">
           <b-icon-exclamation-circle></b-icon-exclamation-circle>
           Sonuç bulunamadı.
         </b-alert>
@@ -179,7 +181,7 @@
           Yükleniyor..
         </div>
         <div class="float-left" v-else>
-          <small>Toplam {{ summaryInfo.rowCount }} kayıt {{ summaryInfo.queryTime }} saniyede okundu.</small></div>
+          <small v-if="summaryList.length">Toplam {{ summaryInfo.rowCount }} kayıt {{ summaryInfo.queryTime }} saniyede okundu.</small></div>
         <b-pagination
             v-if="!loadingPage && (summaryInfo.rowCount > summaryInfo.dataPerPage)"
             v-model="summaryInfo.pageNumber"
@@ -209,14 +211,16 @@ export default {
       summaryInfo: {
         plateId: 0,
         driverId: 0,
-        dataPerPage: 10,
+        dataPerPage: 2,
         pageNumber: 0,
         queryTime: 0,
         pageCount: 0,
         rowCount: 0,
-        loading: false
+        loading: true
       },
       loadingPage: false,
+      customerBalanceLoading: true,
+      customerBalance: 0,
       activeTab: 'summary',
       customer: {},
       plateSearchQuery: null,
@@ -267,14 +271,27 @@ export default {
         this.getCustomerSummary(this.summaryInfo.pageNumber)
         this.getCustomerPlates()
         this.loadingPage = false
+        this.getCustomerBalance()
         return false
       })
     },
+    getCustomerBalance: function () {
+      this.customerBalanceLoading = true
+      ipcRenderer.send('/getCustomerBalance', {
+        customerId: this.$route.params.id
+      })
+      new Promise(function (resolve) {
+        ipcRenderer.on('getCustomerBalance', (e, result) => {
+          resolve(result)
+        })
+      }).then(result => {
+        this.customerBalanceLoading = false
+        this.customerBalance = result.result
+      })
+    },
     getCustomerSummary: function (newPageNumber) {
-      this.loadingPage = true
       this.summaryInfo.loading = true
       this.summaryInfo.pageNumber = newPageNumber
-      this.summaryList = []
       ipcRenderer.send('/getCustomerSummary', {
         customerId: this.$route.params.id,
         plateId: this.summaryInfo.plateId,
@@ -287,7 +304,7 @@ export default {
           resolve(result)
         })
       }).then(result => {
-        this.loadingPage = false
+        this.summaryInfo.loading = false
         this.summaryList = result.result
         this.summaryInfo.loading = false
         this.summaryInfo.pageCount = result.pageCount
@@ -325,6 +342,7 @@ export default {
     },
     changeTab (tabName, data) {
       this.activeTab = tabName
+      this.summaryList = []
       if (tabName === 'summary') {
         this.summaryInfo.plateId = this.summaryInfo.driverId = 0
         this.summaryInfo.plate = this.summaryInfo.driverName = false
