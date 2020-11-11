@@ -42,7 +42,7 @@
               <b-th>Satış Fiyatı</b-th>
               <b-th>Vadeli Satış Fiyatı</b-th>
               <b-th>Vade Yüzdesi</b-th>
-              <b-th>İşlem</b-th>
+              <b-th></b-th>
             </b-tr>
             </b-thead>
             <b-tbody>
@@ -62,11 +62,9 @@
                   (product.salePrice > 0 && product.forwardSalePrice > 0) ? (100 - (product.salePrice * 100 / product.forwardSalePrice)).toFixed(2) : 0
                 }}%
               </b-td>
-              <b-td>
-                <b-button-group size="sm">
-                  <b-button variant="outline-warning" @click="getProduct(i)">Dzn</b-button>
-                  <b-button variant="outline-danger" @click="deleteProduct(i)">Sil</b-button>
-                </b-button-group>
+              <b-td class="text-center">
+                <span v-b-tooltip.leftbottom title="Düzenle"><b-icon-pencil-square class="mx-1" variant="primary" @click="getProduct(i)"></b-icon-pencil-square></span>
+                <span v-b-tooltip.topright title="Sil"><b-icon-x-circle class="mx-1" variant="danger" @click="deleteProduct(i)"></b-icon-x-circle></span>
               </b-td>
             </b-tr>
             </b-tbody>

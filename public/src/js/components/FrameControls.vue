@@ -4,7 +4,26 @@
       <b-col md="2" class="align-self-center py-2">
         <img src="../../img/logo-blx.png" alt="logo" height="50"/>
       </b-col>
-      <b-col offset-md="5" md="5" class="text-right align-self-center">
+      <b-col md="6" class="align-self-center">
+        <multiselect
+            v-model="quickSearch"
+            class="no-drag"
+            placeholder="Müşteri aramak için yazınız."
+            selectLabel="Seçmek için Enter"
+            deselectLabel="İptal için Enter"
+            noResult="Sonuç bulunamadı."
+            selectedLabel="Seçildi"
+            track-by="id"
+            label="name"
+            :options="searchResults"
+            @search-change="search"
+            @input="redirect">
+          <span slot="noOptions">Yazmaya devam edin.</span>
+          <span slot="noResult">Sonuç bulunamadı.</span>
+          <span slot="caret" slot-scope="{ toggle }" @mousedown.prevent.stop="toggle" class="position-absolute caret"><b-icon-search></b-icon-search></span>
+        </multiselect>
+      </b-col>
+      <b-col md="4" class="text-right align-self-center">
         <span class="mr-5 no-drag pointer" @click="logout">
           <b-icon-box-arrow-left></b-icon-box-arrow-left>
           Güvenli Çıkış
@@ -25,8 +44,9 @@
 </template>
 <script type="application/javascript">
 import { mapActions, mapGetters } from 'vuex'
+import { ipcRenderer, remote } from 'electron'
+import Multiselect from 'vue-multiselect'
 import genericMethods from '../mixins/genericMethods'
-import { remote } from 'electron'
 
 export default {
   mixins: [genericMethods],
@@ -38,11 +58,11 @@ export default {
       searchResults: []
     }
   },
+  components: {
+    Multiselect
+  },
   computed: {
-    ...mapGetters(['getSession']),
-    fullscreen: () => {
-      this.currentWindow.isMaximized()
-    }
+    ...mapGetters(['getSession'])
   },
   mounted: function () {
     this.currentWindow = remote.getCurrentWindow()
@@ -70,6 +90,31 @@ export default {
     logout () {
       this.destroySession()
       this.close()
+    },
+    search (name) {
+      ipcRenderer.removeAllListeners('customerList')
+      this.searchResults = []
+      if (name.length < 3) {
+        return false
+      }
+      ipcRenderer.send('/getCustomer', { name })
+      new Promise(function (resolve) {
+        ipcRenderer.on('customerList', (event, result) => {
+          resolve(result)
+        })
+      }).then(result => {
+        this.searchResults = []
+        for (const item of result.result) {
+          this.searchResults.push({
+            id: item.id,
+            name: item.name + ' - ' + item.authorizedPersonName
+          })
+        }
+      }
+      )
+    },
+    redirect () {
+      this.$router.push('/SummaryCustomer/' + this.quickSearch.id)
     }
   }
 }
@@ -112,6 +157,11 @@ export default {
 
 .btn-lg, .btn-group-lg > .btn {
   padding: .5rem .7rem
+}
+
+.caret {
+  right: 1rem;
+  top: .5rem;
 }
 
 button i {

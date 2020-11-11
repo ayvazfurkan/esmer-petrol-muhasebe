@@ -292,6 +292,7 @@ export default {
     getCustomerSummary: function (newPageNumber) {
       this.summaryInfo.loading = true
       this.summaryInfo.pageNumber = newPageNumber
+      ipcRenderer.removeAllListeners('getCustomerSummary')
       ipcRenderer.send('/getCustomerSummary', {
         customerId: this.$route.params.id,
         plateId: this.summaryInfo.plateId,

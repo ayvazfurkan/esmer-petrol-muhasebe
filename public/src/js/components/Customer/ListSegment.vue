@@ -40,7 +40,7 @@
               <b-th>Segment Adı</b-th>
               <b-th>Müşteri Sayısı</b-th>
               <b-th>Toplam Bakiyesi</b-th>
-              <b-th>İşlem</b-th>
+              <b-th></b-th>
             </b-tr>
           </b-thead>
           <b-tbody>
@@ -52,11 +52,9 @@
               </b-td>
               <b-td>0</b-td>
               <b-td>0,00</b-td>
-              <b-td>
-                <b-button-group size="sm">
-                  <b-button variant="outline-warning" @click="getSegment(i)">Dzn</b-button>
-                  <b-button variant="outline-danger" @click="deleteSegment(i)">Sil</b-button>
-                </b-button-group>
+              <b-td class="text-center">
+                <span v-b-tooltip.leftbottom title="Düzenle"><b-icon-pencil-square class="mx-1" variant="primary"  @click="getSegment(i)"></b-icon-pencil-square></span>
+                <span v-b-tooltip.topright title="Sil"><b-icon-x-circle class="mx-1" variant="danger" @click="deleteSegment(i)"></b-icon-x-circle></span>
               </b-td>
             </b-tr>
           </b-tbody>
@@ -194,7 +192,6 @@ export default {
           resolve(result)
         })
       }).then(result => {
-        console.log(result)
         this.segmentList = result
       })
     },
