@@ -115,6 +115,9 @@ const genericMethods = {
         return (word.length > 0 && word.replace(word[0], word[0].toUpperCase())) || ''
       })
       return capsArray.join(' ')
+    },
+    moneyFormat (price) {
+      return new Intl.NumberFormat('tr-TR', { style: 'decimal' }).format(price)
     }
   }
 }

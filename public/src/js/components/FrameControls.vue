@@ -115,6 +115,7 @@ export default {
     },
     redirect () {
       this.$router.push('/SummaryCustomer/' + this.quickSearch.id)
+      this.quickSearch = []
     }
   }
 }

@@ -87,29 +87,6 @@ export default {
         },
         {
           href: '',
-          title: 'Kasa İşlemleri',
-          icon: {
-            element: 'b-icon-phone-landscape'
-          },
-          child: [
-            {
-              href: { path: '/Cash/InFlow' },
-              title: 'Tahsilat İşlemi',
-              icon: {
-                element: 'b-icon-wallet'
-              }
-            },
-            {
-              href: { path: '/Cash/OutFlow' },
-              title: 'Tediye İşlemi',
-              icon: {
-                element: 'b-icon-receipt'
-              }
-            }
-          ]
-        },
-        {
-          href: '',
           title: 'Ayarlar',
           icon: {
             element: 'b-icon-gear'
