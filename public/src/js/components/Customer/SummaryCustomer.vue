@@ -21,6 +21,7 @@
                       @click="this.getCustomerBalance()">₺
               {{ moneyFormat(customerBalance) }}
             </b-button>
+            <b-button variant="secondary" v-else><b-spinner></b-spinner> ₺</b-button>
             <hr>
           </b-col>
           <b-col cols="12" v-if="customer.authorizedPersonName">
@@ -39,31 +40,31 @@
             <h6 class="text-transparent">İkincil</h6>
             <p>{{ customer.phone }}</p>
           </b-col>
-          <b-col cols="12" class="mb-3">
+          <b-col cols="12" class="mb-3" v-if="customer.email">
             <h6 class="text-transparent">E-Posta</h6>
             <a v-if="customer.email" v-b-tooltip title="Eposta gönder."
                :href="['mailto:' + customer.email]">
               {{ customer.email }}
             </a>
           </b-col>
-          <b-col cols="12">
+          <b-col cols="12" v-if="customer.address">
             <h6 class="text-transparent">Adres</h6>
             <p>{{ customer.address }}</p>
           </b-col>
           <b-col cols="12" class="text-center">
             <hr>
             <b-button variant="outline-success" size="sm"
-                      @click="newMoneyFlow(0,1, 0, '<b-icon-box-arrow-down></b-icon-box-arrow-down>')">
+                      @click="newMoneyFlow(-1,1, 0, '<b-icon-box-arrow-down></b-icon-box-arrow-down>')">
               <b-icon-box-arrow-down></b-icon-box-arrow-down>
               Tahsilat
             </b-button>
             <b-button variant="outline-danger" size="sm"
-                      @click="newMoneyFlow(0,-1, 0, '<b-icon-box-arrow-up></b-icon-box-arrow-up>')">
+                      @click="newMoneyFlow(-1,-1, 0, '<b-icon-box-arrow-up></b-icon-box-arrow-up>')">
               <b-icon-box-arrow-up></b-icon-box-arrow-up>
               Ödeme
             </b-button>
             <b-button variant="outline-warning" size="sm"
-                      @click="newMoneyFlow(0,-1, 1, '<b-icon-capslock></b-icon-capslock>')">
+                      @click="newMoneyFlow(-1,-1, 1, '<b-icon-capslock></b-icon-capslock>')">
               <b-icon-capslock></b-icon-capslock>
               Fiyat Farkı
             </b-button>
@@ -140,7 +141,8 @@
           için sonuçlar gösteriliyor.</p>
         <p v-if="summaryInfo.driverName && activeTab === 'driverList' && !loadingPage">{{ summaryInfo.driverName }}
           isimli şoför için sonuçlar gösteriliyor.</p>
-        <b-overlay :show="summaryInfo.loading" rounded="sm" style="min-height: 80px">
+        <b-overlay :show="summaryInfo.loading" rounded="sm"
+                   :style="summaryList.length && summaryInfo.loading ? 'min-height: 80px' : ''">
           <template #overlay>
             <div class="text-center">
               <b-spinner></b-spinner>
@@ -150,7 +152,7 @@
           <b-table-simple hover striped bordered small v-if="summaryList.length">
             <b-thead>
               <b-tr>
-                <b-th>Id</b-th>
+                <b-th>Sıra</b-th>
                 <b-th>İşlem Yapan</b-th>
                 <b-th>₺ Tutar</b-th>
                 <b-th>₺ Bakiye</b-th>
@@ -160,8 +162,8 @@
               </b-tr>
             </b-thead>
             <b-tbody>
-              <b-tr v-for="row in summaryList" :key="row.id" :class="row.priceDifference === 1 ? 'table-warning' : ''">
-                <b-td>{{ row.id }}</b-td>
+              <b-tr v-for="(row, i) in summaryList" :key="row.id" :class="row.priceDifference === 1 ? 'table-warning' : ''">
+                <b-td>{{ (i+1)+(summaryInfo.dataPerPage*(summaryInfo.pageNumber-1)) }}</b-td>
                 <b-td>
                   <span v-if="row.oncreditId" v-b-tooltip.lefttop title="Akaryakıt Satış Görevlisi">
                     <b-icon-file-earmark-person
@@ -173,29 +175,30 @@
                     {{ row.name }}
                   </span>
                 </b-td>
-                <b-td :class="row.amount < 0 ? 'text-danger' : 'text-success'">
+                <b-td :class="row.amount < 0 ? 'text-danger' : 'text-success'" class="text-right">
                   {{
                     row.amount > 0 ? '+' : ''
                   }}{{ moneyFormat(row.amount) }}
                 </b-td>
-                <b-td>{{ moneyFormat(row.balance) }}</b-td>
+                <b-td class="text-right"><b>{{ moneyFormat(row.balance) }}</b></b-td>
                 <b-td><span class="text-danger" v-if="row.priceDifference"><b-icon-capslock-fill></b-icon-capslock-fill>  </span>{{
                     row.description
                   }}
                 </b-td>
                 <b-td>{{ moment(row.createDate).format('DD.MM.YYYY HH.mm') }}</b-td>
                 <b-td class="text-center">
-                  <span v-b-tooltip.leftbottom :class="!row.oncreditId ? 'disabled' : ''"
+                  <span v-b-tooltip.leftbottom :class="row.oncreditId > 0 ? '' : 'disabled'"
                         :title="row.oncreditId > 0 ? 'Veresiye Detayını Göster' : ''"
                         :variant="row.oncreditId > 0 ? '' : 'disabled'" @click="getOncreditProducts(row.oncreditId)">
                     <b-icon-file-text class="mx-1"
                                       :variant="row.oncreditId > 0 ? 'success' : 'secondary'"></b-icon-file-text>
                   </span>
-                  <span v-b-tooltip.leftbottom :title="!row.oncreditId ? 'Düzenle' : ''">
+                  <span v-b-tooltip.leftbottom :title="!row.oncreditId ? 'Düzenle' : ''" :class="row.oncreditId ? 'disabled' : ''">
                     <b-icon-pencil-square class="mx-1" :variant="!row.oncreditId ? 'primary' : 'secondary'"
-                                          :disabled="row.oncreditId"></b-icon-pencil-square>
+                                          :disabled="row.oncreditId"
+                                          @click="newMoneyFlow(i, row.flowType, row.priceDifference)"></b-icon-pencil-square>
                   </span>
-                  <span v-b-tooltip.rightbottom title="Sil"><b-icon-x-circle class="mx-1"
+                  <span v-b-tooltip.rightbottom title="Sil" @click="deleteMoneyFlow(i)"><b-icon-x-circle class="mx-1"
                                                                              variant="danger"></b-icon-x-circle></span>
                 </b-td>
               </b-tr>
@@ -297,48 +300,69 @@
       <template>
         <div>
           <div>
-            <b-card no-body class="overflow-hidden" v-if="oncreditProductList.list">
+            <b-card no-body class="overflow-hidden" v-if="!oncreditProductListLoading">
               <b-row no-gutters>
                 <b-col md="5">
-                  <b-card-img :src="oncreditProductList.list[0].salesofficerImg" stlye="height: 100%" :alt="oncreditProductList.list[0].salesofficerName" class="rounded-0"></b-card-img>
+                  <b-card-img :src="oncreditProductList[0].salesofficerImg" stlye="height: 100%"
+                              :alt="oncreditProductList[0].salesofficerName" class="rounded-0"></b-card-img>
                 </b-col>
                 <b-col md="7">
-                  <b-card-body :title="oncreditProductList.list[0].salesofficerName">
-                    <b-card-text>
-                      <p>{{oncreditProductList.list[0].plate}} - {{oncreditProductList.list[0].driverName}}</p>
-                      <p>"{{oncreditProductList.list[0].description || 'Açıklama girilmemiş'}}"</p>
-                      <p><small>{{ moment(oncreditProductList.list[0].createDate).format('DD.MM.YYYY HH.mm') }}</small></p>
-                    </b-card-text>
-                  </b-card-body>
+                  <b-card-text class="pl-3 pt-2">
+                    <h4>{{ oncreditProductList[0].salesofficerName }}</h4>
+                    <p class="p-0">
+                      Plaka: {{ oncreditProductList[0].plate }}<br>
+                      Şoför: {{ oncreditProductList[0].driverName }}<br>
+                      Açıklama: "{{ oncreditProductList[0].description || 'yok' }}"<br>
+                      Tarih: {{ moment(oncreditProductList[0].createDate).format('DD.MM.YYYY HH.mm') }}
+                    </p>
+                  </b-card-text>
                 </b-col>
               </b-row>
             </b-card>
+            <b-card no-body img-left v-else>
+              <b-skeleton-img card-img="left" width="225px"></b-skeleton-img>
+              <b-card-body>
+                <b-card>
+                  <b-skeleton animation="wave" width="85%"></b-skeleton>
+                  <b-skeleton animation="wave" width="55%"></b-skeleton>
+                  <b-skeleton animation="wave" width="70%"></b-skeleton>
+                  <b-skeleton animation="wave" width="65%"></b-skeleton>
+                  <b-skeleton animation="wave" width="85%"></b-skeleton>
+                </b-card>
+              </b-card-body>
+            </b-card>
           </div>
-          <b-table-simple hover striped bordered small v-if="oncreditProductList.list" class="mt-2">
-              <b-thead>
-                <b-tr>
-                  <b-th>#</b-th>
-                  <b-th>Ürün</b-th>
-                  <b-th>Miktar</b-th>
-                  <b-th>Birim Fiyat</b-th>
-                  <b-th class="text-right">Tutar</b-th>
-                </b-tr>
-              </b-thead>
-              <b-tbody>
-                <b-tr v-for="(ocp, i) in oncreditProductList.list">
-                  <b-td>{{ i+1 }}</b-td>
-                  <b-td>{{ ocp.productName || 'Diğer' }}</b-td>
-                  <b-td>{{ moneyFormat(ocp.amount) }}</b-td>
-                  <b-td>{{ moneyFormat(ocp.price) }}</b-td>
-                  <b-td class="text-right">{{ moneyFormat(ocp.subTotal) }}</b-td>
-                </b-tr>
-                <b-tr class="table-info">
-                  <b-td>--</b-td>
-                  <b-td colspan="3">Genel Toplam</b-td>
-                  <b-td class="text-right">{{ moneyFormat(oncreditProductList.list[0].totalPrice) }}</b-td>
-                </b-tr>
-              </b-tbody>
-            </b-table-simple>
+          <b-table-simple hover striped bordered small v-if="!oncreditProductListLoading" class="mt-2">
+            <b-thead>
+              <b-tr>
+                <b-th>#</b-th>
+                <b-th>Ürün</b-th>
+                <b-th>Miktar</b-th>
+                <b-th>Birim Fiyat</b-th>
+                <b-th class="text-right">Tutar</b-th>
+              </b-tr>
+            </b-thead>
+            <b-tbody>
+              <b-tr v-for="(ocp, i) in oncreditProductList">
+                <b-td>{{ i + 1 }}</b-td>
+                <b-td>{{ ocp.productName || 'Diğer' }}</b-td>
+                <b-td>{{ moneyFormat(ocp.amount) }}</b-td>
+                <b-td>{{ moneyFormat(ocp.price) }}</b-td>
+                <b-td class="text-right">{{ moneyFormat(ocp.subTotal) }}</b-td>
+              </b-tr>
+              <b-tr class="table-info">
+                <b-td>--</b-td>
+                <b-td colspan="3">Genel Toplam</b-td>
+                <b-td class="text-right">{{ moneyFormat(oncreditProductList[0].totalPrice) }}</b-td>
+              </b-tr>
+            </b-tbody>
+          </b-table-simple>
+          <div style="height: 20px" v-if="oncreditProductListLoading"></div>
+          <b-skeleton-table v-if="oncreditProductListLoading"
+                            :rows="3"
+                            :columns="5"
+                            :table-props="{ bordered: true, striped: true, small: true }"
+          ></b-skeleton-table>
         </div>
       </template>
       <template #modal-footer="{ cancel }">
@@ -348,6 +372,48 @@
         </b-button>
       </template>
     </b-modal>
+    <b-modal
+        id="money-flow-delete"
+        centered
+    >
+      <template #modal-header="{ close }">
+        <h5>{{ moneyFlowInformation.id ? 'Silme Onayı' : 'İşlem Bilgisi Alınamadı! Tekrar Deneyiniz' }}</h5>
+        <b-button type="button" class="close" @click="close()">×</b-button>
+      </template>
+      <template>
+        <div>
+          <b-col class="mt-3 text-center">
+            <b-icon-trash-fill style="width: 120px; height: 120px; color:red"></b-icon-trash-fill>
+            <h4><b class="text-capitalize">{{ moneyFormat(this.moneyFlowInformation.amount) }} ₺</b> tutarındaki işlemi silmek istediğinizden emin misiniz?</h4>
+            <p v-if="this.moneyFlowInformation.description">İşlem Açıklaması: "{{ this.moneyFlowInformation.description }}"</p>
+          </b-col>
+          <b-col class="mt-3">
+            <b-form-checkbox v-model="moneyFlowInformation.deleteValidate" switch size="lg">Silmek istediğimden eminim.
+            </b-form-checkbox>
+            <span class="text-danger"
+                  v-if="exception.deleteValidate">{{ exception.deleteValidate }}</span>
+          </b-col>
+        </div>
+      </template>
+      <template #modal-footer="{ cancel }">
+        <b-button variant="danger" @click="cancel()">
+          <b-icon-x></b-icon-x>
+          Vazgeç
+        </b-button>
+        <b-button variant="primary" @click="deleteMoneyFlowSave()"
+                  :class="{'disabled': !moneyFlowInformation.deleteValidate || waitingResponse || success}"
+                  :disabled="!moneyFlowInformation.deleteValidate || waitingResponse || success">
+          <span v-if="!waitingResponse && !Object.keys(exception).length && !success"><b-icon-check2></b-icon-check2> İşlemi Sil</span>
+          <span v-if="!waitingResponse && Object.keys(exception).length"><b-icon-arrow-repeat></b-icon-arrow-repeat> Yeniden Dene</span>
+          <b-col v-if="waitingResponse">
+            <b-spinner></b-spinner>
+            Siliniyor
+          </b-col>
+          <span v-if="success">Silindi</span>
+        </b-button>
+      </template>
+    </b-modal>
+
   </b-row>
 </template>
 <script>
@@ -383,7 +449,9 @@ export default {
       summaryList: [],
       moneyFlow: [],
       exception: [],
-      oncreditProductList: []
+      oncreditProductList: [],
+      oncreditProductListLoading: true,
+      moneyFlowInformation: []
     }
   },
   computed: {
@@ -466,6 +534,7 @@ export default {
           resolve(result)
         })
       }).then(result => {
+        console.log(result)
         this.summaryInfo.loading = false
         this.summaryList = result.result
         this.summaryInfo.loading = false
@@ -525,14 +594,66 @@ export default {
         return false
       }
     },
-    newMoneyFlow (id, flowType, priceDifference) {
+    newMoneyFlow (index, flowType, priceDifference) {
+      let id
+      let amount
+      let description
+      if(index >= 0){
+        id = this.summaryList[index].id
+        amount = this.summaryList[index].amount
+        description = this.summaryList[index].description
+        priceDifference = this.summaryList[index].priceDifference
+        if (amount < 0) {
+          amount = amount * -1
+          flowType = -1
+        } else {
+          flowType = 1
+        }
+      } else {
+        id = 0
+        amount = ''
+      }
       this.moneyFlow = {
         id: id,
         flowType: flowType,
         priceDifference: priceDifference,
-        customerId: this.$route.params.id
+        customerId: this.$route.params.id,
+        amount: amount,
+        description: description
       }
       this.$bvModal.show('customer-money-flow')
+    },
+    deleteMoneyFlow (index) {
+      this.moneyFlowInformation = {
+        index: index,
+        id: this.summaryList[index].id,
+        amount: this.summaryList[index].amount,
+        description: this.summaryList[index].description,
+        deleteValidate: !!this.summaryList[index].deleteValidate
+      }
+      this.$bvModal.show('money-flow-delete')
+      this.success = false
+    },
+    deleteMoneyFlowSave () {
+      const index = this.moneyFlowInformation.index
+      this.waitingResponse = true
+      this.moneyFlowInformation.updaterId = this.getSession.userDetails.id
+      this.moneyFlowInformation.branchId = this.getSession.userDetails.branchId
+      const result = ipcRenderer.sendSync('/deleteMoneyFlow', this.moneyFlowInformation)
+      if (!result.status) {
+        this.exception = result.exception
+        this.success = false
+        this.waitingResponse = false
+      } else {
+        console.log(this.moneyFlowInformation)
+        this.exception = {}
+        this.success = true
+        this.waitingResponse = false
+        this.$bvModal.hide('money-flow-delete')
+        this.moneyFlowInformation = {}
+        this.getCustomerSummary(this.summaryList.pageNumber)
+        this.getCustomerBalance()
+      }
     },
     saveMoneyFlow () {
       const index = this.moneyFlow.index
@@ -548,7 +669,8 @@ export default {
         if (!this.moneyFlow.id) {
           this.changeTab('summary')
         } else {
-          this.summaryList[index] = this.moneyFlow
+          this.getCustomerSummary(this.summaryInfo.pageNumber)
+          this.getCustomerBalance()
         }
         this.exception = {}
         this.success = false
@@ -558,7 +680,8 @@ export default {
       }
     },
     getOncreditProducts (oncreditId) {
-      this.oncreditProductList = { loading: true, list: [] }
+      this.oncreditProductListLoading = true
+      this.oncreditProductList = []
       if (oncreditId > 0) {
         this.$bvModal.show('oncredit-product-list')
         ipcRenderer.removeAllListeners('getOncreditProducts')
@@ -568,8 +691,8 @@ export default {
             resolve(result)
           })
         }).then(result => {
-          this.oncreditProductList.list = result.result
-          this.oncreditProductList.loading = false
+          this.oncreditProductList = result.result
+          this.oncreditProductListLoading = false
           return false
         })
       } else {
