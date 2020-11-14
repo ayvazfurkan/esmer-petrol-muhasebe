@@ -120,7 +120,6 @@
                          noResult="Sonuç bulunamadı."
                          selectedLabel="Seçildi"
                          :multiple="true" :taggable="true" @tag="addTag"></multiselect>
-            <pre>{{ customerInformation.segment }}</pre>
           </b-col>
           <b-col cols="12">
             <hr/>
@@ -349,6 +348,9 @@ export default {
         this.exception = {}
         this.success = true
         this.waitingResponse = false
+        if (this.$route.params.id) {
+          this.$router.push('/SummaryCustomer/' + this.$route.params.id)
+        }
       }
     },
     reset () {

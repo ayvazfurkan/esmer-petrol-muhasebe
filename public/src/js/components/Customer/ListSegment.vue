@@ -50,8 +50,8 @@
                   v-if="segment.salePrice <=0 || segment.salePrice>segment.forwardSalePrice"><b-icon-exclamation-circle-fill
                   class="text-danger"></b-icon-exclamation-circle-fill></span> {{ segment.name }}
               </b-td>
-              <b-td>0</b-td>
-              <b-td>0,00</b-td>
+              <b-td>{{ segment.countCustomer }}</b-td>
+              <b-td :class="{'text-success': segment.balanceCustomer > 0, 'text-danger': segment.balanceCustomer < 0}">{{ moneyFormat(segment.balanceCustomer) }}</b-td>
               <b-td class="text-center">
                 <span v-b-tooltip.leftbottom title="Düzenle"><b-icon-pencil-square class="mx-1" variant="primary"  @click="getSegment(i)"></b-icon-pencil-square></span>
                 <span v-b-tooltip.topright title="Sil"><b-icon-x-circle class="mx-1" variant="danger" @click="deleteSegment(i)"></b-icon-x-circle></span>

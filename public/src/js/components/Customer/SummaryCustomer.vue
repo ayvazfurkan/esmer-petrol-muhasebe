@@ -10,6 +10,9 @@
       <b-card v-if="!loadingPage" class="mb-2">
         <b-form-row>
           <b-col cols="12" class="text-center mb-4">
+            <b-button variant="light" size="sm" class="rounded-circle position-absolute" id="editCustomer" @click="editCustomer()" v-b-tooltip.lefttop title="Müşteriyi düzenle">
+              <b-icon-wrench></b-icon-wrench>
+            </b-button>
             <b-iconstack font-scale="5" class="my-4">
               <b-icon-square stacked></b-icon-square>
               <b-icon-person stacked></b-icon-person>
@@ -156,9 +159,10 @@
             <b-thead>
               <b-tr>
                 <b-th>Sıra</b-th>
+                <b-th>Fiş</b-th>
                 <b-th>İşlem Yapan</b-th>
                 <b-th>₺ Tutar</b-th>
-                <b-th>₺ Bakiye</b-th>
+                <b-th v-if="!summaryInfo.plateId && !summaryInfo.driverId">₺ Bakiye</b-th>
                 <b-th>Açıklama</b-th>
                 <b-th>İşlem Zamanı</b-th>
                 <b-th></b-th>
@@ -168,6 +172,7 @@
               <b-tr v-for="(row, i) in summaryList" :key="row.id"
                     :class="row.priceDifference === 1 ? 'table-warning' : ''">
                 <b-td>{{ (i + 1) + (summaryInfo.dataPerPage * (summaryInfo.pageNumber - 1)) }}</b-td>
+                <b-td>{{ row.id }}</b-td>
                 <b-td>
                   <span v-if="row.oncreditId" v-b-tooltip.lefttop title="Akaryakıt Satış Görevlisi">
                     <b-icon-file-earmark-person
@@ -184,7 +189,7 @@
                     row.amount > 0 ? '+' : ''
                   }}{{ moneyFormat(row.amount) }}
                 </b-td>
-                <b-td class="text-right"><b>{{ moneyFormat(row.balance) }}</b></b-td>
+                <b-td v-if="!summaryInfo.plateId && !summaryInfo.driverId" class="text-right"><b>{{ moneyFormat(row.balance) }}</b></b-td>
                 <b-td><span class="text-danger" v-if="row.priceDifference"><b-icon-capslock-fill></b-icon-capslock-fill>  </span>{{
                     row.description
                   }}
@@ -299,7 +304,7 @@
         centered
     >
       <template #modal-header="{ close }">
-        <h5>Veresiye Ürün Listesi</h5>
+        <h5>Veresiye Detayı</h5>
         <b-button type="button" class="close" @click="close()">×</b-button>
       </template>
       <template>
@@ -660,7 +665,7 @@ export default {
         this.waitingResponse = false
         this.$bvModal.hide('money-flow-delete')
         this.moneyFlowInformation = {}
-        this.getCustomerSummary(this.summaryList.pageNumber)
+        this.getCustomerSummary(this.summaryInfo.pageNumber)
         this.getCustomerBalance()
       }
     },
@@ -707,6 +712,9 @@ export default {
       } else {
         return false
       }
+    },
+    editCustomer (){
+      this.$router.push('/EditCustomer/' + this.$route.params.id)
     }
   },
   mixins: [genericMethods]
@@ -729,5 +737,10 @@ export default {
 .btn-link.active, .btn-link span.active {
   font-weight: 600 !important;
   color: #007bff !important;
+}
+
+#editCustomer {
+  top: 1rem;
+  right: 1rem
 }
 </style>

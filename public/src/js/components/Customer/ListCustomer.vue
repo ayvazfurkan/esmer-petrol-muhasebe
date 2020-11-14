@@ -121,7 +121,6 @@ export default {
     getCustomers (newPage) {
       this.loading = true
       this.listOptions.pageNumber = newPage
-      ipcRenderer.removeAllListeners('customerList')
       const form = {
         dataPerPage: this.listOptions.dataPerPage,
         pageNumber: this.listOptions.pageNumber
@@ -129,6 +128,7 @@ export default {
       if (this.quickSearch.length > 1) {
         form.name = this.quickSearch
       }
+      ipcRenderer.removeAllListeners('customerList')
       ipcRenderer.send('/customerList', form)
       new Promise(function (resolve) {
         ipcRenderer.on('customerList', (e, result) => {
