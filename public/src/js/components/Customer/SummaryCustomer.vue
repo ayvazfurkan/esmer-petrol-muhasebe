@@ -21,7 +21,10 @@
                       @click="this.getCustomerBalance()">₺
               {{ moneyFormat(customerBalance) }}
             </b-button>
-            <b-button variant="secondary" v-else><b-spinner></b-spinner> ₺</b-button>
+            <b-button variant="secondary" v-else>
+              <b-spinner></b-spinner>
+              ₺
+            </b-button>
             <hr>
           </b-col>
           <b-col cols="12" v-if="customer.authorizedPersonName">
@@ -162,8 +165,9 @@
               </b-tr>
             </b-thead>
             <b-tbody>
-              <b-tr v-for="(row, i) in summaryList" :key="row.id" :class="row.priceDifference === 1 ? 'table-warning' : ''">
-                <b-td>{{ (i+1)+(summaryInfo.dataPerPage*(summaryInfo.pageNumber-1)) }}</b-td>
+              <b-tr v-for="(row, i) in summaryList" :key="row.id"
+                    :class="row.priceDifference === 1 ? 'table-warning' : ''">
+                <b-td>{{ (i + 1) + (summaryInfo.dataPerPage * (summaryInfo.pageNumber - 1)) }}</b-td>
                 <b-td>
                   <span v-if="row.oncreditId" v-b-tooltip.lefttop title="Akaryakıt Satış Görevlisi">
                     <b-icon-file-earmark-person
@@ -193,13 +197,14 @@
                     <b-icon-file-text class="mx-1"
                                       :variant="row.oncreditId > 0 ? 'success' : 'secondary'"></b-icon-file-text>
                   </span>
-                  <span v-b-tooltip.leftbottom :title="!row.oncreditId ? 'Düzenle' : ''" :class="row.oncreditId ? 'disabled' : ''">
+                  <span v-b-tooltip.leftbottom :title="!row.oncreditId ? 'Düzenle' : ''"
+                        :class="row.oncreditId ? 'disabled' : ''">
                     <b-icon-pencil-square class="mx-1" :variant="!row.oncreditId ? 'primary' : 'secondary'"
                                           :disabled="row.oncreditId"
                                           @click="newMoneyFlow(i, row.flowType, row.priceDifference)"></b-icon-pencil-square>
                   </span>
                   <span v-b-tooltip.rightbottom title="Sil" @click="deleteMoneyFlow(i)"><b-icon-x-circle class="mx-1"
-                                                                             variant="danger"></b-icon-x-circle></span>
+                                                                                                         variant="danger"></b-icon-x-circle></span>
                 </b-td>
               </b-tr>
             </b-tbody>
@@ -384,8 +389,11 @@
         <div>
           <b-col class="mt-3 text-center">
             <b-icon-trash-fill style="width: 120px; height: 120px; color:red"></b-icon-trash-fill>
-            <h4><b class="text-capitalize">{{ moneyFormat(this.moneyFlowInformation.amount) }} ₺</b> tutarındaki işlemi silmek istediğinizden emin misiniz?</h4>
-            <p v-if="this.moneyFlowInformation.description">İşlem Açıklaması: "{{ this.moneyFlowInformation.description }}"</p>
+            <h4><b class="text-capitalize">{{ moneyFormat(this.moneyFlowInformation.amount) }} ₺</b> tutarındaki işlemi
+              silmek istediğinizden emin misiniz?</h4>
+            <p v-if="this.moneyFlowInformation.description">İşlem Açıklaması: "{{
+                this.moneyFlowInformation.description
+              }}"</p>
           </b-col>
           <b-col class="mt-3">
             <b-form-checkbox v-model="moneyFlowInformation.deleteValidate" switch size="lg">Silmek istediğimden eminim.
@@ -497,6 +505,7 @@ export default {
           resolve(result)
         })
       }).then(result => {
+        console.log(result)
         this.customer = result.result
         this.getCustomerSummary(this.summaryInfo.pageNumber)
         this.getCustomerPlates()

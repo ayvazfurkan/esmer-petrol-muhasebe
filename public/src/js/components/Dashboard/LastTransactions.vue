@@ -5,7 +5,7 @@
         <b-card>
           <b-row>
             <b-col cols="4">
-              <h6>Günlük İşlemler</h6>
+              <h6>Günlük Veresiye Fişleri</h6>
             </b-col>
             <b-col cols="8" class="text-right">
               <b-form-datepicker
