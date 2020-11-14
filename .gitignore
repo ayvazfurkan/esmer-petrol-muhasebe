@@ -3,3 +3,4 @@ lib/dist
 public/dist
 node_modules
 .idea/
+dist

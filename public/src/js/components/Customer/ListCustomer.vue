@@ -34,32 +34,49 @@
     </b-col>
     <b-col cols="12">
       <b-card>
-        <b-table-simple hover bordered striped small responsive="true" v-if="customerList.length > 0">
-          <b-thead>
-            <b-tr>
-              <b-th>#</b-th>
-              <b-th>İsim / Unvan</b-th>
-              <b-th>Yetkili</b-th>
-              <b-th>TL Bakiyesi</b-th>
-            </b-tr>
-          </b-thead>
-          <b-tbody>
-            <b-tr v-for="(customer,i) in customerList" :key="i" @click="detail (customer.id)">
-              <b-th>{{ i + 1 }}</b-th>
-              <b-td style="text-transform: capitalize">{{ customer.name }}</b-td>
-              <b-td>{{ customer.authorizedPersonName }}</b-td>
-              <b-td>0,00</b-td>
-            </b-tr>
-          </b-tbody>
-        </b-table-simple>
-          <div v-else>
-            <div class="text-primary"></div>
-            <b-skeleton-table
-                :rows="10"
-                :columns="4"
-                :table-props="{ bordered: true, striped: true }"
-            ></b-skeleton-table>
-          </div>
+        <b-overlay :show="loading" rounded="sm"
+                   :style="customerList.length && loading ? 'min-height: 300px' : ''">
+          <template #overlay>
+            <div class="text-center">
+              <b-spinner></b-spinner>
+              <p id="cancel-label">Yükleniyor...</p>
+            </div>
+          </template>
+          <b-table-simple hover bordered striped small responsive="true" v-if="customerList.length > 0">
+            <b-thead>
+              <b-tr>
+                <b-th>#</b-th>
+                <b-th>İsim / Unvan</b-th>
+                <b-th>Yetkili</b-th>
+                <b-th>TL Bakiyesi</b-th>
+              </b-tr>
+            </b-thead>
+            <b-tbody>
+              <b-tr v-for="(customer,i) in customerList" :key="i" @click="detail (customer.customerOrgId)">
+                <b-th><span v-if="listOptions.pageNumber">{{ (i + 1) + (listOptions.dataPerPage * (listOptions.pageNumber - 1)) }}</span></b-th>
+                <b-td style="text-transform: capitalize">{{ customer.name }}</b-td>
+                <b-td>{{ customer.authorizedPersonName }}</b-td>
+                <b-td :class="{'text-success': customer.balance > 0, 'text-danger': customer.balance < 0}">{{ moneyFormat(customer.balance) }}</b-td>
+              </b-tr>
+            </b-tbody>
+          </b-table-simple>
+        </b-overlay>
+        <div class="float-left" v-if="!loading">
+          <small v-if="customerList.length &&  !loading">Toplam {{ listOptions.rowCount }} kayıt
+            {{ listOptions.queryTime }} saniyede
+            okundu.</small></div>
+        <b-pagination
+            v-if="!loading && (listOptions.rowCount > listOptions.dataPerPage) && listOptions.pageNumber > 0"
+            v-model="listOptions.pageNumber"
+            :total-rows="listOptions.rowCount"
+            :per-page="listOptions.dataPerPage"
+            first-text="İlk"
+            prev-text="Geri"
+            next-text="İleri"
+            last-text="Son"
+            class="float-right"
+            :class="loading === true ? 'disabled' : ''"
+        ></b-pagination>
       </b-card>
     </b-col>
   </b-row>
@@ -78,6 +95,13 @@ export default {
   data () {
     return {
       customerList: {},
+      listOptions: {
+        dataPerPage: 10,
+        pageNumber: 1,
+        queryTime: 0,
+        pageCount: 0,
+        rowCount: 0
+      },
       segmentList: [],
       quickSearch: ''
     }
@@ -87,17 +111,36 @@ export default {
   },
   mounted () {
     this.getCustomers()
-    this.setSegment()
+  },
+  watch: {
+    'listOptions.pageNumber': function (newPage) {
+      this.getCustomers(newPage)
+    }
   },
   methods: {
-    getCustomers () {
-      ipcRenderer.send('/customerList')
+    getCustomers (newPage) {
+      this.loading = true
+      this.listOptions.pageNumber = newPage
+      ipcRenderer.removeAllListeners('customerList')
+      const form = {
+        dataPerPage: this.listOptions.dataPerPage,
+        pageNumber: this.listOptions.pageNumber
+      }
+      if (this.quickSearch.length > 1) {
+        form.name = this.quickSearch
+      }
+      ipcRenderer.send('/customerList', form)
       new Promise(function (resolve) {
         ipcRenderer.on('customerList', (e, result) => {
           resolve(result)
         })
       }).then(result => {
         this.customerList = result.result
+        this.listOptions.pageCount = result.pageCount
+        this.listOptions.pageNumber = result.pageNumber
+        this.listOptions.rowCount = result.rowCount
+        this.listOptions.queryTime = result.queryTime
+        this.loading = false
       })
     },
     setSegment () {
@@ -115,9 +158,6 @@ export default {
           })
         }
       })
-    },
-    selectSegment (i) {
-      this.segmentList[i].status = !this.segmentList[i].status
     },
     detail (customerId) {
       this.$router.push('/SummaryCustomer/' + customerId)
