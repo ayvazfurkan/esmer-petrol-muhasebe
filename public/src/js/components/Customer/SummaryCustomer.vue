@@ -598,6 +598,7 @@ export default {
       let id
       let amount
       let description
+      this.success = false
       if(index >= 0){
         id = this.summaryList[index].id
         amount = this.summaryList[index].amount
@@ -645,9 +646,8 @@ export default {
         this.success = false
         this.waitingResponse = false
       } else {
-        console.log(this.moneyFlowInformation)
         this.exception = {}
-        this.success = true
+        this.success = false
         this.waitingResponse = false
         this.$bvModal.hide('money-flow-delete')
         this.moneyFlowInformation = {}
