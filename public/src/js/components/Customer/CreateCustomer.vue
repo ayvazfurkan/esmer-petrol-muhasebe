@@ -4,8 +4,10 @@
     <b-col cols="12" class="mb-3">
       <b-row class="pt-3 pb-2">
         <b-col class="align-self-center">
-          <h6 class="text-transparent mb-0">Müşteriler \ <span v-if="!customerInformation.id">Yeni Müşteri Ekle</span><span
-              v-if="customerInformation.id">Müşteri Düzenle</span><span class="text-capitalize" v-if="customerInformation.name"> \ {{
+          <h6 class="text-transparent mb-0">Müşteriler \ <span
+              v-if="!customerInformation.id">Yeni Müşteri Ekle</span><span
+              v-if="customerInformation.id">Müşteri Düzenle</span><span class="text-capitalize"
+                                                                        v-if="customerInformation.name"> \ {{
               customerInformation.name
             }}</span>
           </h6>
@@ -119,7 +121,7 @@
                          deselectLabel="İptal Et"
                          noResult="Sonuç bulunamadı."
                          selectedLabel="Seçildi"
-                         :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+                         :multiple="true"></multiselect>
           </b-col>
           <b-col cols="12">
             <hr/>
@@ -245,11 +247,11 @@
       </b-card>
     </b-col>
     <b-col cols="12" class="text-right">
-      <b-button variant="light" @click="reset">Sıfırla</b-button>
+      <b-button variant="light" @click="reset" v-if="!customerInformation.id">Sıfırla</b-button>
       <b-button variant="primary" @click="save"
                 :class="{'disabled': !customerInformation.name || waitingResponse || success}"
                 :disabled="!customerInformation.name || waitingResponse || success">
-        <span v-if="!waitingResponse && !Object.keys(exception).length && !success">Kaydet</span>
+        <span v-if="!waitingResponse && !Object.keys(exception).length && !success"><b-icon-check2></b-icon-check2> Kaydet</span>
         <span v-if="!waitingResponse && Object.keys(exception).length">Yeniden Dene</span>
         <b-col v-if="waitingResponse">
           <b-spinner></b-spinner>
@@ -275,6 +277,7 @@ export default {
       detail: {},
       exception: {},
       customerInformation: {
+        segment: [],
         expenseClient: {
           id: 0,
           name: 'Hayır'
@@ -328,14 +331,6 @@ export default {
         }
       })
     },
-    addTag (newTag) {
-      const tag = {
-        name: newTag,
-        id: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
-      }
-      this.options.push(tag)
-      this.value.push(tag)
-    },
     save () {
       this.waitingResponse = true
       const result = ipcRenderer.sendSync('/newCustomer', this.customerInformation)
@@ -349,7 +344,20 @@ export default {
         this.success = true
         this.waitingResponse = false
         if (this.$route.params.id) {
-          this.$router.push('/SummaryCustomer/' + this.$route.params.id)
+          this.makeToast('success','Güncellendi','Müşteri güncelleme işlemi başarılı.')
+          setTimeout(() => {
+            this.$router.push('/SummaryCustomer/' + this.$route.params.id)
+          },2000)
+        } else {
+          this.$bvToast.toast('Müşteri oluşturuldu.', {
+            title: 'Bilgi',
+            toaster: 'b-toaster-top-right',
+            variant: 'success',
+            solid: true,
+            toastClass: 'mt-6',
+            noCloseButton: true,
+            appendToast: true
+          })
         }
       }
     },
@@ -364,14 +372,16 @@ export default {
     // we coded the functions (which names are getCustomer, getCustomerSegment and getSegmentName) below for the customer edit part
     getCustomer () {
       if (this.$route.params.id > 0) {
-        ipcRenderer.send('/getCustomerDetail', { id: this.$route.params.id })
+        ipcRenderer.send('/getCustomerDetail', {
+          id: this.$route.params.id,
+          customerId: this.$route.params.id
+        })
         new Promise(function (resolve) {
           ipcRenderer.on('getCustomerDetail', (event, response) => {
             resolve(response)
           })
         }).then(response => {
           this.customerInformation = response.result
-          this.customerInformation.segment = []
           if (this.customerInformation.expenseClient === 1) {
             this.customerInformation.expenseClient = {
               id: 1,
@@ -385,27 +395,11 @@ export default {
           }
           this.customerInformation.forwardSalesDiscountRate = this.customerInformation.forwardSalesDiscountRate || ''
           this.customerInformation.maxSalesTerm = this.customerInformation.maxSalesTerm || ''
-          this.getCustomerSegment()
+          //this.getCustomerSegment()
         })
       } else {
         return false
       }
-    },
-    getCustomerSegment () {
-      ipcRenderer.send('/getCustomerSegment', { customerId: this.$route.params.id })
-      new Promise(function (resolve) {
-        ipcRenderer.on('getCustomerSegment', (event, response) => {
-          resolve(response)
-        })
-      }).then(response => {
-        for (const segment of response.result) {
-          this.customerInformation.segment.push({
-            id: segment.id,
-            name: segment.name
-          })
-        }
-        console.log(this.customerInformation.segment)
-      })
     }
   }
 }

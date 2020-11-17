@@ -1,10 +1,10 @@
 {
   "name": "blx-petrol-back",
   "version": "1.0.0",
-  "description": "esmer petrol için yönetim paneli uygulaması",
+  "description": "Akaryakıt istasyonu yönetim paneli uygulaması",
   "main": "./main.js",
   "build": {
-    "productName": "Bilexi Petrol BackDesk"
+    "productName": "Bilexi Akaryakıt Yönetim"
   },
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
@@ -47,7 +47,6 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "@openfonts/overpass_latin-ext": "^1.44.1",
     "@popperjs/core": "^2.2.2",
     "bcrypt": "^4.0.1",
     "bootstrap": "^4.5.0",
@@ -63,7 +62,6 @@
     "popper.js": "^1.16.1",
     "sass-loader": "^8.0.2",
     "typeface-inter": "^3.12.0",
-    "uglify-es": "^3.3.9",
     "update": "^0.7.4",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.1",

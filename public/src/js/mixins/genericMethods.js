@@ -118,6 +118,14 @@ const genericMethods = {
     },
     moneyFormat (price) {
       return new Intl.NumberFormat('tr-TR', { style: 'decimal' }).format(price)
+    },
+    makeToast(variant = 'info', title, message) {
+      this.$bvToast.toast(message, {
+        title: title,
+        variant: variant,
+        solid: true,
+        toastClass: 'mt-6 mr-6'
+      })
     }
   }
 }

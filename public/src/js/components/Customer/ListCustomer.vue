@@ -23,7 +23,20 @@
               </b-input-group-text>
             </b-input-group>
           </b-col>
-          <b-col md="9">
+          <b-col md="3">
+            <b-form-radio-group
+                id="moneySituationButtons"
+                v-model="moneySituation"
+                :options="moneySituationOptions"
+                buttons
+                button-variant="outline-secondary"
+                size=""
+                name="radio-btn-outline"
+                class="mt-1"
+                hidden
+            ></b-form-radio-group>
+          </b-col>
+          <b-col md="6">
             <b-button class="float-right m-1" variant="outline-success" @click="newCustomer">
               <b-icon-person-plus></b-icon-person-plus>
               Yeni Müşteri Oluştur
@@ -103,7 +116,13 @@ export default {
         rowCount: 0
       },
       segmentList: [],
-      quickSearch: ''
+      quickSearch: '',
+      moneySituation: 0,
+      moneySituationOptions: [
+        { text: 'Tümü', value: '0' },
+        { text: 'Borçlular', value: '-1' },
+        { text: 'Alacaklılar', value: '1' }
+      ]
     }
   },
   computed: {
@@ -115,6 +134,9 @@ export default {
   watch: {
     'listOptions.pageNumber': function (newPage) {
       this.getCustomers(newPage)
+    },
+    'moneySituation': function (moneySituation) {
+      this.getCustomers()
     }
   },
   methods: {
@@ -123,7 +145,8 @@ export default {
       this.listOptions.pageNumber = newPage
       const form = {
         dataPerPage: this.listOptions.dataPerPage,
-        pageNumber: this.listOptions.pageNumber
+        pageNumber: this.listOptions.pageNumber,
+        moneySituation: this.moneySituation
       }
       if (this.quickSearch.length > 1) {
         form.name = this.quickSearch

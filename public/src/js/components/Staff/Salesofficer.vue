@@ -416,11 +416,12 @@ export default {
             phone: this.details.phone,
             img: this.details.img
           }
+          this.makeToast('success','Kaydedildi','Personel bilgileri kaydedildi!')
           setTimeout(() => {
             this.$bvModal.hide('modal-detail')
           }, 200)
         } else {
-          alert('Bir hata meydana geldi. Lütfen yönetici ile irtibata geçin.')
+          this.makeToast('danger','Kritik hata!','Lütfen sistem yöneticisi ile irtibata geçin!')
         }
       })
     },
@@ -454,12 +455,14 @@ export default {
             img: this.newOfficer.img,
             phone: this.newOfficer.phone
           })
+          this.makeToast('success','Kaydedildi','Personel bilgileri kaydedildi!')
+
           this.newOfficer = { img: null }
           setTimeout(() => {
             this.$bvModal.hide('modal-create')
           }, 250)
         } else {
-          alert('Bir hata meydana geldi. Lütfen yönetici ile irtibata geçin.')
+          this.makeToast('danger','Kritik hata!','Lütfen sistem yöneticisi ile irtibata geçin!')
         }
       })
     },
@@ -480,6 +483,7 @@ export default {
           resolve(response)
         })
       }).then(response => {
+        this.makeToast('success','Silindi!','Personel kalıcı olarak silindi!')
         this.salesofficers.splice(this.selectedOfficer.index, 1)
         this.$bvModal.hide('modal-remove')
       })

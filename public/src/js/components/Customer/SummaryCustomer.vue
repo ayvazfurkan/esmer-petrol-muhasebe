@@ -353,7 +353,7 @@
               </b-tr>
             </b-thead>
             <b-tbody>
-              <b-tr v-for="(ocp, i) in oncreditProductList">
+              <b-tr v-for="(ocp, i) in oncreditProductList" :key="i">
                 <b-td>{{ i + 1 }}</b-td>
                 <b-td>{{ ocp.productName || 'Diğer' }}</b-td>
                 <b-td>{{ moneyFormat(ocp.amount) }}</b-td>
@@ -510,7 +510,6 @@ export default {
           resolve(result)
         })
       }).then(result => {
-        console.log(result)
         this.customer = result.result
         this.getCustomerSummary(this.summaryInfo.pageNumber)
         this.getCustomerPlates()
@@ -548,7 +547,6 @@ export default {
           resolve(result)
         })
       }).then(result => {
-        console.log(result)
         this.summaryInfo.loading = false
         this.summaryList = result.result
         this.summaryInfo.loading = false
@@ -659,12 +657,14 @@ export default {
         this.exception = result.exception
         this.success = false
         this.waitingResponse = false
+        this.makeToast('danger','Hata!','Bir hata meydana geldi ve işlem silinemedi!')
       } else {
         this.exception = {}
         this.success = false
         this.waitingResponse = false
         this.$bvModal.hide('money-flow-delete')
         this.moneyFlowInformation = {}
+        this.makeToast('success','Silindi!','Silme işlemi başarılı!')
         this.getCustomerSummary(this.summaryInfo.pageNumber)
         this.getCustomerBalance()
       }
@@ -682,7 +682,9 @@ export default {
       } else {
         if (!this.moneyFlow.id) {
           this.changeTab('summary')
+          this.makeToast('success','Kaydedildi!','İşleminiz kaydedildi!')
         } else {
+          this.makeToast('success','Güncellendi!','Değişiklikler kaydedildi.')
           this.getCustomerSummary(this.summaryInfo.pageNumber)
           this.getCustomerBalance()
         }

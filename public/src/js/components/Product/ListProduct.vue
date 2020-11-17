@@ -283,8 +283,10 @@ export default {
             salePrice: this.productInformation.salePrice,
             forwardSalePrice: this.productInformation.forwardSalePrice
           })
+          this.makeToast('success','Kaydedildi!','Yeni ürün kaydedildi!')
         } else {
           this.productList[index] = this.productInformation
+          this.makeToast('success','Güncellendi!','Ürün bilgileri güncellendi!')
         }
         this.exception = {}
         this.success = true
@@ -303,6 +305,7 @@ export default {
         this.exception = result.exception
         this.success = false
         this.waitingResponse = false
+        this.makeToast('danger','Hata!','Bir hata geldi ve ürün silinemedi!')
       } else {
         this.productList.splice(index, 1)
         this.exception = {}
@@ -310,6 +313,7 @@ export default {
         this.waitingResponse = false
         this.$bvModal.hide('product-delete')
         this.productInformation = {}
+        this.makeToast('success','Silindi!','Ürün silme işlemi başarılı!')
       }
     }
   },
