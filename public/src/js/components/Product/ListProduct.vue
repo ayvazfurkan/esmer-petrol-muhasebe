@@ -289,7 +289,7 @@ export default {
           this.makeToast('success','Güncellendi!','Ürün bilgileri güncellendi!')
         }
         this.exception = {}
-        this.success = true
+        this.success = false
         this.waitingResponse = false
         this.$bvModal.hide('product-add-or-edit')
         this.productInformation = {}

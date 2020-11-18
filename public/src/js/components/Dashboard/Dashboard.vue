@@ -4,7 +4,7 @@
     <b-col cols="12" class="mb-3">
       <b-row class="pt-3 pb-2">
         <b-col class="align-self-center">
-          <h6 class="text-transparent mb-0">
+          <h6 class="text-transparent text-capitalize mb-0">
             {{ this.getSession.userDetails.companyName }}
             <b-icon-dot class="mx-3"></b-icon-dot>
             {{ this.getSession.userDetails.branchName }}
@@ -13,7 +13,7 @@
           </h6>
         </b-col>
         <b-col class="text-right">
-          <h6 class="text-transparent mb-0">
+          <h6 class="text-transparent text-capitalize mb-0">
             {{ this.getSession.userDetails.name }}
           </h6>
         </b-col>

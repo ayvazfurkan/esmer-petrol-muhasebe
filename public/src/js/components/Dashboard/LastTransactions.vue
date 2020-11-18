@@ -21,7 +21,7 @@
           <b-table-simple borderless striped v-if="!_.isEmpty(transactions) && !loading" class="max-h-600">
             <b-tbody>
               <b-tr v-for="transaction of transactions" :key="transaction.id" @click="summaryCustomer(transaction.customerId)">
-                <b-td>{{ transaction.customerName }}</b-td>
+                <b-td class="text-capitalize">{{ transaction.customerName }}</b-td>
                 <b-td>{{ transaction.plate }}</b-td>
                 <b-td>₺{{ moneyFormat(transaction.totalPrice) }}</b-td>
                 <b-td>{{

@@ -349,15 +349,8 @@ export default {
             this.$router.push('/SummaryCustomer/' + this.$route.params.id)
           },2000)
         } else {
-          this.$bvToast.toast('Müşteri oluşturuldu.', {
-            title: 'Bilgi',
-            toaster: 'b-toaster-top-right',
-            variant: 'success',
-            solid: true,
-            toastClass: 'mt-6',
-            noCloseButton: true,
-            appendToast: true
-          })
+          this.makeToast('success','Kaydedildi','Müşteri kaydetme işlemi başarılı.')
+          this.reset()
         }
       }
     },

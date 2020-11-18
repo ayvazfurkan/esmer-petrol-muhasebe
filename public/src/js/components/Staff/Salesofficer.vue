@@ -253,7 +253,7 @@
             </b-button>
             <b-skeleton type="button" v-else width="20%"></b-skeleton>
             <b-button variant="outline-primary" @click="create" v-if="!modalLoading"
-                      :class="{'disabled': !newOfficer.name || modalLoading || success}"
+                      :class="{'disabled': (!newOfficer.name && !newOfficer.username && !newOfficer.phone) || modalLoading || success}"
                       :disabled="!newOfficer.name || modalLoading || success">
               <span v-if="!modalLoading && _.isEmpty(errors) && !success"><b-icon-plus></b-icon-plus> Ekle</span>
               <span v-if="!modalLoading && !_.isEmpty(errors)"><b-icon-arrow-repeat></b-icon-arrow-repeat> Yeniden Dene</span>

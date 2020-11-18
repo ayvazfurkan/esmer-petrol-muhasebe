@@ -33,7 +33,6 @@
                 size=""
                 name="radio-btn-outline"
                 class="mt-1"
-                hidden
             ></b-form-radio-group>
           </b-col>
           <b-col md="6">
@@ -68,7 +67,7 @@
               <b-tr v-for="(customer,i) in customerList" :key="i" @click="detail (customer.customerOrgId)">
                 <b-th><span v-if="listOptions.pageNumber">{{ (i + 1) + (listOptions.dataPerPage * (listOptions.pageNumber - 1)) }}</span></b-th>
                 <b-td style="text-transform: capitalize">{{ customer.name }}</b-td>
-                <b-td>{{ customer.authorizedPersonName }}</b-td>
+                <b-td class="text-capitalize">{{ customer.authorizedPersonName }}</b-td>
                 <b-td :class="{'text-success': customer.balance > 0, 'text-danger': customer.balance < 0}">{{ moneyFormat(customer.balance) }}</b-td>
               </b-tr>
             </b-tbody>

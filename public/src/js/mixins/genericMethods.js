@@ -124,7 +124,7 @@ const genericMethods = {
         title: title,
         variant: variant,
         solid: true,
-        toastClass: 'mt-6 mr-6'
+        toastClass: 'mt-5 mr-5'
       })
     }
   }

@@ -238,7 +238,7 @@ export default {
           this.segmentList[index] = this.segmentInformation
         }
         this.exception = {}
-        this.success = true
+        this.success = false
         this.waitingResponse = false
         this.$bvModal.hide('segment-add-or-edit')
         this.segmentInformation = {}
