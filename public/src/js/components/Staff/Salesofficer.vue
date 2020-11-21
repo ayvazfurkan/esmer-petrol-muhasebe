@@ -106,7 +106,7 @@
                 <label v-if="!modalLoading">Telefon</label>
                 <b-skeleton width="15%" v-else></b-skeleton>
                 <b-input-group v-if="!modalLoading">
-                  <b-input v-model="details.phone"></b-input>
+                  <b-input v-model="details.phone" v-mask="'0(###) ### ## ##'"></b-input>
                   <b-input-group-text>
                     <b-icon-phone></b-icon-phone>
                   </b-input-group-text>
@@ -304,6 +304,7 @@
   </b-row>
 </template>
 <script>
+import Vue from 'vue'
 import { ipcRenderer } from 'electron'
 import { mapGetters } from 'vuex'
 import _ from 'lodash'

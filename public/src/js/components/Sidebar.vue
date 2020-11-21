@@ -93,6 +93,13 @@ export default {
           },
           child: [
             {
+              href: { path: '/Settings/BranchInfo' },
+              title: 'Genel Ayarlar',
+              icon: {
+                element: 'b-icon-house'
+              }
+            },
+            {
               href: { path: '/Settings/UserPassword' },
               title: 'Şifre Değiştir',
               icon: {

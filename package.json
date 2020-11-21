@@ -63,6 +63,7 @@
     "sass-loader": "^8.0.2",
     "typeface-inter": "^3.12.0",
     "update": "^0.7.4",
+    "v-mask": "^2.2.3",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.1",
     "vue-currency-input": "^1.18.3",

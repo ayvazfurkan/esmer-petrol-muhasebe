@@ -13,6 +13,7 @@ import ListProduct from '../components/Product/ListProduct.vue'
 import Salesofficer from '../components/Staff/Salesofficer.vue'
 import Dashboard from '../components/Dashboard/Dashboard.vue'
 import UserPassword from '../components/Settings/UserPassword.vue'
+import BranchInfo from '../components/Settings/BranchInfo.vue'
 
 const router = new VueRouter({
   routes: [
@@ -83,6 +84,10 @@ const router = new VueRouter({
     {
       path: '/Settings/UserPassword',
       component: UserPassword
+    },
+    {
+      path: '/Settings/BranchInfo',
+      component: BranchInfo
     }
   ]
 
