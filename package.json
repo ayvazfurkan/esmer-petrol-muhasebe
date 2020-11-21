@@ -10,7 +10,7 @@
     "postinstall": "electron-builder install-app-deps",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "transpile": "babel --presets env --require babel-polyfill ./lib/src --out-dir ./lib/dist",
+    "transpile": "babel --presets env,minify --require babel-polyfill ./lib/src --out-dir ./lib/dist",
     "bundle": "webpack --entry ./public/src/js/index.js --output-filename ./bundle.js",
     "start": "electron ."
   },
@@ -44,7 +44,8 @@
     "vue-loader": "^15.9.1",
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "electron-builder": "^22.7.0"
   },
   "dependencies": {
     "@popperjs/core": "^2.2.2",
@@ -52,7 +53,6 @@
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.17.3",
     "chart.js": "^2.9.4",
-    "electron-builder": "^22.7.0",
     "jquery": "^3.5.1",
     "js-cookie": "^2.2.1",
     "knex": "^0.21.0",

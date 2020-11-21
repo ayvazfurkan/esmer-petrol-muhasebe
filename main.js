@@ -27,12 +27,6 @@ app.on('window-all-closed', () => {
   }
 })
 
-// app.on('ready', () => {
-//   if (process.env.NODE_ENV !== 'production') {
-//     require('vue-devtools').install()
-//   }
-// })
-
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()

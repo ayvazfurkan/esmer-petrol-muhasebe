@@ -715,7 +715,7 @@ export default {
         return false
       }
     },
-    editCustomer (){
+    editCustomer () {
       this.$router.push('/EditCustomer/' + this.$route.params.id)
     }
   },

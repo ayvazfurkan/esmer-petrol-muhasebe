@@ -344,10 +344,10 @@ export default {
         this.success = true
         this.waitingResponse = false
         if (this.$route.params.id) {
-          this.makeToast('success','Güncellendi','Müşteri güncelleme işlemi başarılı.')
+          this.makeToast('success', 'Güncellendi', 'Müşteri güncelleme işlemi başarılı.')
           setTimeout(() => {
             this.$router.push('/SummaryCustomer/' + this.$route.params.id)
-          },2000)
+          }, 2000)
         } else {
           this.makeToast('success','Kaydedildi','Müşteri kaydetme işlemi başarılı.')
           this.reset()
@@ -361,6 +361,7 @@ export default {
       this.customerInformation = {}
       this.customerInformation.creatorId = this.getSession.userDetails.id
       this.customerInformation.branchId = this.getSession.userDetails.branchId
+      this.$router.go(0)
     },
     // we coded the functions (which names are getCustomer, getCustomerSegment and getSegmentName) below for the customer edit part
     getCustomer () {
@@ -388,7 +389,6 @@ export default {
           }
           this.customerInformation.forwardSalesDiscountRate = this.customerInformation.forwardSalesDiscountRate || ''
           this.customerInformation.maxSalesTerm = this.customerInformation.maxSalesTerm || ''
-          //this.getCustomerSegment()
         })
       } else {
         return false
