@@ -77,12 +77,14 @@
                     this.exception = result.exception
                     this.success = false
                     this.waitingResponse = false
+                  this.makeToast('danger', 'Hata!', 'Bir hata meydana geldi.')
                 } else {
                     this.exception = {}
                     this.segmentInformation = {}
                     this.success = true
                     this.waitingResponse = false
                     this.inputFocus()
+                    this.makeToast('success', 'Kaydedildi', 'Segment kaydedildi.')
                     setTimeout(()=>{
                         this.success = false
                     },2000)

@@ -17,7 +17,7 @@
                           <b-icon-signpost></b-icon-signpost>
                         </b-input-group-text>
                       </b-input-group>
-                      <span class="text-danger" v-if="errors.name">{{ errors.name }}</span>
+                      <span class="text-danger" v-if="exception.name">{{ exception.name }}</span>
                     </b-col>
                     <b-col cols="12" class="mb-3">
                       <label>Telefon</label>
@@ -27,7 +27,7 @@
                           <b-icon-phone></b-icon-phone>
                         </b-input-group-text>
                       </b-input-group>
-                      <span class="text-danger" v-if="errors.phone">{{ errors.phone }}</span>
+                      <span class="text-danger" v-if="exception.phone">{{ exception.phone }}</span>
                     </b-col>
                     <b-col cols="12" class="mb-3">
                       <label>Adres</label>
@@ -37,7 +37,7 @@
                           <b-icon-signpost-split></b-icon-signpost-split>
                         </b-input-group-text>
                       </b-input-group>
-                      <span class="text-danger" v-if="errors.address">{{ errors.address }}</span>
+                      <span class="text-danger" v-if="exception.address">{{ exception.address }}</span>
                     </b-col>
                     <b-col cols="12" class="mb-3">
                       <label>Vergi Numarası</label>
@@ -47,7 +47,7 @@
                           <b-icon-sort-numeric-down></b-icon-sort-numeric-down>
                         </b-input-group-text>
                       </b-input-group>
-                      <span class="text-danger" v-if="errors.taxNumber">{{ errors.taxNumber }}</span>
+                      <span class="text-danger" v-if="exception.taxNumber">{{ exception.taxNumber }}</span>
                     </b-col>
                     <b-col cols="12">
                       <label>Vergi Dairesi</label>
@@ -57,7 +57,7 @@
                           <b-icon-house-door></b-icon-house-door>
                         </b-input-group-text>
                       </b-input-group>
-                      <span class="text-danger" v-if="errors.taxOffice">{{ errors.taxOffice }}</span>
+                      <span class="text-danger" v-if="exception.taxOffice">{{ exception.taxOffice }}</span>
                     </b-col>
                   </b-form-row>
                 </b-card-text>
@@ -65,14 +65,14 @@
               <b-tab title="Yazıcı Ayarları">
                 <b-form-row>
                   <b-col cols="12" class="mb-3">
-                    <label>Yazıcı Ip</label>
+                    <label>Yazıcı Ip<br><small>Eğer Ip yazarsanız USB pasif hale gelir.</small></label>
                     <b-input-group>
                       <b-input v-model="branchDetail.pumpPrinterIP"></b-input>
                       <b-input-group-text>
                         <b-icon-printer></b-icon-printer>
                       </b-input-group-text>
                     </b-input-group>
-                    <span class="text-danger" v-if="errors.pumpPrinterIP">{{ errors.pumpPrinterIP }}</span>
+                    <span class="text-danger" v-if="exception.pumpPrinterIP">{{ exception.pumpPrinterIP }}</span>
                   </b-col>
                   <b-col cols="6" class="mb-3">
                     <label>Yazıcı USB VID</label>
@@ -82,7 +82,7 @@
                         <b-icon-gear-wide-connected></b-icon-gear-wide-connected>
                       </b-input-group-text>
                     </b-input-group>
-                    <span class="text-danger" v-if="errors.pumpPrinterVid">{{ errors.pumpPrinterVid }}</span>
+                    <span class="text-danger" v-if="exception.pumpPrinterVid">{{ exception.pumpPrinterVid }}</span>
                   </b-col>
                   <b-col cols="6">
                     <label>Yazıcı USB PID</label>
@@ -92,7 +92,7 @@
                         <b-icon-key></b-icon-key>
                       </b-input-group-text>
                     </b-input-group>
-                    <span class="text-danger" v-if="errors.pumpPrinterPid">{{ errors.pumpPrinterPid }}</span>
+                    <span class="text-danger" v-if="exception.pumpPrinterPid">{{ exception.pumpPrinterPid }}</span>
                   </b-col>
                   <b-col cols="12" class="mb-3">
                     <label>Kopya Sayısı<br><small>Sadece satıştan sonraki otomatik yazdırma işlemi için</small></label>
@@ -102,7 +102,7 @@
                         <b-icon-back></b-icon-back>
                       </b-input-group-text>
                     </b-input-group>
-                    <span class="text-danger" v-if="errors.pumpPrinterCopy">{{ errors.pumpPrinterCopy }}</span>
+                    <span class="text-danger" v-if="exception.pumpPrinterCopy">{{ exception.pumpPrinterCopy }}</span>
                   </b-col>
                   <b-col cols="12" class="mb-3">
                     <label>Fiş Yasal Metin</label>
@@ -116,7 +116,7 @@
                         <b-icon-chat-right-text></b-icon-chat-right-text>
                       </b-input-group-text>
                     </b-input-group>
-                    <span class="text-danger" v-if="errors.receiptAgreement">{{ errors.receiptAgreement }}</span>
+                    <span class="text-danger" v-if="exception.receiptAgreement">{{ exception.receiptAgreement }}</span>
                   </b-col>
                   <b-col cols="12" class="mb-3">
                     <b-form-checkbox switch v-model="branchDetail.pumpPrinterBeep"
@@ -125,7 +125,7 @@
                         branchDetail.pumpPrinterBeep ? 'Yazdırınca sesli uyarı olsun' : 'Yazdırınca sesli uyarı olmasın'
                       }}
                     </b-form-checkbox>
-                    <span class="text-danger" v-if="errors.pumpPrinterBeep">{{ errors.pumpPrinterBeep }}</span>
+                    <span class="text-danger" v-if="exception.pumpPrinterBeep">{{ exception.pumpPrinterBeep }}</span>
                   </b-col>
                 </b-form-row>
               </b-tab>
@@ -137,10 +137,10 @@
           <b-col cols="12">
             <b-form-row class="px-3">
               <b-col cols="12" class="px-2">
-                <b-button variant="outline-primary mb-3" @click="save" :disabled="success || loading" block>
-                  <span v-if="!success && _.isEmpty(errors)"><b-icon-pencil-square></b-icon-pencil-square> Kaydet</span>
-                  <span v-if="!success && !_.isEmpty(errors)"><b-icon-pencil-square></b-icon-pencil-square> Yeniden Dene</span>
-                  <span v-if="success && _.isEmpty(errors)"><b-icon-check2></b-icon-check2> Başarılı</span>
+                <b-button variant="outline-primary mb-3" @click="saveBranch" :disabled="success || loading" block>
+                  <span v-if="!success && _.isEmpty(exception)"><b-icon-check2></b-icon-check2> Kaydet</span>
+                  <span v-if="!success && !_.isEmpty(exception)"><b-icon-pencil-square></b-icon-pencil-square> Yeniden Dene</span>
+                  <span v-if="success && _.isEmpty(exception)"><b-icon-check2></b-icon-check2> Başarılı</span>
                 </b-button>
               </b-col>
             </b-form-row>
@@ -162,8 +162,9 @@ export default {
     return {
       branchDetail: {},
       success: false,
-      errors: {},
-      loading: true
+      exception: {},
+      loading: false,
+      waitingResponse: false,
     }
   },
   computed: {
@@ -187,7 +188,25 @@ export default {
       }).then(response => {
         this.branchDetail = response.result
       })
-    }
+    },
+    saveBranch() {
+      this.waitingResponse = true
+      let result = ipcRenderer.sendSync("/saveBranchDetail", this.branchDetail)
+      if (!result.status) {
+        this.makeToast('success', 'Hata!', 'Bir hata meydana geldi.')
+        this.exception = result.exception
+        this.success = false
+        this.waitingResponse = false
+      } else {
+        this.exception = {}
+        this.success = true
+        this.waitingResponse = false
+        this.makeToast('success', 'Kaydedildi', 'Şirket bilgileriniz kaydedildi.')
+        setTimeout(()=>{
+          this.success = false
+        },2000)
+      }
+    },
   }
 }
 </script>
