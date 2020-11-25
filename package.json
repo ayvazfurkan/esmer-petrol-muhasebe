@@ -10,7 +10,7 @@
     "postinstall": "electron-builder install-app-deps",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "transpile": "babel --presets env,minify --require babel-polyfill ./lib/src --out-dir ./lib/dist",
+    "transpile": "babel --presets env,minify --require babel-polyfill ./lib/src --out-dir ./lib/dist & npm run start",
     "bundle": "webpack --entry ./public/src/js/index.js --output-filename ./bundle.js",
     "start": "electron ."
   },
