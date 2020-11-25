@@ -426,7 +426,6 @@
         </b-button>
       </template>
     </b-modal>
-
   </b-row>
 </template>
 <script>
@@ -611,7 +610,7 @@ export default {
       let amount
       let description
       this.success = false
-      if(index >= 0){
+      if (index >= 0) {
         id = this.summaryList[index].id
         amount = this.summaryList[index].amount
         description = this.summaryList[index].description
@@ -648,7 +647,6 @@ export default {
       this.success = false
     },
     deleteMoneyFlowSave () {
-      const index = this.moneyFlowInformation.index
       this.waitingResponse = true
       this.moneyFlowInformation.updaterId = this.getSession.userDetails.id
       this.moneyFlowInformation.branchId = this.getSession.userDetails.branchId
@@ -657,20 +655,19 @@ export default {
         this.exception = result.exception
         this.success = false
         this.waitingResponse = false
-        this.makeToast('danger','Hata!','Bir hata meydana geldi ve işlem silinemedi!')
+        this.makeToast('danger', 'Hata!', 'Bir hata meydana geldi ve işlem silinemedi!')
       } else {
         this.exception = {}
         this.success = false
         this.waitingResponse = false
         this.$bvModal.hide('money-flow-delete')
         this.moneyFlowInformation = {}
-        this.makeToast('success','Silindi!','Silme işlemi başarılı!')
+        this.makeToast('success', 'Silindi!', 'Silme işlemi başarılı!')
         this.getCustomerSummary(this.summaryInfo.pageNumber)
         this.getCustomerBalance()
       }
     },
     saveMoneyFlow () {
-      const index = this.moneyFlow.index
       this.waitingResponse = true
       this.moneyFlow.creatorId = this.getSession.userDetails.id
       this.moneyFlow.branchId = this.getSession.userDetails.branchId
@@ -682,9 +679,9 @@ export default {
       } else {
         if (!this.moneyFlow.id) {
           this.changeTab('summary')
-          this.makeToast('success','Kaydedildi!','İşleminiz kaydedildi!')
+          this.makeToast('success', 'Kaydedildi!', 'İşleminiz kaydedildi!')
         } else {
-          this.makeToast('success','Güncellendi!','Değişiklikler kaydedildi.')
+          this.makeToast('success', 'Güncellendi!', 'Değişiklikler kaydedildi.')
           this.getCustomerSummary(this.summaryInfo.pageNumber)
           this.getCustomerBalance()
         }
@@ -725,6 +722,10 @@ export default {
 <style>
 .card-header {
   padding-bottom: 2px !important;
+}
+
+.card-header-tabs {
+  margin-bottom: -0.75rem !important
 }
 
 .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
