@@ -94,7 +94,7 @@ export default {
     search (name) {
       ipcRenderer.removeAllListeners('customerList')
       this.searchResults = []
-      if (name.length < 3) {
+      if (name.length < 2) {
         return false
       }
       ipcRenderer.send('/getCustomer', { name })
