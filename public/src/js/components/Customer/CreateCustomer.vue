@@ -376,6 +376,17 @@ export default {
           })
         }).then(response => {
           this.customerInformation = response.result
+          this.customerInformation.provinceId = {
+            id: this.customerInformation.provinceId,
+            name: this.customerInformation.provinceName
+          }
+          this.customerInformation.districtId = {
+            id: this.customerInformation.districtId,
+            name: this.customerInformation.districtName
+          }
+          this.$forceUpdate()
+          this.getDistricts(this.customerInformation.provinceId.id)
+          this.$forceUpdate()
           if (this.customerInformation.expenseClient === 1) {
             this.customerInformation.expenseClient = {
               id: 1,

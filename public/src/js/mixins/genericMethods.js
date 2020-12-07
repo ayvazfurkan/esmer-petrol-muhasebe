@@ -67,6 +67,7 @@ const genericMethods = {
             name: district.name
           })
         }
+        this.$forceUpdate()
       })
     },
     getRegions (name) {
