@@ -110,8 +110,7 @@ export default {
             name: item.name + ' - ' + item.authorizedPersonName
           })
         }
-      }
-      )
+      })
     },
     redirect () {
       this.$router.push('/SummaryCustomer/' + this.quickSearch.id)

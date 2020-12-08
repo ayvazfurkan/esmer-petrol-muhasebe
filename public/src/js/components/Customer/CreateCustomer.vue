@@ -243,6 +243,26 @@
             </b-input-group>
             <span class="text-danger" v-if="exception.expenseClient">{{ exception.expenseClient }}</span>
           </b-col>
+          <b-col md="6">
+            <label>Veresiye Müşterisi mi?</label>
+            <b-input-group class="mb-3">
+              <multiselect
+                  v-model="customerInformation.oncreditDisabled"
+                  placeholder=""
+                  :options="noYes"
+                  selectLabel="Seç"
+                  deselectLabel="İptal Et"
+                  noResult="Sonuç bulunamadı."
+                  selectedLabel="Seçildi"
+                  track-by="id"
+                  label="name"
+                  :custom-label="multiselectSearcher">
+                <span slot="noOptions">Yazmaya devam edin.</span>
+                <span slot="noResult">Sonuç bulunamadı.</span>
+              </multiselect>
+            </b-input-group>
+            <span class="text-danger" v-if="exception.oncreditDisabled">{{ exception.oncreditDisabled }}</span>
+          </b-col>
         </b-form-row>
       </b-card>
     </b-col>
@@ -281,6 +301,10 @@ export default {
         expenseClient: {
           id: 0,
           name: 'Hayır'
+        },
+        oncreditDisabled: {
+          id: 0,
+          name: 'Evet'
         }
       },
       yesNo: [
@@ -290,6 +314,16 @@ export default {
         },
         {
           id: 0,
+          name: 'Hayır'
+        }
+      ],
+      noYes: [
+        {
+          id: 0,
+          name: 'Evet'
+        },
+        {
+          id: 1,
           name: 'Hayır'
         }
       ],
@@ -349,7 +383,7 @@ export default {
             this.$router.push('/SummaryCustomer/' + this.$route.params.id)
           }, 2000)
         } else {
-          this.makeToast('success','Kaydedildi','Müşteri kaydetme işlemi başarılı.')
+          this.makeToast('success', 'Kaydedildi', 'Müşteri kaydetme işlemi başarılı.')
           this.reset()
         }
       }
@@ -396,6 +430,17 @@ export default {
             this.customerInformation.expenseClient = {
               id: 0,
               name: 'Hayır'
+            }
+          }
+          if (this.customerInformation.oncreditDisabled === 1) {
+            this.customerInformation.oncreditDisabled = {
+              id: 1,
+              name: 'Hayır'
+            }
+          } else {
+            this.customerInformation.oncreditDisabled = {
+              id: 0,
+              name: 'Evet'
             }
           }
           this.customerInformation.forwardSalesDiscountRate = this.customerInformation.forwardSalesDiscountRate || ''

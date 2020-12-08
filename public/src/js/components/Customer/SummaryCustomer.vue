@@ -13,10 +13,15 @@
             <b-button variant="light" size="sm" class="rounded-circle position-absolute" id="editCustomer" @click="editCustomer()" v-b-tooltip.lefttop title="Müşteriyi düzenle">
               <b-icon-wrench></b-icon-wrench>
             </b-button>
-            <b-iconstack font-scale="5" class="my-4">
+            <b-iconstack font-scale="5" class="my-4" v-if="!customer.oncreditDisabled">
               <b-icon-square stacked></b-icon-square>
               <b-icon-person stacked></b-icon-person>
             </b-iconstack>
+            <span v-else v-b-tooltip.lefttop title="Veresiye satışına kapalı müşteri">
+            <b-iconstack font-scale="5" class="my-4">
+              <b-icon stacked icon="person"></b-icon>
+              <b-icon stacked icon="exclamation-square" variant="danger"></b-icon>
+            </b-iconstack></span>
             <h5 class="text-capitalize text-truncate text-center" v-b-tooltip.leftbottom :title="customer.name">
               {{ customer.name }}
             </h5>

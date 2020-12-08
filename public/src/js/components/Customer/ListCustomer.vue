@@ -66,12 +66,13 @@
             <b-tbody>
               <b-tr v-for="(customer,i) in customerList" :key="i" @click="detail (customer.customerOrgId)">
                 <b-th><span v-if="listOptions.pageNumber">{{ (i + 1) + (listOptions.dataPerPage * (listOptions.pageNumber - 1)) }}</span></b-th>
-                <b-td style="text-transform: capitalize">{{ customer.name }}</b-td>
-                <b-td class="text-capitalize">{{ customer.authorizedPersonName }}</b-td>
+                <b-td style="text-transform: capitalize"><span v-if="customer.oncreditDisabled" v-b-tooltip title="Veresiye Müşterisi Değil"><b-icon icon="exclamation-circle-fill" variant="danger"></b-icon></span> {{ customer.name }}</b-td>
+                <b-td class="text-capitalize"><b-icon icon="person-check" v-if="customer.authorizedPersonName"></b-icon> {{ customer.authorizedPersonName }}</b-td>
                 <b-td :class="{'text-success': customer.balance > 0, 'text-danger': customer.balance < 0}">{{ moneyFormat(customer.balance) }}</b-td>
               </b-tr>
             </b-tbody>
           </b-table-simple>
+          <p class="text-center" v-if="!customerList.length && !loading"><b-icon icon="exclamation-circle-fill" variant="danger"></b-icon> Kayıt bulunamadı.</p>
         </b-overlay>
         <div class="float-left" v-if="!loading">
           <small v-if="customerList.length &&  !loading">Toplam {{ listOptions.rowCount }} kayıt
