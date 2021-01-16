@@ -745,10 +745,10 @@ export default {
         if (!resultRaw || resultRaw.length < 1) {
           return false
         }
-        extract.push(['Müşteri', 'Fiş', 'Tutar', 'Bakiye', 'Açıklama', 'İşlem Yapan', 'İşlem Zamanı'])
+        extract.push(['Müşteri:', self.customer.name])
+        extract.push(['Fiş', 'Tutar', 'Bakiye', 'Açıklama', 'İşlem Yapan', 'İşlem Zamanı'])
         resultRaw.forEach(item => {
           extract.push([
-            self.customer.name,
             item.id,
             item.amount,
             item.balance,
@@ -797,5 +797,9 @@ export default {
 #editCustomer {
   top: 1rem;
   right: 1rem
+}
+
+a.nav-link {
+  padding: 0 1rem
 }
 </style>

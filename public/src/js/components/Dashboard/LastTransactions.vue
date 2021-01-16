@@ -7,7 +7,7 @@
             <b-col cols="12">
               <h6>Günlük Veresiye Fişleri</h6>
             </b-col>
-            <b-col cols="3">
+            <b-col cols="4">
               <b-form-datepicker
                   v-model="dateStart"
                   class="border"
@@ -24,7 +24,7 @@
             <b-col cols="1" class="text-center" align-self="center">
               <b-icon-arrow-right></b-icon-arrow-right>
             </b-col>
-            <b-col cols="3">
+            <b-col cols="4">
               <b-form-datepicker
                 class="border"
                 v-model="dateEnd"
@@ -39,8 +39,8 @@
                 </template>
               </b-form-datepicker>
             </b-col>
-            <b-col cols="4" align-self="center">
-              arası sonuçlar gösteriliyor.
+            <b-col cols="3" align-self="center">
+              tarihleri arası.
             </b-col>
           </b-form-row>
           <b-table-simple borderless striped v-if="!_.isEmpty(transactions) && !loading" class="mt-2">
@@ -63,7 +63,7 @@
           ></b-skeleton-table>
           <p class="text-danger" v-if="_.isEmpty(transactions) && !loading">
             <b-icon-exclamation-circle class="mr-1"></b-icon-exclamation-circle>
-            {{ moment(this.date).format("DD MMMM") }} tarihi için kayıtlı işlem
+            Seçilen tarih aralığında kayıtlı işlem
             bulunamadı.
           </p>
         </b-card>

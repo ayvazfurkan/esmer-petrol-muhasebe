@@ -19,15 +19,15 @@
         </b-col>
       </b-row>
     </b-col>
-    <b-col cols="6">
+    <b-col cols="5">
       <b-row>
-        <b-col class="mb-4" cols="6">
+        <b-col class="mb-4" cols="12">
           <b-card>
             <h6>Müşteri Hacimleri</h6>
             <customer-volume :height="150"></customer-volume>
           </b-card>
         </b-col>
-        <b-col class="mb-4" cols="6">
+        <b-col class="mb-4" cols="12">
           <b-card>
             <h6>Segment Dağılımı</h6>
             <customer-segments :height="150"></customer-segments>
@@ -36,7 +36,7 @@
         <b-col class="mb-4" cols="12">
           <b-card>
             <h6>Ürün Dağılımı</h6>
-            <product-diversity :height="100"></product-diversity>
+            <product-diversity :height="150"></product-diversity>
           </b-card>
         </b-col>
         <b-col class="mb-4" cols="12">
@@ -47,7 +47,7 @@
         </b-col>
       </b-row>
     </b-col>
-    <b-col cols="6" class="px-0">
+    <b-col cols="7" class="px-0">
       <last-transactions></last-transactions>
     </b-col>
   </b-row>
