@@ -19,7 +19,7 @@
         </b-col>
       </b-row>
     </b-col>
-    <b-col cols="7">
+    <b-col cols="6">
       <b-row>
         <b-col class="mb-4" cols="6">
           <b-card>
@@ -47,7 +47,7 @@
         </b-col>
       </b-row>
     </b-col>
-    <b-col cols="5" class="px-0">
+    <b-col cols="6" class="px-0">
       <last-transactions></last-transactions>
     </b-col>
   </b-row>

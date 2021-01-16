@@ -10,7 +10,8 @@
       <b-card v-if="!loadingPage" class="mb-2">
         <b-form-row>
           <b-col cols="12" class="text-center mb-4">
-            <b-button variant="light" size="sm" class="rounded-circle position-absolute" id="editCustomer" @click="editCustomer()" v-b-tooltip.lefttop title="Müşteriyi düzenle">
+            <b-button variant="light" size="sm" class="rounded-circle position-absolute" id="editCustomer"
+                      @click="editCustomer()" v-b-tooltip.lefttop title="Müşteriyi düzenle">
               <b-icon-wrench></b-icon-wrench>
             </b-button>
             <b-iconstack font-scale="5" class="my-4" v-if="!customer.oncreditDisabled">
@@ -35,7 +36,7 @@
             </b-button>
             <hr>
           </b-col>
-          <b-col cols="12" v-if="customer.authorizedPersonName">
+          <b-col cols="12" v-if="customer.authorizedPersonName" class="mb-3">
             <h6 class="text-transparent">Yetkili Kişi</h6>
             <p class="text-capitalize mb-0">{{ customer.authorizedPersonName }}</p>
             <p v-if="customer.citizenIdentification" v-b-tooltip
@@ -49,7 +50,7 @@
           </b-col>
           <b-col cols="6" v-if="customer.gsm">
             <h6 class="text-transparent">İkincil</h6>
-            <p>{{ customer.phone }}</p>
+            <p>{{ customer.phone ? customer.phone : 'Numara yok.' }}</p>
           </b-col>
           <b-col cols="12" class="mb-3" v-if="customer.email">
             <h6 class="text-transparent">E-Posta</h6>
@@ -64,20 +65,24 @@
           </b-col>
           <b-col cols="12" class="text-center">
             <hr>
-            <b-button variant="outline-success" size="sm"
+            <b-button variant="outline-success" size="sm" class="mt-1"
                       @click="newMoneyFlow(-1,1, 0, '<b-icon-box-arrow-down></b-icon-box-arrow-down>')">
               <b-icon-box-arrow-down></b-icon-box-arrow-down>
               Tahsilat
             </b-button>
-            <b-button variant="outline-danger" size="sm"
+            <b-button variant="outline-danger" size="sm" class="mt-1"
                       @click="newMoneyFlow(-1,-1, 0, '<b-icon-box-arrow-up></b-icon-box-arrow-up>')">
               <b-icon-box-arrow-up></b-icon-box-arrow-up>
               Ödeme
             </b-button>
-            <b-button variant="outline-warning" size="sm"
+            <b-button variant="outline-dark" size="sm" class="mt-1"
                       @click="newMoneyFlow(-1,-1, 1, '<b-icon-capslock></b-icon-capslock>')">
               <b-icon-capslock></b-icon-capslock>
               Fiyat Farkı
+            </b-button>
+            <b-button variant="outline-primary" size="sm" class="mt-1" @click="generateExcel">
+              <b-icon-file-earmark-spreadsheet></b-icon-file-earmark-spreadsheet>
+              Ekstre Oluştur
             </b-button>
           </b-col>
         </b-form-row>
@@ -194,7 +199,8 @@
                     row.amount > 0 ? '+' : ''
                   }}{{ moneyFormat(row.amount) }}
                 </b-td>
-                <b-td v-if="!summaryInfo.plateId && !summaryInfo.driverId" class="text-right"><b>{{ moneyFormat(row.balance) }}</b></b-td>
+                <b-td v-if="!summaryInfo.plateId && !summaryInfo.driverId" class="text-right">
+                  <b>{{ moneyFormat(row.balance) }}</b></b-td>
                 <b-td><span class="text-danger" v-if="row.priceDifference"><b-icon-capslock-fill></b-icon-capslock-fill>  </span>{{
                     row.description
                   }}
@@ -438,6 +444,7 @@ import { ipcRenderer } from 'electron'
 import { mapGetters } from 'vuex'
 import genericMethods from '../../mixins/genericMethods'
 import moment from 'moment'
+import XLSX from 'xlsx'
 
 export default {
   data () {
@@ -719,6 +726,46 @@ export default {
     },
     editCustomer () {
       this.$router.push('/EditCustomer/' + this.$route.params.id)
+    },
+    generateExcel () {
+      const self = this
+      ipcRenderer.removeAllListeners('getCustomerSummary')
+      ipcRenderer.send('/getCustomerSummary', {
+        customerId: this.$route.params.id,
+        dataPerPage: 15000,
+        pageNumber: 0
+      })
+      new Promise(function (resolve) {
+        ipcRenderer.on('getCustomerSummary', (e, result) => {
+          resolve(result)
+        })
+      }).then(result => {
+        const resultRaw = result.result
+        const extract = []
+        if (!resultRaw || resultRaw.length < 1) {
+          return false
+        }
+        extract.push(['Müşteri', 'Fiş', 'Tutar', 'Bakiye', 'Açıklama', 'İşlem Yapan', 'İşlem Zamanı'])
+        resultRaw.forEach(item => {
+          extract.push([
+            self.customer.name,
+            item.id,
+            item.amount,
+            item.balance,
+            item.description,
+            item.salesofficerName,
+            moment(item.createDate).format('DD.MM.YYYY HH:mm')
+          ])
+        })
+        const wb = XLSX.utils.book_new()
+        const ws = XLSX.utils.json_to_sheet(extract, { skipHeader: 1 })
+        XLSX.utils.book_append_sheet(wb, ws, 'Hesap Ektresi')
+        XLSX.writeFile(wb, 'EKSTRE_' + self.customer.name.replace(' ', '_') + '_' + moment().format('DDMMYYYY') + '.xlsx', {
+          bookType: 'xlsx',
+          type: 'array'
+        })
+        return false
+      })
     }
   },
   mixins: [genericMethods]
