@@ -26,40 +26,42 @@
             </b-col>
             <b-col cols="4">
               <b-form-datepicker
-                class="border"
-                v-model="dateEnd"
-                locale="tr"
-                :min="dateStart"
-                v-bind="calendarLabels"
-                :max="moment().format('YYYY-MM-DD')"
-                :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short' }"
-                @input="get">
+                  class="border"
+                  v-model="dateEnd"
+                  locale="tr"
+                  :min="dateStart"
+                  v-bind="calendarLabels"
+                  :max="moment().format('YYYY-MM-DD')"
+                  :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short' }"
+                  @input="get">
                 <template #button-content>
                   <b-icon-calendar4-week></b-icon-calendar4-week>
                 </template>
               </b-form-datepicker>
             </b-col>
             <b-col cols="3" align-self="center">
-              tarihleri arası.
+              tarihleri arası {{ moneyFormat(oncreditBalance) }} TL.
             </b-col>
           </b-form-row>
           <b-table-simple borderless striped v-if="!_.isEmpty(transactions) && !loading" class="mt-2">
             <b-tbody>
-              <b-tr v-for="transaction of transactions" :key="transaction.id" @click="summaryCustomer(transaction.customerId)">
+              <b-tr v-for="transaction of transactions" :key="transaction.id"
+                    @click="summaryCustomer(transaction.customerId)">
                 <b-td class="text-capitalize">{{ transaction.customerName }}</b-td>
                 <b-td>{{ transaction.plate }}</b-td>
                 <b-td>₺{{ moneyFormat(transaction.totalPrice) }}</b-td>
                 <b-td>{{
-                  moment(transaction.createDate).format('DD MMM, HH:mm')
-                }}</b-td>
+                    moment(transaction.createDate).format('DD MMM, HH:mm')
+                  }}
+                </b-td>
               </b-tr>
             </b-tbody>
           </b-table-simple>
           <b-skeleton-table
-          v-if="loading"
-            :rows="10"
-            :columns="4"
-            :table-props="{ bordered: false, striped: true }"
+              v-if="loading"
+              :rows="10"
+              :columns="4"
+              :table-props="{ bordered: false, striped: true }"
           ></b-skeleton-table>
           <p class="text-danger" v-if="_.isEmpty(transactions) && !loading">
             <b-icon-exclamation-circle class="mr-1"></b-icon-exclamation-circle>
@@ -85,7 +87,8 @@ export default {
     return {
       dateStart: '',
       dateEnd: '',
-      transactions: []
+      transactions: [],
+      oncreditBalance: 0
     }
   },
   computed: {
@@ -129,6 +132,10 @@ export default {
       }).then((response) => {
         this.loading = false
         this.transactions = response
+        this.oncreditBalance = 0
+        for (const transaction in this.transactions) {
+          this.oncreditBalance += parseFloat(this.transactions[transaction].totalPrice)
+        }
       })
     },
     summaryCustomer (customerId) {

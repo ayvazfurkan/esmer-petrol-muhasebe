@@ -80,10 +80,6 @@
               <b-icon-capslock></b-icon-capslock>
               Fiyat Farkı
             </b-button>
-            <b-button variant="outline-primary" size="sm" class="mt-1" @click="generateExcel">
-              <b-icon-file-earmark-spreadsheet></b-icon-file-earmark-spreadsheet>
-              Ekstre Oluştur
-            </b-button>
           </b-col>
         </b-form-row>
       </b-card>
@@ -152,6 +148,11 @@
               </b-dropdown>
             </b-nav-item>
           </b-nav>
+          <b-button variant="outline-success" size="sm" class="mt-1" @click="generateExcel" v-if="summaryList.length"
+                    style="position: absolute; right: 10px; top:5px">
+            <b-icon-download></b-icon-download>
+            Ektre Oluştur
+          </b-button>
         </template>
         <p v-if="summaryInfo.plate && activeTab === 'plateList' && !loadingPage">{{ summaryInfo.plate }} plakalı araç
           için sonuçlar gösteriliyor.</p>
@@ -171,9 +172,11 @@
                 <b-th>Sıra</b-th>
                 <b-th>Fiş</b-th>
                 <b-th>İşlem Yapan</b-th>
+                <b-th>Şoför</b-th>
+                <b-th>Plaka</b-th>
+                <b-th>Açıklama</b-th>
                 <b-th>₺ Tutar</b-th>
                 <b-th v-if="!summaryInfo.plateId && !summaryInfo.driverId">₺ Bakiye</b-th>
-                <b-th>Açıklama</b-th>
                 <b-th>İşlem Zamanı</b-th>
                 <b-th></b-th>
               </b-tr>
@@ -186,14 +189,33 @@
                 <b-td>
                   <span v-if="row.oncreditId" v-b-tooltip.lefttop title="Akaryakıt Satış Görevlisi">
                     <b-icon-file-earmark-person
-                        :variant="row.amount < 0 ? 'danger' : 'success'"></b-icon-file-earmark-person>
+                        :variant="(row.amount < 0) ? 'danger' : 'success'"></b-icon-file-earmark-person>
                     {{ row.salesofficerName }}
+                  </span>
+                  <span v-if="row.paymentType>0" v-b-tooltip.lefttop title="Akaryakıt Satış Görevlisi">
+                    <b-icon-file-earmark-person
+                        :variant="success"></b-icon-file-earmark-person>
+                    {{ row.salesofficerName2 }}
                   </span>
                   <span v-if="!row.oncreditId && row.creatorId" v-b-tooltip.lefttop title="Kullanıcı">
                     <b-icon-person variant="success"></b-icon-person>
                     {{ row.name }}
                   </span>
                 </b-td>
+                <b-td><span class="text-info" v-if="row.driverName"><b-icon-person-circle></b-icon-person-circle>  </span>
+                  {{
+                    row.driverName
+                  }}
+                </b-td>
+                <b-td><span class="text-danger" v-if="row.driverPlate"><b-icon-truck></b-icon-truck>  </span> {{
+                    row.driverPlate
+                  }}
+                </b-td>
+                <b-td><span class="text-danger" v-if="row.priceDifference"><b-icon-capslock-fill></b-icon-capslock-fill>  </span>{{
+                    row.paymentTypeName ? (row.paymentTypeName + ': ' + row.description) : row.description
+                  }}
+                </b-td>
+
                 <b-td :class="row.amount < 0 ? 'text-danger' : 'text-success'" class="text-right">
                   {{
                     row.amount > 0 ? '+' : ''
@@ -201,10 +223,6 @@
                 </b-td>
                 <b-td v-if="!summaryInfo.plateId && !summaryInfo.driverId" class="text-right">
                   <b>{{ moneyFormat(row.balance) }}</b></b-td>
-                <b-td><span class="text-danger" v-if="row.priceDifference"><b-icon-capslock-fill></b-icon-capslock-fill>  </span>{{
-                    row.description
-                  }}
-                </b-td>
                 <b-td>{{ moment(row.createDate).format('DD.MM.YYYY HH.mm') }}</b-td>
                 <b-td class="text-center">
                   <span v-b-tooltip.leftbottom :class="row.oncreditId > 0 ? '' : 'disabled'"
@@ -447,7 +465,7 @@ import moment from 'moment'
 import XLSX from 'xlsx'
 
 export default {
-  data () {
+  data() {
     return {
       summaryInfo: {
         plateId: 0,
@@ -480,10 +498,10 @@ export default {
   },
   computed: {
     ...mapGetters(['getSession']),
-    moment () {
+    moment() {
       return moment
     },
-    searchPlate () {
+    searchPlate() {
       if (this.plateSearchQuery) {
         return this.plateList.filter((item) => {
           return this.plateSearchQuery.toLowerCase().split(' ').every(v => item.plate.toLowerCase().includes(v))
@@ -492,7 +510,7 @@ export default {
         return this.plateList
       }
     },
-    searchDriver () {
+    searchDriver() {
       if (this.driverSearchQuery) {
         return this.driverList.filter((item) => {
           return this.driverSearchQuery.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v))
@@ -507,12 +525,12 @@ export default {
       this.getCustomerSummary(newPage)
     }
   },
-  mounted () {
+  mounted() {
     this.getCustomer()
     this.getCustomerBalance()
   },
   methods: {
-    getCustomer () {
+    getCustomer() {
       this.loadingPage = true
       ipcRenderer.removeAllListeners('getCustomerDetail')
       ipcRenderer.send('/getCustomerDetail', { id: this.$route.params.id })
@@ -568,7 +586,7 @@ export default {
         return false
       })
     },
-    getCustomerPlates () {
+    getCustomerPlates() {
       ipcRenderer.removeAllListeners('getCustomerPlates')
       ipcRenderer.send('/getCustomerPlates', { customerId: this.$route.params.id })
       new Promise(function (resolve) {
@@ -581,7 +599,7 @@ export default {
         return false
       })
     },
-    getCustomerDrivers () {
+    getCustomerDrivers() {
       ipcRenderer.removeAllListeners('getCustomerDrivers')
       ipcRenderer.send('/getCustomerDrivers', { customerId: this.$route.params.id })
       new Promise(function (resolve) {
@@ -594,7 +612,7 @@ export default {
         return false
       })
     },
-    changeTab (tabName, data) {
+    changeTab(tabName, data) {
       this.activeTab = tabName
       this.summaryList = []
       if (tabName === 'summary') {
@@ -617,7 +635,7 @@ export default {
         return false
       }
     },
-    newMoneyFlow (index, flowType, priceDifference) {
+    newMoneyFlow(index, flowType, priceDifference) {
       let id
       let amount
       let description
@@ -647,7 +665,7 @@ export default {
       }
       this.$bvModal.show('customer-money-flow')
     },
-    deleteMoneyFlow (index) {
+    deleteMoneyFlow(index) {
       this.moneyFlowInformation = {
         index: index,
         id: this.summaryList[index].id,
@@ -658,7 +676,7 @@ export default {
       this.$bvModal.show('money-flow-delete')
       this.success = false
     },
-    deleteMoneyFlowSave () {
+    deleteMoneyFlowSave() {
       this.waitingResponse = true
       this.moneyFlowInformation.updaterId = this.getSession.userDetails.id
       this.moneyFlowInformation.branchId = this.getSession.userDetails.branchId
@@ -679,7 +697,7 @@ export default {
         this.getCustomerBalance()
       }
     },
-    saveMoneyFlow () {
+    saveMoneyFlow() {
       this.waitingResponse = true
       this.moneyFlow.creatorId = this.getSession.userDetails.id
       this.moneyFlow.branchId = this.getSession.userDetails.branchId
@@ -704,7 +722,7 @@ export default {
         this.moneyFlow = {}
       }
     },
-    getOncreditProducts (oncreditId) {
+    getOncreditProducts(oncreditId) {
       this.oncreditProductListLoading = true
       this.oncreditProductList = []
       if (oncreditId > 0) {
@@ -724,10 +742,11 @@ export default {
         return false
       }
     },
-    editCustomer () {
+    editCustomer() {
       this.$router.push('/EditCustomer/' + this.$route.params.id)
     },
-    generateExcel () {
+    generateExcel() {
+      this.makeToast('info', 'Oluşturuluyor', 'Excel dosyası oluşturuluyor')
       const self = this
       ipcRenderer.removeAllListeners('getCustomerSummary')
       ipcRenderer.send('/getCustomerSummary', {
@@ -746,24 +765,29 @@ export default {
           return false
         }
         extract.push(['Müşteri:', self.customer.name])
-        extract.push(['Fiş', 'Tutar', 'Bakiye', 'Açıklama', 'İşlem Yapan', 'İşlem Zamanı'])
+        extract.push(['Yazdırma Zamanı:', moment().format('DD.MM.YYYY HH:MM')])
+        extract.push(['Fiş No', 'TL Tutar', 'TL Bakiye', 'Açıklama', 'Şoför', 'Plaka', 'İşlem Yapan', 'İşlem Zamanı'])
         resultRaw.forEach(item => {
           extract.push([
             item.id,
             item.amount,
             item.balance,
-            item.description,
-            item.salesofficerName,
+            item.paymentTypeName ? (item.paymentTypeName + ': ' + item.description) : item.description,
+            item.driverName,
+            item.driverPlate,
+            item.salesofficerName2 ? item.salesofficerName2 : item.salesofficerName,
             moment(item.createDate).format('DD.MM.YYYY HH:mm')
           ])
         })
         const wb = XLSX.utils.book_new()
         const ws = XLSX.utils.json_to_sheet(extract, { skipHeader: 1 })
         XLSX.utils.book_append_sheet(wb, ws, 'Hesap Ektresi')
-        XLSX.writeFile(wb, 'EKSTRE_' + self.customer.name.replace(' ', '_') + '_' + moment().format('DDMMYYYY') + '.xlsx', {
+        const dosyaAdi = 'EKSTRE_' + self.customer.name.replace(' ', '_') + '_' + moment().format('DDMMYYYY') + '.xlsx'
+        XLSX.writeFile(wb, dosyaAdi, {
           bookType: 'xlsx',
           type: 'array'
         })
+        this.makeToast('success', 'Excel Oluşturuldu', 'Dosyanın nereye kaydedileceğini seçin ve kaydedin.')
         return false
       })
     }
